@@ -1,5 +1,5 @@
 import activationFunction from "./utils/activationFunctoins.js";
-import { createRandomMatrix } from "./utils/matrixUtils.js";
+import { createRandomWeight } from "./utils/matrixUtils.js";
 
 class neuralNetwork {
     constructor({inputNodes,hiddenNodes, outputNodes, learningRate}) {
@@ -9,15 +9,15 @@ class neuralNetwork {
 
         this.learningRate = learningRate;
 
-        this.W_inputTohidden = (createRandomMatrix(3, 3));
-        this.W_hiddenToOutput = (createRandomMatrix(3, 3));
+        this.W_inputTohidden = (createRandomWeight(this.inputnodes, this.hiddenNodes));
+        this.W_hiddenToOutput = (createRandomWeight(this.hiddenNodes, this.outputNodes));
     }
 
-    train(){
+    train(inputs, targets){
 
     }
 
-    query(){
+    query(inputs){
 
     }
 }
