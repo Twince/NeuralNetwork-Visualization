@@ -1,5 +1,5 @@
 import activationFunction from "./utils/activationFunctoins.js";
-import { createRandomWeight } from "./utils/matrixUtils.js";
+import { createRandomWeight, matrixMultiply } from "./utils/matrixUtils.js";
 
 class neuralNetwork {
     constructor({inputNodes,hiddenNodes, outputNodes, learningRate}) {
@@ -9,17 +9,30 @@ class neuralNetwork {
 
         this.learningRate = learningRate;
 
-        this.W_inputTohidden = (createRandomWeight(this.inputnodes, this.hiddenNodes));
+        this.W_inputToHidden = (createRandomWeight(this.inputnodes, this.hiddenNodes));
         this.W_hiddenToOutput = (createRandomWeight(this.hiddenNodes, this.outputNodes));
+        console.log("생성자 생성 완료");
+        console.log("Weight_InputToHidden:", this.W_inputToHidden);
+        console.log("Weight_hiddenToOutput:", this.W_hiddenToOutput);
     }
 
     train(inputs, targets){
+        const hidden_inputs = matrixMultiply(inputs, this.W_inputToHidden);
+        const hidden_outputs = activationFunction(hidden_inputs);
+        const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput)
+        const final_outputs = activationFunction(final_inputs);
 
+        const error
     }
 
     query(inputs){
-
+        const hidden_inputs = matrixMultiply(inputs, this.W_inputToHidden); // 은닉계층으로 들어가는 입력값과 가중치(입력노드 to 은닉노드) 행렬곱
+        const hidden_outputs = activationFunction(hidden_inputs); // 은닉계층에서 출력되는 신호계산(활성화 함수)
+        const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput) // 출력계층으로 들어가는 입력값과 가중치 행렬곱
+        const final_outputs = activationFunction(final_inputs); // 출력계층에서 나가는 최종 계산결과 return
+        return final_outputs;
     }
 }
 
-const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3 ,learningRate: 0.1});
+const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3 ,learningRate: 0.2});
+$NN.query([[0.99, 0.5, -0.4],[0.15, 0.21, -0.11], [-0.89, -0.99, 1.00]]);
