@@ -6,6 +6,18 @@ export const createRandomWeight = (pre, post) =>
         })
     );
 
-export const matrixMultiplication = (matrix1, matrix2) => {
-
+export const matrixMultiply = (A, B) => {
+    if (!Array.isArray(A) || !Array.isArray(B)) throw new Error('matrixA, B must be an array');
+    else if (A.length !== B[0].length) throw new Error('rows and columns length doesn\'t match');
+    console.log("A:",A, "B:", B);
+    return A.map((row, i) =>
+        B[0].map((_, j) =>
+            row.reduce((sum, _, k) => {
+                return sum + A[i][k]*B[k][j];
+            }, 0)
+        )
+    )
 }
+
+export const transposeMatrix = matrix =>
+    matrix[0].map((_, idx)=> matrix.map(row => row[idx]))
