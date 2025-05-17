@@ -7,8 +7,9 @@ export const createRandomWeight = (pre, post) =>
     );
 
 export const matrixMultiply = (A, B) => {
+    A = Array.isArray(A[0]) ? A : [A];
     if (!Array.isArray(A) || !Array.isArray(B)) throw new Error('matrixA, B must be an array');
-    else if (A.length !== B[0].length) throw new Error('rows and columns length doesn\'t match');
+    else if (A[0].length !== B.length) throw new Error('rows and columns length doesn\'t match');
     console.log("A:",A, "B:", B);
     return A.map((row, i) =>
         B[0].map((_, j) =>
