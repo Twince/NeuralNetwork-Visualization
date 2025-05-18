@@ -24,7 +24,7 @@ class neuralNetwork {
         console.log("train : final_outputs", final_outputs);
         console.log("train: targets", targets);
 
-        const output_error = targets.map((v, idx) => v - final_outputs[0][idx]);
+        const output_error = targets.map((v, idx) => v - final_outputs[0][idx]); // ex. 1차원 배열 targets_array: [ a, b, c ]와 2차원 배열 final_output_array: [[A], [B], [C]]의 합차 계산을 위한 map 사용
         console.log("train: output_error(targets - final_ouputs)",output_error);
         const hidden_error = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_error);
 
