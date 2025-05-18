@@ -21,8 +21,11 @@ class neuralNetwork {
         const hidden_outputs = activationFunction(hidden_inputs);
         const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput)
         const final_outputs = activationFunction(final_inputs);
+        console.log("train : final_outputs", final_outputs);
+        console.log("train: targets", targets);
 
-        const output_error = targets - final_outputs;
+        const output_error = targets.map((v, idx) => v - final_outputs[0][idx]);
+        console.log("train: output_error(targets - final_ouputs)",output_error);
         const hidden_error = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_error);
 
         const W_hiddenToOutput_derivative = matrixMultiply(((output_error * final_outputs) * (1.0 - final_outputs)), transposeMatrix(hidden_outputs));
@@ -37,10 +40,11 @@ class neuralNetwork {
         const hidden_outputs = activationFunction(hidden_inputs); // 은닉계층에서 출력되는 신호계산(활성화 함수)
         const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput) // 출력계층으로 들어가는 입력값과 가중치 행렬곱
         const final_outputs = activationFunction(final_inputs); // 출력계층에서 나가는 최종 계산결과 return
-        console.log(final_inputs);
+        console.log("query: ",final_outputs);
         return final_outputs;
     }
 }
 
-const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3 ,learningRate: 0.2});
+const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3  ,learningRate: 0.2});
 $NN.query([0.99, 0.5, -0.4]);
+$NN.train([0.22, 0.24, -0.3], [0.10, 0.5, -0.7]);
