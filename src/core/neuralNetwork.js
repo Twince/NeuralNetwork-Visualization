@@ -17,22 +17,18 @@ class neuralNetwork {
     }
 
     train(inputs, targets){
-        const hidden_inputs = matrixMultiply(inputs, this.W_inputToHidden);
+        console.log("inputs", inputs.map(v => [v]));
+        const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 출력 결과를 Nx1 형태의 행렬곱으로 변환.
         const hidden_outputs = activationFunction(hidden_inputs);
-        const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput)
+        const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
         const final_outputs = activationFunction(final_inputs);
-        console.log("train : final_outputs", final_outputs);
-        console.log("train: targets", targets);
 
-        const output_error = targets.map((v, idx) => v - final_outputs[0][idx]); // ex. 1차원 배열 targets_array: [ a, b, c ]와 2차원 배열 final_output_array: [[A], [B], [C]]의 합차 계산을 위한 map 사용
-        console.log("train: output_error(targets - final_ouputs)",output_error);
-        const hidden_error = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_error);
+        const output_errors = targets.map((v, idx) => v - final_outputs[idx]).map(v => [v]); // 출력 계층의 오차를 목표값 - 출력값으로 지정
+        const hidden_errors = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_errors); // 은닉 계층의 오차를 은닉-> 출력 계층의 가중치값과(W_hiddenToOutput.T) 출력 계층의 오차들을 재조합하여 계산
 
-        const W_hiddenToOutput_derivative = matrixMultiply(((output_error * final_outputs) * (1.0 - final_outputs)), transposeMatrix(hidden_outputs));
-        this.W_hiddenToOutput += W_hiddenToOutput_derivative.map(array => array.map(v => v * this.learningRate));
-
-        const W_inputToHidden_derrivative = matrixMultiply(((hidden_error * hidden_outputs) * (1.0 - hidden_outputs)), transposeMatrix(inputs));
-        this.W_hiddenToOutput += W_inputToHidden_derrivative.map(array => array.map(v => v * this.learningRate));
+        const activationFunction_derivative = final_outputs.map(v => 1.0 - v).map((v, idx) => v * final_outputs[idx]);
+        const outputGradient = activationFunction_derivative.map((v, idx) => v * output_errors[idx]).map(v => [v]);
+        this.W_hiddenToOutput = matrixMultiply(outputGradient, transposeMatrix(hidden_outputs)).map(array => array.map(v => v * this.learningRate)); // 오차값을 이용해 은닉 계층과 출력 계층간의 가중치 업데이트
     }
 
     query(inputs){
