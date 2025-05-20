@@ -17,7 +17,6 @@ class neuralNetwork {
     }
 
     train(inputs, targets){
-        console.log("inputs", inputs.map(v => [v]));
         const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 출력 결과를 Nx1 형태의 행렬곱으로 변환.
         const hidden_outputs = activationFunction(hidden_inputs);
         const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
@@ -26,17 +25,21 @@ class neuralNetwork {
         const output_errors = targets.map((v, idx) => v - final_outputs[idx]).map(v => [v]); // 출력 계층의 오차를 목표값 - 출력값으로 지정
         const hidden_errors = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_errors); // 은닉 계층의 오차를 은닉-> 출력 계층의 가중치값과(W_hiddenToOutput.T) 출력 계층의 오차들을 재조합하여 계산
 
-        const activationFunction_derivative = final_outputs.map(v => 1.0 - v).map((v, idx) => v * final_outputs[idx]);
-        const outputGradient = activationFunction_derivative.map((v, idx) => v * output_errors[idx]).map(v => [v]);
+        const activationDerivative_HtO = final_outputs.map(v => 1.0 - v).map((v, idx) => v * final_outputs[idx]); // hidden to output derivative
+        const outputGradient = activationDerivative_HtO.map((v, idx) => v * output_errors[idx]).map(v => [v]);
         this.W_hiddenToOutput = matrixMultiply(outputGradient, transposeMatrix(hidden_outputs)).map(array => array.map(v => v * this.learningRate)); // 오차값을 이용해 은닉 계층과 출력 계층간의 가중치 업데이트
+
+        const activationDerivative_ItH = hidden_outputs.map(v => 1.0 - v).map((v, idx) => v * hidden_outputs[idx]);
+        const hiddenGradient = activationDerivative_ItH.map((v, idx) => v * hidden_errors[idx]).map(v => [v]);
+        this.W_inputToHidden = matrixMultiply(hiddenGradient, transposeMatrix(inputs.map(v => [v]))).map(array => array.map(v => v * this.learningRate));
     }
 
     query(inputs){
-        const hidden_inputs = matrixMultiply(inputs, this.W_inputToHidden); // 은닉계층으로 들어가는 입력값과 가중치(입력노드 to 은닉노드) 행렬곱
-        const hidden_outputs = activationFunction(hidden_inputs); // 은닉계층에서 출력되는 신호계산(활성화 함수)
-        const final_inputs = matrixMultiply(hidden_outputs, this.W_hiddenToOutput) // 출력계층으로 들어가는 입력값과 가중치 행렬곱
-        const final_outputs = activationFunction(final_inputs); // 출력계층에서 나가는 최종 계산결과 return
-        console.log("query: ",final_outputs);
+        const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 출력 결과를 Nx1 형태의 행렬곱으로 변환.
+        const hidden_outputs = activationFunction(hidden_inputs);
+        const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
+        const final_outputs = activationFunction(final_inputs);
+        console.log("query_finalOuput:", final_outputs);
         return final_outputs;
     }
 }
