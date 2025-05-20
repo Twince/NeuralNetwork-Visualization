@@ -1,6 +1,9 @@
 import activationFunction from "./utils/activationFunctoins.js";
 import { createRandomWeight, matrixMultiply,transposeMatrix } from "./utils/matrixUtils.js";
 
+import { mnistTrainData } from "../../assets/mnistData/mnistTrainData.js";
+import { mnistTestData } from "../../assets/mnistData/mnistTestData.js";
+
 class neuralNetwork {
     constructor({inputNodes,hiddenNodes, outputNodes, learningRate}) {
         this.inputnodes = inputNodes;
@@ -17,7 +20,7 @@ class neuralNetwork {
     }
 
     train(inputs, targets){
-        const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 출력 결과를 Nx1 형태의 행렬곱으로 변환.
+        const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 입력 노드의 출력 결과를 Nx1 형태의 행렬곱으로 변환.
         const hidden_outputs = activationFunction(hidden_inputs);
         const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
         const final_outputs = activationFunction(final_inputs);
@@ -45,5 +48,7 @@ class neuralNetwork {
 }
 
 const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3  ,learningRate: 0.2});
+
+console.log("mnistTestData", mnistTestData);
 $NN.query([0.99, 0.5, -0.4]);
 $NN.train([0.22, 0.24, -0.3], [0.10, 0.5, -0.7]);
