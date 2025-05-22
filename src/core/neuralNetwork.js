@@ -1,10 +1,7 @@
 import activationFunction from "./utils/activationFunctoins.js";
 import { createRandomWeight, matrixMultiply,transposeMatrix } from "./utils/matrixUtils.js";
 
-import { mnistTrainData } from "../../assets/mnistData/mnistTrainData.js";
-import { mnistTestData } from "../../assets/mnistData/mnistTestData.js";
-
-class neuralNetwork {
+export class NeuralNetwork {
     constructor({inputNodes,hiddenNodes, outputNodes, learningRate}) {
         this.inputnodes = inputNodes;
         this.hiddenNodes = hiddenNodes;
@@ -12,8 +9,8 @@ class neuralNetwork {
 
         this.learningRate = learningRate;
 
-        this.W_inputToHidden = (createRandomWeight(this.inputnodes, this.hiddenNodes));
-        this.W_hiddenToOutput = (createRandomWeight(this.hiddenNodes, this.outputNodes));
+        this.W_inputToHidden = (createRandomWeight(this.hiddenNodes, this.inputnodes));
+        this.W_hiddenToOutput = (createRandomWeight(this.outputNodes, this.hiddenNodes));
         console.log("생성자 생성 완료");
         console.log("Weight_InputToHidden:", this.W_inputToHidden);
         console.log("Weight_hiddenToOutput:", this.W_hiddenToOutput);
@@ -22,19 +19,28 @@ class neuralNetwork {
     train(inputs, targets){
         const hidden_inputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 입력 노드의 출력 결과를 Nx1 형태의 행렬곱으로 변환.
         const hidden_outputs = activationFunction(hidden_inputs);
+        console.log("acti:", hidden_outputs);
         const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
+        console.log("final:", final_inputs);
         const final_outputs = activationFunction(final_inputs);
 
         const output_errors = targets.map((v, idx) => v - final_outputs[idx]).map(v => [v]); // 출력 계층의 오차를 목표값 - 출력값으로 지정
+        console.log("output_erros:", output_errors);
         const hidden_errors = matrixMultiply(transposeMatrix(this.W_hiddenToOutput), output_errors); // 은닉 계층의 오차를 은닉-> 출력 계층의 가중치값과(W_hiddenToOutput.T) 출력 계층의 오차들을 재조합하여 계산
+        console.log("hidden_errors:", hidden_errors);
 
         const activationDerivative_HtO = final_outputs.map(v => 1.0 - v).map((v, idx) => v * final_outputs[idx]); // hidden to output derivative
         const outputGradient = activationDerivative_HtO.map((v, idx) => v * output_errors[idx]).map(v => [v]);
+        console.log("outputGradient", outputGradient);
+        console.log("hiddenOutput.length", hidden_outputs.length);
         this.W_hiddenToOutput = matrixMultiply(outputGradient, transposeMatrix(hidden_outputs)).map(array => array.map(v => v * this.learningRate)); // 오차값을 이용해 은닉 계층과 출력 계층간의 가중치 업데이트
+        console.log("updated: W_hiddenToOutput", this.W_hiddenToOutput);
 
         const activationDerivative_ItH = hidden_outputs.map(v => 1.0 - v).map((v, idx) => v * hidden_outputs[idx]);
         const hiddenGradient = activationDerivative_ItH.map((v, idx) => v * hidden_errors[idx]).map(v => [v]);
+        console.log("hiddenGradient" ,hiddenGradient);
         this.W_inputToHidden = matrixMultiply(hiddenGradient, transposeMatrix(inputs.map(v => [v]))).map(array => array.map(v => v * this.learningRate));
+        console.log("updated: W_inputToHidden", this.W_inputToHidden);
     }
 
     query(inputs){
@@ -42,13 +48,8 @@ class neuralNetwork {
         const hidden_outputs = activationFunction(hidden_inputs);
         const final_inputs = matrixMultiply(this.W_hiddenToOutput, hidden_outputs);
         const final_outputs = activationFunction(final_inputs);
-        console.log("query_finalOuput:", final_outputs);
         return final_outputs;
     }
 }
 
-const $NN = new neuralNetwork({inputNodes: 3, hiddenNodes: 3, outputNodes: 3  ,learningRate: 0.2});
-
-console.log("mnistTestData", mnistTestData);
-$NN.query([0.99, 0.5, -0.4]);
-$NN.train([0.22, 0.24, -0.3], [0.10, 0.5, -0.7]);
+export const networkInfo = {inputNodes: 784, hiddenNodes: 150, outputNodes: 10, learningRate: 0.2};
