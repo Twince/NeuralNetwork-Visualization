@@ -1,6 +1,6 @@
-export const createRandomWeight = (pre, post) =>
-    Array.from({ length: pre }, () =>
-        Array.from({ length: post }, () =>  {
+export const createRandomWeight = (col, row) =>
+    Array.from({ length: col }, () =>
+        Array.from({ length: row }, () =>  {
             const value = (Math.random() - .5) * 1.99999;
             return parseFloat(value.toFixed(5));
         })
@@ -9,6 +9,7 @@ export const createRandomWeight = (pre, post) =>
 export const matrixMultiply = (A, B) => {
     A = Array.isArray(A[0]) ? A : [A];
     console.log("A:",A, "B:", B);
+    console.log("A[0].length:",A[0].length, "B.length:", B.length);
     if (!Array.isArray(A) || !Array.isArray(B)) throw new Error('matrixA, B must be an array');
     else if (A[0].length !== B.length) throw new Error('rows and columns length doesn\'t match');
     return A.map((row, i) =>
