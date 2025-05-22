@@ -24,19 +24,15 @@ const oneHotEncodeLabels = (mnistTrainData, networkInfo) => {
     return targetData;
 }
 
-const $NN = new NeuralNetwork({inputNodes: networkInfo.inputNodes, hiddenNodes: networkInfo.hiddenNodes, outputNodes: networkInfo.outputNodes  ,learningRate: networkInfo.learningRate.learningRate});
+const $NN = new NeuralNetwork({inputNodes: networkInfo.inputNodes, hiddenNodes: networkInfo.hiddenNodes, outputNodes: networkInfo.outputNodes  ,learningRate: networkInfo.learningRate});
 
 const inputs = normalizeInputs(mnistTrainData);
 const targets = oneHotEncodeLabels(mnistTrainData, networkInfo);
 
-console.log("inputs", inputs);
-console.log("targets", targets);
-
 inputs.map((array, idx) => {
     $NN.train(array, targets[idx]);
     console.log("training complete!");
-
 });
 
-console.log("Query 7!");
-console.log($NN.query(inputs[0]));
+console.log('Query', mnistTestData[5][0]);
+console.log($NN.query(normalizeInputs(mnistTestData)[5]));
