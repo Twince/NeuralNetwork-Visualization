@@ -35,7 +35,7 @@ export class NeuralNetwork {
 
         const W_ItH_update = matrixMultiply(hiddenGradient, transposeMatrix(inputs.map(v => [v]))).map(array => array.map(v => v * this.learningRate));
         this.W_inputToHidden = this.W_inputToHidden.map((row, i)=> row.map((v, j) => v + W_ItH_update[i][j]));
-        console.log("updated: W_inputToHidden", this.W_inputToHidden);
+        // console.log("updated: W_inputToHidden", this.W_inputToHidden);
     }
 
     query(inputs){
@@ -47,4 +47,4 @@ export class NeuralNetwork {
     }
 }
 
-export const networkInfo = {inputNodes: 784, hiddenNodes: 150, outputNodes: 10, learningRate: 0.1};
+export const networkInfo = {inputNodes: 784, hiddenNodes: 200, outputNodes: 10, learningRate: 0.15};
