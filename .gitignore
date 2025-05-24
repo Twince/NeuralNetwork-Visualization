@@ -1,2 +1,2 @@
-dev/data/mnist/mnist_train.csv
-dev/data/mnist/mnistTraindata_large.js
+dev/train/trainData/mnist/mnistTraindata_large.js
+dev/train/trainData/mnist/mnist_train.csv
