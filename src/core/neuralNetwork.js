@@ -1,5 +1,6 @@
-import activationFunction from "./utils/activationFunctoins.js";
-import { createRandomWeight, matrixMultiply,transposeMatrix } from "./utils/matrixUtils.js";
+import activationFunction from "./ops/activationOps.js";
+import { matrixMultiply,transposeMatrix } from "./ops/matrixOps.js";
+import {createRandomWeight} from "./utils/weightInit.js";
 
 export class NeuralNetwork {
     constructor({inputNodes,hiddenNodes, outputNodes, learningRate}) {
@@ -11,9 +12,6 @@ export class NeuralNetwork {
 
         this.W_inputToHidden = (createRandomWeight(this.hiddenNodes, this.inputnodes));
         this.W_hiddenToOutput = (createRandomWeight(this.outputNodes, this.hiddenNodes));
-        console.log("생성자 생성 완료");
-        console.log("Weight_InputToHidden:", this.W_inputToHidden);
-        console.log("Weight_hiddenToOutput:", this.W_hiddenToOutput);
     }
 
     train(inputs, targets){
