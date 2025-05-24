@@ -1,9 +1,9 @@
-import {mnistTrainData} from "../data/mnist/mnistTrainData.js";
-import {mnistTestData} from "../data/mnist/mnistTestData.js";
-import { mnistTrainData_large } from "../data/mnist/mnistTraindata_large.js";
+import {mnistTrainData} from "../trainData/mnist/mnistTrainData.js";
+import {mnistTestData} from "../trainData/mnist/mnistTestData.js";
+import { mnistTrainData_large } from "../trainData/mnist/mnistTraindata_large.js";
 
-import { NeuralNetwork } from "../../src/core/neuralNetwork.js";
-import { networkInfo } from "../../src/core/neuralNetwork.js";
+import { NeuralNetwork } from "../../../src/core/neuralNetwork.js";
+import { networkInfo } from "../../../src/core/neuralNetwork.js";
 import {saveWeightsAsJson} from "./saveWeightsAsJson.js";
 
 const normalizeInputs = (mnistTrainData) => {
