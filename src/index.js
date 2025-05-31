@@ -1,7 +1,6 @@
-import { initializeCanvas } from './view/canvas.js';
-import trainTester from "../dev/train/trainTester.js";
+import AppController from './controller/AppContoller.js';
+import { DataStore } from "./controller/DataStore.js";
 
-trainTester();
-document.addEventListener('DOMContentLoaded', () => {
-    initializeCanvas();
-});
+const App = new AppController({DataStore});
+await App.initialize();
+console.log("App initialized!");
