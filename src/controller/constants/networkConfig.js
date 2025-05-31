@@ -1,0 +1,6 @@
+export const NETWORK_CONFIG = {
+    inputNodes: 784,
+    hiddenNodes: 200,
+    outputNodes: 10,
+    learningRate: 0.15,
+}

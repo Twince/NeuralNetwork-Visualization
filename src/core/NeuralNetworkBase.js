@@ -1,16 +1,18 @@
 import activationFunction from "./ops/activationOps.js";
 import { matrixMultiply } from "./ops/matrixOps.js";
-import { createRandomWeight } from "./utils/weightInit.js";
+import eventBus from "../controller/EventBus.js";
+import { DATA_EVENTS } from "../controller/constants/events.js";
+import { NETWORK_CONFIG } from "../controller/constants/networkConfig.js";
 
-export class NeuralNetworkBase {
-    constructor(networkConfig) {
-        this.inputNodes = networkConfig.inputNodes;
-        this.hiddenNodes = networkConfig.hiddenNodes;
-        this.outputNodes = networkConfig.outputNodes;
-        this.learningRate = networkConfig.learningRate;
+class NeuralNetworkBase {
+    constructor(weights) {
+        this.inputNodes = NETWORK_CONFIG.inputNodes;
+        this.hiddenNodes = NETWORK_CONFIG.hiddenNodes;
+        this.outputNodes = NETWORK_CONFIG.outputNodes;
+        this.learningRate = NETWORK_CONFIG.learningRate;
 
-        this.W_inputToHidden = (createRandomWeight(this.hiddenNodes, this.inputNodes));
-        this.W_hiddenToOutput = (createRandomWeight(this.outputNodes, this.hiddenNodes));
+        this.W_inputToHidden = weights?.W_inputToHidden ?? null;
+        this.W_hiddenToOutput = weights?.W_hiddenToOutput ?? null;
     }
 
     // CNN operations
@@ -23,7 +25,10 @@ export class NeuralNetworkBase {
     }
 
     query(inputs){
-        const { finalOutputs } = this.feedForward(inputs);
+        const { hiddenInputs, hiddenOutputs , finalOutputs } = this.feedForward(inputs);
+        eventBus.emit(DATA_EVENTS.NODE_UPDATE, {hiddenInputs, hiddenOutputs, finalOutputs});
         return finalOutputs;
     }
 }
+
+export default NeuralNetworkBase;
