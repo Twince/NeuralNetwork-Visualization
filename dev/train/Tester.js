@@ -10,7 +10,7 @@ import {saveWeightsAsJson} from "./utils/saveWeightsAsJson.js";
 
 
 // <entry point>
-export const trainTester = () => {
+export const tester = () => {
     const networkConfig = {inputNodes: 784, hiddenNodes: 200, outputNodes: 10, learningRate: 0.15};
     const $NN = new Trainer({
         inputNodes: networkConfig.inputNodes,
@@ -37,4 +37,4 @@ export const trainTester = () => {
     console.log("✅ Weight Downloaded!");
 }
 
-export default trainTester;
+export default tester;
