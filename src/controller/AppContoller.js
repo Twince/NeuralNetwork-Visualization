@@ -17,8 +17,8 @@ class AppController {
         console.log("Initializing...NeuralNetworkBase");
         const $NN = new NeuralNetworkBase(await $WM.getWeights());
         console.log("Initializing...UserInputHandler");
-        const $ICN = new UserInputHandler('userInputCanvas');
-        $ICN.mount();
+        const $UIH = new UserInputHandler('userInputCanvas');
+        $UIH.mount();
         console.log("Initializing Handler: complete!");
         eventBus.emit(HANDLER_EVENTS.NN_INITIALIZE, $NN);
         eventBus.emit(HANDLER_EVENTS.ICH_INITIALIZE, $ICN);
