@@ -1,5 +1,5 @@
-import eventBus from "../../controller/EventBus.js";
-import { DATA_EVENTS } from "../../controller/constants/events.js";
+import eventBus from "../../../controller/EventBus.js";
+import { DATA_EVENTS } from "../../../controller/constants/events.js";
 import CanvasComponentBase from "../CanvasComponentBase.js";
 
 class UserInputHandler extends CanvasComponentBase{

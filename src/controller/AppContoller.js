@@ -1,6 +1,6 @@
 import WeightManager from "../core/WeightManager.js";
 import NeuralNetworkBase from "../core/NeuralNetworkBase.js";
-import UserInputHandler from "../view/userInput/userInputHandler.js";
+import UserInputHandler from "../view/components/userInput/userInputHandler.js";
 
 import eventBus from "./EventBus.js";
 import { DATA_EVENTS, HANDLER_EVENTS } from "./constants/events.js";
