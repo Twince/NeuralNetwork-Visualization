@@ -12,6 +12,7 @@ class WeightManager {
     async getWeights() {
         if(this._cache) return this._cache
         try{
+            console.log("fetch try!")
             const json = await loadPretrainedWeights(this.path);
             this._cache = {
                 W_inputToHidden: json.W_inputToHidden,
@@ -23,9 +24,8 @@ class WeightManager {
                 W_inputToHidden: createRandomWeight(this.config.hiddenNodes, this.config.inputNodes),
                 W_hiddenToOutput: createRandomWeight(this.config.outputNodes, this.config.hiddenNodes),
             };
-
-            return this._cache
         }
+        return this._cache;
     }
 
 }
