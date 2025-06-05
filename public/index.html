@@ -9,10 +9,20 @@
     <script type="module" src="../src/index.js"></script>
     <script src="../modernizr-custom.js"></script>
     <script src="../modernizr-custom.js"></script>
-
+    <link rel="stylesheet" href="/src/view/styles/settings.css">
 </head>
 <body>
-    <div>test</div>
-    <canvas class="canvas" id="canvas" width="720" height="480"></canvas>
+    <div id="app">
+        <header></header>
+        <section id="queryResult">
+            <div></div>
+        </section>
+        <section id="perceptronSection">
+            <canvas id="perceptron"></canvas>
+        </section>
+        <section id="userInputSection">
+            <canvas class="userInputCanvas" id="userInputCanvas"></canvas>
+        </section>
+    </div>
 </body>
 </html>
