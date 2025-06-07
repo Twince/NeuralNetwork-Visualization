@@ -1,10 +1,13 @@
 import eventBus from "../../../controller/EventBus.js";
 import { DATA_EVENTS } from "../../../controller/constants/events.js";
 import CanvasComponentBase from "../CanvasComponentBase.js";
+import ProcessingCanvas from "./ProcessingCanvas.js";
+import { DataStore } from "../../../controller/DataStore.js"
 
-class UserInputHandler extends CanvasComponentBase {
+class UserInputCanvas extends CanvasComponentBase {
     constructor(canvasId) {
         super(canvasId);
+        this.processingCanvas = new ProcessingCanvas();
         // this.styleConfig = styleConfig;
         this.isDrawing = false;
         this.setupCanvas();
@@ -19,6 +22,10 @@ class UserInputHandler extends CanvasComponentBase {
     setupCanvas() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight / 3;
+        this.processingCanvas.setupCanvas({
+            width: this.canvas.width,
+            height: this.canvas.height,
+        });
 
         this.ctx.fillStyle = 'rgba(40,40,40)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -28,7 +35,6 @@ class UserInputHandler extends CanvasComponentBase {
         this.ctx.lineCap = "round";
         this.ctx.lineJoin = 'round';
         this.drawGridDots();
-
     }
 
     drawGridDots() {
@@ -51,13 +57,17 @@ class UserInputHandler extends CanvasComponentBase {
         const startDraw = (x, y) => {
             this.isDrawing = true;
             this.ctx.beginPath();
+            this.processingCanvas.ctx.beginPath();
             this.ctx.moveTo(x, y);
+            this.processingCanvas.ctx.moveTo(x, y);
         }
 
         const draw = (x, y) => {
             if (!this.isDrawing) return;
             this.ctx.lineTo(x, y);
+            this.processingCanvas.ctx.lineTo(x, y);
             this.ctx.stroke();
+            this.processingCanvas.ctx.stroke();
         }
 
         const endDraw = () => {
@@ -98,6 +108,10 @@ class UserInputHandler extends CanvasComponentBase {
             endDraw();
         });
     }
+
+    getCanvasSize() {
+        return {width: this.canvas.width, height: this.canvas.height};
+    }
 }
 
-export default UserInputHandler;
+export default UserInputCanvas;
