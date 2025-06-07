@@ -3,12 +3,13 @@ import { DATA_EVENTS } from "./constants/events.js"
 
 export class DataStore {
     constructor() {
-        _queryInfo = null;
-        _nodeState = {};
-        _queryResult = null;
+        this._queryInfo = null;
+        this._nodeState = {};
+        this._queryResult = null;
 
         eventBus.on(DATA_EVENTS.NODE_UPDATE, this.setQueryInfo.bind(this));
         eventBus.on(DATA_EVENTS.RESULT_UPDATE, this.setQueryResult.bind(this));
+        console.log("dataStore: 이벤트 등록 완료");
     }
 
     setQueryInfo(queryInfo) {
