@@ -1,18 +1,44 @@
 class ProcessingCanvas {
     constructor() {
-        this.canvas = document.createElement("canvas");
-        // this.canvas = document.getElementById('processingCanvas')
-        this.ctx = this.canvas.getContext('2d');
+        // this.strokeCanvas = document.createElement("canvas");
+        this.strokeCanvas = document.getElementById('processingCanvas')
+        this.strokeCtx = this.strokeCanvas.getContext('2d', { willReadFrequently: true });
+        this.alignCanvas = document.getElementById('alignCanvas');
+        // this.alignCanvas = document.createElement('canvas');
+        this.alignCtx = this.alignCanvas.getContext('2d', { willReadFrequently: true }) ;
+        this.originCanvasCenter = {};
     }
 
     setupCanvas({width, height}) {
-        this.canvas.width = width;
-        this.canvas.height = height;
+        this.strokeCanvas.width = this.alignCanvas.width =  width;
+        this.strokeCanvas.height = this.alignCanvas.height =  height;
+        this.canvasCenter = {x: width / 2, y: height / 2};
 
-        this.ctx.lineWidth = 20;
-        this.ctx.lineCap = "round";
-        this.ctx.lineJoin = 'round';
-        console.log("processingCanvas.setupCanvas");
+        this.strokeCtx.lineWidth = 20;
+        this.strokeCtx.lineCap = "round";
+        this.strokeCtx.lineJoin = 'round';
+
+        this.alignCanvas.style.border = '2px solid red'; // 눈에 보이게
+    }
+
+    alignToCenter({minX, maxX, minY, maxY}) {
+        console.log("클리어 실행")
+        this.alignCtx.fillStyle = 'rgba(255,255,255)';
+        this.alignCtx.fillRect(0, 0, this.alignCanvas.width, this.alignCanvas.height);
+        const original = {
+            x: minX-20,
+            y: minY-20,
+            width: maxX+40 - minX,
+            height: maxY+40 - minY
+        }
+        const alignStartPosition= {
+            x: this.canvasCenter.x - original.width / 2,
+            y: this.canvasCenter.y - original.height / 2,
+        }
+        this.alignCtx.drawImage(this.strokeCanvas, original.x, original.y,
+            original.width, original.height,
+            alignStartPosition.x, alignStartPosition.y,
+            original.width, original.height);
     }
 }
 

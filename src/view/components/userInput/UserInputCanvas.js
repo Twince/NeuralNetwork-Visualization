@@ -3,6 +3,7 @@ import { DATA_EVENTS } from "../../../controller/constants/events.js";
 import CanvasComponentBase from "../CanvasComponentBase.js";
 import ProcessingCanvas from "./ProcessingCanvas.js";
 import { DataStore } from "../../../controller/DataStore.js"
+import {getBoundingBox} from "../canvasUtils/getBounding.js";
 
 class UserInputCanvas extends CanvasComponentBase {
     constructor(canvasId) {
@@ -45,32 +46,42 @@ class UserInputCanvas extends CanvasComponentBase {
             this.ctx.fill();
         }
 
-        for (let x = 5; x < this.canvas.width; x += 13) {
-            for (let y = 5; y < this.canvas.height; y += 13) {
-                console.log("dot");
+        for (let x = 5; x < this.canvas.width; x += 12) {
+            for (let y = 5; y < this.canvas.height; y += 12) {
                 drawCircle(x, y);
             }
         }
     }
 
     registerEvents() {
+        let coordinate = {minX: this.canvas.width, minY: this.canvas.height, maxX: 0, maxY: 0};
+        console.log(coordinate);
         const startDraw = (x, y) => {
             this.isDrawing = true;
             this.ctx.beginPath();
-            this.processingCanvas.ctx.beginPath();
+            this.processingCanvas.strokeCtx.beginPath();
             this.ctx.moveTo(x, y);
-            this.processingCanvas.ctx.moveTo(x, y);
+            this.processingCanvas.strokeCtx.moveTo(x, y);
         }
 
         const draw = (x, y) => {
             if (!this.isDrawing) return;
+            const { minX, maxX, minY, maxY } = getBoundingBox(coordinate, x, y);
+            Object.assign(coordinate, {
+                minX: Math.round(minX),
+                maxX: Math.round(maxX),
+                minY: Math.round(minY),
+                maxY: Math.round(maxY),
+            });
             this.ctx.lineTo(x, y);
-            this.processingCanvas.ctx.lineTo(x, y);
+            this.processingCanvas.strokeCtx.lineTo(x, y);
             this.ctx.stroke();
-            this.processingCanvas.ctx.stroke();
+            this.processingCanvas.strokeCtx.stroke();
+            this.processingCanvas.alignToCenter(coordinate);
         }
 
         const endDraw = () => {
+            console.log("coordinate: ", {...coordinate});
             this.isDrawing = false;
         }
 
