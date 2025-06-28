@@ -12,3 +12,9 @@ export const HANDLER_EVENTS = Object.freeze({
     NN_INITIALIZE: 'nn: initialize',
     ICH_INITIALIZE: 'ich: initialize',
 })
+
+export const DRAWING_EVENTS = Object.freeze({
+    START_DRAW: 'draw: start',
+    DRAW: 'draw: drawing',
+    END_DRAW: 'draw: end',
+})
