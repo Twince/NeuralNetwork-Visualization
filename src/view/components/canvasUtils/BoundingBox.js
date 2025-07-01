@@ -9,12 +9,12 @@ class BoundingBox {
         this.coordinate = {...this.initialCoords};
     }
 
-    update(x, y) {
+    update(currentX, currentY) {
         this.coordinate = {
-            minX: Math.round(Math.min(this.coordinate.minX, x)),
-            minY: Math.round(Math.min(this.coordinate.minY, y)),
-            maxX: Math.round(Math.max(this.coordinate.maxX, x)),
-            maxY: Math.round(Math.max(this.coordinate.maxY, y)),
+            minX: Math.round(Math.min(this.coordinate.minX, currentX)),
+            minY: Math.round(Math.min(this.coordinate.minY, currentY)),
+            maxX: Math.round(Math.max(this.coordinate.maxX, currentX)),
+            maxY: Math.round(Math.max(this.coordinate.maxY, currentY)),
         }
     }
 
