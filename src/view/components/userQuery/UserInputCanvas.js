@@ -4,7 +4,6 @@ import drawingEventHandler from "../../../controller/queryPipeline/DrawingEventH
 import CanvasComponentBase from "../CanvasComponentBase.js";
 import PathTrackingCanvas from "./PathTrackingCanvas.js";
 import { DataStore } from "../../../controller/DataStore.js"
-import {getBoundingBox} from "../canvasUtils/getBounding.js";
 import DrawingEventHandler from "../../../controller/queryPipeline/DrawingEventHandler.js";
 
 class UserInputCanvas {

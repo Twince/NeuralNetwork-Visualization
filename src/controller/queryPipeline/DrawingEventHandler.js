@@ -1,5 +1,5 @@
 import userInputCanvas from "../../view/components/userQuery/UserInputCanvas.js";
-import {getBoundingBox} from "../../view/components/canvasUtils/getBounding.js";
+import BoundingBox from "../../view/components/canvasUtils/BoundingBox.js";
 import eventBus from "../EventBus.js";
 import { DRAWING_EVENTS } from "../constants/events.js";
 
@@ -8,6 +8,7 @@ class DrawingEventHandler {
         this.canvas = document.getElementById('userInputCanvas');
         this.ctx = this.canvas.getContext("2d");
 
+        this.boundingBox = new BoundingBox(this.canvas.width, this.canvas.height);
         this.registerEvents();
 
         this.ctx.strokeStyle = 'rgba(255,255,255,0.90)';
@@ -17,8 +18,6 @@ class DrawingEventHandler {
     }
 
     registerEvents() {
-        let coordinate = {minX: this.canvas.width, minY: this.canvas.height, maxX: 0, maxY: 0};
-        console.log(coordinate);
         const startDraw = (x, y) => {
             this.isDrawing = true;
             eventBus.emit(DRAWING_EVENTS.START_DRAW, {x, y});
@@ -27,20 +26,13 @@ class DrawingEventHandler {
 
         const draw = (x, y) => {
             if (!this.isDrawing) return;
-            const { minX, maxX, minY, maxY } = getBoundingBox(coordinate, x, y);
-            Object.assign(coordinate, {
-                minX: Math.round(minX),
-                maxX: Math.round(maxX),
-                minY: Math.round(minY),
-                maxY: Math.round(maxY),
-            });
+            this.boundingBox.update(x, y);
             eventBus.emit(DRAWING_EVENTS.DRAW, {x, y})
-            // console.log("이벤트 버스를 호출하는 중!");
         }
 
         const endDraw = () => {
-            console.log("coordinate: ", {...coordinate});
             this.isDrawing = false;
+            this.boundingBox.log();
             eventBus.emit(DRAWING_EVENTS.END_DRAW);
         }
 
