@@ -1,22 +1,26 @@
+import {CANVAS_CONFIG} from "../../../controller/constants/canvasConfig.js";
+
 class PathTrackingCanvas {
     constructor() {
         // this.strokeCanvas = document.createElement("canvas");
-        this.strokeCanvas = document.getElementById('processingCanvas')
-        this.strokeCtx = this.strokeCanvas.getContext('2d', { willReadFrequently: true });
+        this.canvas = document.getElementById('pathTrackingCanvas');
+        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         this.alignCanvas = document.getElementById('alignCanvas');
         // this.alignCanvas = document.createElement('canvas');
         this.alignCtx = this.alignCanvas.getContext('2d', { willReadFrequently: true }) ;
         this.originCanvasCenter = {};
+        this.setupCanvas()
     }
 
-    setupCanvas({width, height}) {
-        this.strokeCanvas.width = this.alignCanvas.width =  width;
-        this.strokeCanvas.height = this.alignCanvas.height =  height;
-        this.canvasCenter = {x: width / 2, y: height / 2};
+    setupCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height =  window.innerHeight / 3;
+        this.canvasCenter = {x: this.canvas.width / 2, y: this.canvas.height / 2};
 
-        this.strokeCtx.lineWidth = 20;
-        this.strokeCtx.lineCap = "round";
-        this.strokeCtx.lineJoin = 'round';
+        this.ctx.strokeStyle = 'rgba(0,0,0)';
+        this.ctx.lineWidth = CANVAS_CONFIG.lineWidth;
+        this.ctx.lineCap = CANVAS_CONFIG.lineCap;
+        this.ctx.lineJoin = CANVAS_CONFIG.lineJoin;
 
         this.alignCanvas.style.border = '2px solid red'; // 눈에 보이게
     }
@@ -35,10 +39,24 @@ class PathTrackingCanvas {
             x: this.canvasCenter.x - original.width / 2,
             y: this.canvasCenter.y - original.height / 2,
         }
-        this.alignCtx.drawImage(this.strokeCanvas, original.x, original.y,
+        this.alignCtx.drawImage(this.canvas, original.x, original.y,
             original.width, original.height,
             alignStartPosition.x, alignStartPosition.y,
             original.width, original.height);
+    }
+
+    startPath(x, y) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+    }
+
+    drawPath(x, y) {
+        this.ctx.lineTo(x, y);
+        this.ctx.stroke();
+    }
+
+    endPath() {
+        this.ctx.closePath();
     }
 }
 

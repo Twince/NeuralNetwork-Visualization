@@ -5,16 +5,11 @@ import { DRAWING_EVENTS } from "../constants/events.js";
 
 class DrawingEventHandler {
     constructor() {
-        this.canvas = document.getElementById('userInputCanvas');
-        this.ctx = this.canvas.getContext("2d");
-
-        this.boundingBox = new BoundingBox(this.canvas.width, this.canvas.height);
+        this.inputCanvas = document.getElementById('userInputCanvas');
+        this.boundingBox = new BoundingBox(this.inputCanvas.width, this.inputCanvas.height);
         this.registerEvents();
 
-        this.ctx.strokeStyle = 'rgba(255,255,255,0.90)';
-        this.ctx.lineWidth = 20;
-        this.ctx.lineCap = "round";
-        this.ctx.lineJoin = 'round';
+
     }
 
     registerEvents() {
@@ -39,33 +34,33 @@ class DrawingEventHandler {
         const getTouchPosition = (e) => {
             e.preventDefault();
             const touch = e.touches[0];
-            const rect = this.canvas.getBoundingClientRect();
+            const rect = this.inputCanvas.getBoundingClientRect();
             return {
                 x: touch.clientX - rect.left,
                 y: touch.clientY - rect.top
             }
         }
 
-        this.canvas.addEventListener("mousedown", (e) => {
+        this.inputCanvas.addEventListener("mousedown", (e) => {
             startDraw(e.offsetX, e.offsetY);
         });
-        this.canvas.addEventListener("touchstart", (e) => {
+        this.inputCanvas.addEventListener("touchstart", (e) => {
             let {x, y} = getTouchPosition(e);
             startDraw(x, y);
         });
 
-        this.canvas.addEventListener("mousemove", (e) => {
+        this.inputCanvas.addEventListener("mousemove", (e) => {
             draw(e.offsetX, e.offsetY);
         });
-        this.canvas.addEventListener("touchmove", (e) => {
+        this.inputCanvas.addEventListener("touchmove", (e) => {
             let {x, y} = getTouchPosition(e);
             draw(x, y);
         });
 
         // click, touch end event
-        this.canvas.addEventListener("mouseup", endDraw);
-        this.canvas.addEventListener("mouseout", endDraw);
-        this.canvas.addEventListener("touchend", (e) => {
+        this.inputCanvas.addEventListener("mouseup", endDraw);
+        this.inputCanvas.addEventListener("mouseout", endDraw);
+        this.inputCanvas.addEventListener("touchend", (e) => {
             e.preventDefault();
             endDraw();
         });

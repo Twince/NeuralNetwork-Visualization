@@ -5,15 +5,20 @@ import CanvasComponentBase from "../CanvasComponentBase.js";
 import PathTrackingCanvas from "./PathTrackingCanvas.js";
 import { DataStore } from "../../../controller/DataStore.js"
 import DrawingEventHandler from "../../../controller/queryPipeline/DrawingEventHandler.js";
+import { CANVAS_CONFIG } from "../../../controller/constants/canvasConfig.js";
 
 class UserInputCanvas {
     constructor() {
         this.canvas = document.getElementById('userInputCanvas');
         this.ctx = this.canvas.getContext('2d');
-        // this.styleConfig = styleConfig;
         this.isDrawing = false;
         this.setupCanvas();
         // this.registerEvents();
+
+        this.ctx.strokeStyle = 'rgba(255,255,255,0.90)';
+        this.ctx.lineWidth = CANVAS_CONFIG.lineWidth;
+        this.ctx.lineCap = CANVAS_CONFIG.lineCap;
+        this.ctx.lineJoin = CANVAS_CONFIG.lineJoin;
         console.log("✅ Canvas initialized.");
     }
 
