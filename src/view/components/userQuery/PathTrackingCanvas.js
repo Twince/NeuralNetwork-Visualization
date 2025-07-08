@@ -27,14 +27,6 @@ class PathTrackingCanvas {
 
     alignToCenter({minX, maxX, minY, maxY}) {
         console.log("클리어 실행")
-        this.alignCtx.fillStyle = 'rgba(255,255,255)';
-        this.alignCtx.fillRect(0, 0, this.alignCanvas.width, this.alignCanvas.height);
-        const original = {
-            x: minX-20,
-            y: minY-20,
-            width: maxX+40 - minX,
-            height: maxY+40 - minY
-        }
         const alignStartPosition= {
             x: this.canvasCenter.x - original.width / 2,
             y: this.canvasCenter.y - original.height / 2,

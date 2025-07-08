@@ -7,6 +7,7 @@ class BoundingBox {
             maxY: -Infinity,
         }
         this.coordinate = {...this.initialCoords};
+        this.originalObject = {};
     }
 
     update(currentX, currentY) {
@@ -16,10 +17,17 @@ class BoundingBox {
             maxX: Math.round(Math.max(this.coordinate.maxX, currentX)),
             maxY: Math.round(Math.max(this.coordinate.maxY, currentY)),
         }
+        Object.assign(this.originalObject,
+            {
+                x: this.coordinate.minX-20,
+                y: this.coordinate.minY-20,
+                width: this.coordinate.maxX+40 - this.coordinate.minX,
+                height: this.coordinate.maxY+40 - this.coordinate.minY,});
     }
 
     log() {
         console.log(this.coordinate);
+        console.log(this.originalObject);
     }
 
     reset() {
@@ -27,4 +35,4 @@ class BoundingBox {
     }
 }
 
-export default BoundingBox;
+export default new BoundingBox;

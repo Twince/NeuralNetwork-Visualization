@@ -3,6 +3,8 @@ import NeuralNetworkBase from "../core/NeuralNetworkBase.js";
 import QueryProcessController from "./queryPipeline/QueryProcessController.js";
 import UserInputCanvas from "../view/components/userQuery/UserInputCanvas.js";
 import PathTrackingCanvas from "../view/components/userQuery/PathTrackingCanvas.js";
+import AlignCanvas from "../view/components/userQuery/AlignCanvas.js";
+import ResizeCanvas from "../view/components/userQuery/ResizeCanvas.js";
 import { DataStore } from "./DataStore.js";
 
 import eventBus from "./EventBus.js";
@@ -24,7 +26,8 @@ class AppController {
         console.log("Initializing...UserInputCanvas");
         const $QC = new QueryProcessController({
             userInputCanvas: new UserInputCanvas(),
-            trackingCanvas: new PathTrackingCanvas()
+            trackingCanvas: new PathTrackingCanvas(),
+            alignCanvas: new AlignCanvas(),
         });
         // const $UIH = new UserInputCanvas('userInputCanvas');
         console.log("Initializing Handler: complete!");

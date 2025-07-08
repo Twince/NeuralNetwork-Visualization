@@ -6,10 +6,7 @@ import { DRAWING_EVENTS } from "../constants/events.js";
 class DrawingEventHandler {
     constructor() {
         this.inputCanvas = document.getElementById('userInputCanvas');
-        this.boundingBox = new BoundingBox(this.inputCanvas.width, this.inputCanvas.height);
         this.registerEvents();
-
-
     }
 
     registerEvents() {
@@ -21,13 +18,13 @@ class DrawingEventHandler {
 
         const draw = (x, y) => {
             if (!this.isDrawing) return;
-            this.boundingBox.update(x, y);
+            BoundingBox.update(x, y);
             eventBus.emit(DRAWING_EVENTS.DRAW, {x, y})
         }
 
         const endDraw = () => {
             this.isDrawing = false;
-            this.boundingBox.log();
+            BoundingBox.log();
             eventBus.emit(DRAWING_EVENTS.END_DRAW);
         }
 
