@@ -16,7 +16,7 @@ class WeightManager {
             const json = await loadPretrainedWeights(this.path);
             this._cache = {
                 W_inputToHidden: json.W_inputToHidden,
-                W_hiddenToOutput: json.W_inputToHidden,
+                W_hiddenToOutput: json.W_hiddenToOutput,
             };
         }catch(err){
             console.warn(`[WeightManager] Using random weights due to error: ${err.message}`);
