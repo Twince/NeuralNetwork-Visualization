@@ -3,19 +3,24 @@ import { DATA_EVENTS, HANDLER_EVENTS, DRAWING_EVENTS } from "../constants/events
 import DrawingEventHandler from "./DrawingEventHandler.js";
 import UserInputCanvas from "../../view/components/userQuery/UserInputCanvas.js";
 import PathTrackingCanvas from "../../view/components/userQuery/PathTrackingCanvas.js";
+import {pixelExtractor} from "../queryPipeline/pixelExtractor.js";
+import {mnistTestData} from "../../../dev/train/trainData/mnist/mnistTestData.js";
 
 class QueryProcessController {
-    constructor({ userInputCanvas, trackingCanvas, alignCanvas, resizeCanvas }) {
+    constructor({ userInputCanvas, trackingCanvas, alignCanvas, resizeCanvas, $NN }) {
         this.userInputCanvas = userInputCanvas;
         this.trackingCanvas = trackingCanvas;
         this.alignCanvas = alignCanvas;
-        this.drawingEvent();
+        this.resizeCanvas = resizeCanvas;
+
+        this.$NN = $NN;
         this.drawingEventHandler = new DrawingEventHandler();
+        this.drawingEvent();
 
         this.alignCanvas.setupCanvas();
         // this.drawingEventHandler.registerEvents(userInputCanvas);
         console.log("이벤트 받음.");
-        this.$NN = null;
+        // this.$NN = null;
         eventBus.on(HANDLER_EVENTS.NN_INITIALIZE, (nn) => this.$NN = nn);
     }
 
@@ -33,6 +38,9 @@ class QueryProcessController {
             this.trackingCanvas.drawPath(x, y);
             this.alignCanvas.updateCanvasScale();
             this.alignCanvas.centralize(this.trackingCanvas.canvas);
+            this.resizeCanvas.downScale(this.alignCanvas.canvas);
+            // this.$NN.query(mnistTestData);
+            this.$NN.query(pixelExtractor(this.resizeCanvas));
         });
         eventBus.on(DRAWING_EVENTS.END_DRAW, () => {
             this.userInputCanvas.endPath();
