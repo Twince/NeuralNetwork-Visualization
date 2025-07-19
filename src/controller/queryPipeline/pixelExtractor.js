@@ -17,9 +17,12 @@ export const pixelExtractor = (path) => {
             }));
     }
 
+    const normalize = (grayscaleMatrix) => {
+        return grayscaleMatrix.map(v => (v/255)*0.99+0.01);
+    }
+
     const {width, height, data} = path.ctx.getImageData(0, 0, path.canvas.width, path.canvas.height);
     const matrixRGB = pathToMatrix(width, height, data);
-    return grayscaleMatrix(matrixRGB);
-
-
+    const grayScale = grayscaleMatrix(matrixRGB);
+    return normalize(grayScale);
 };
