@@ -28,10 +28,12 @@ class AppController {
             userInputCanvas: new UserInputCanvas(),
             trackingCanvas: new PathTrackingCanvas(),
             alignCanvas: new AlignCanvas(),
+            resizeCanvas: new ResizeCanvas(),
+            $NN: $NN,
         });
         // const $UIH = new UserInputCanvas('userInputCanvas');
         console.log("Initializing Handler: complete!");
-        eventBus.emit(HANDLER_EVENTS.NN_INITIALIZE, $NN);
+        // eventBus.emit(HANDLER_EVENTS.NN_INITIALIZE, $NN);
         eventBus.emit(HANDLER_EVENTS.APP_READY, this.dataStore);
     };
 }

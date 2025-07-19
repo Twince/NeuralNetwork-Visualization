@@ -17,12 +17,15 @@ class PathTrackingCanvas {
         this.canvas.height =  window.innerHeight / 3;
         this.canvasCenter = {x: this.canvas.width / 2, y: this.canvas.height / 2};
 
-        this.ctx.strokeStyle = 'rgba(0,0,0)';
+        this.ctx.fillStyle = 'rgba(0, 0, 0)';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255)';
+
         this.ctx.lineWidth = CANVAS_CONFIG.lineWidth;
         this.ctx.lineCap = CANVAS_CONFIG.lineCap;
         this.ctx.lineJoin = CANVAS_CONFIG.lineJoin;
 
         this.alignCanvas.style.border = '2px solid red'; // 눈에 보이게
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     alignToCenter({minX, maxX, minY, maxY}) {
