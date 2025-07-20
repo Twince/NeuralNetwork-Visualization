@@ -17,6 +17,7 @@ class NeuralNetworkBase {
 
     // CNN operations
     feedForward(inputs) {
+        console.log("inputs", inputs);
         const hiddenInputs = matrixMultiply(this.W_inputToHidden, inputs.map(v => [v])); //신경망 출력 결과를 Nx1 형태의 행렬곱으로 변환.
         const hiddenOutputs = activationFunction(hiddenInputs);
         const finalInputs = matrixMultiply(this.W_hiddenToOutput, hiddenOutputs);
