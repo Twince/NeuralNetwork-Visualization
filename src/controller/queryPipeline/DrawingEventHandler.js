@@ -1,4 +1,3 @@
-import userInputCanvas from "../../view/components/userQuery/UserInputCanvas.js";
 import BoundingBox from "../../view/components/canvasUtils/BoundingBox.js";
 import eventBus from "../EventBus.js";
 import { DRAWING_EVENTS } from "../constants/events.js";
@@ -13,7 +12,6 @@ class DrawingEventHandler {
         const startDraw = (x, y) => {
             this.isDrawing = true;
             eventBus.emit(DRAWING_EVENTS.START_DRAW, {x, y});
-            console.log("eventBus: emit 실행!(startDraw)");
         }
 
         const draw = (x, y) => {
@@ -34,7 +32,7 @@ class DrawingEventHandler {
             const rect = this.inputCanvas.getBoundingClientRect();
             return {
                 x: touch.clientX - rect.left,
-                y: touch.clientY - rect.top
+                y: touch.clientY - rect.top,
             }
         }
 
@@ -54,7 +52,6 @@ class DrawingEventHandler {
             draw(x, y);
         });
 
-        // click, touch end event
         this.inputCanvas.addEventListener("mouseup", endDraw);
         this.inputCanvas.addEventListener("mouseout", endDraw);
         this.inputCanvas.addEventListener("touchend", (e) => {
@@ -62,7 +59,6 @@ class DrawingEventHandler {
             endDraw();
         });
     }
-
 }
 
 export default DrawingEventHandler;

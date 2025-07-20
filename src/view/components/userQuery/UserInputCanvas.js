@@ -1,10 +1,3 @@
-import eventBus from "../../../controller/EventBus.js";
-import { DATA_EVENTS } from "../../../controller/constants/events.js";
-import drawingEventHandler from "../../../controller/queryPipeline/DrawingEventHandler.js";
-import CanvasComponentBase from "../CanvasComponentBase.js";
-import PathTrackingCanvas from "./PathTrackingCanvas.js";
-import { DataStore } from "../../../controller/DataStore.js"
-import DrawingEventHandler from "../../../controller/queryPipeline/DrawingEventHandler.js";
 import { CANVAS_CONFIG } from "../../../controller/constants/canvasConfig.js";
 
 class UserInputCanvas {
@@ -13,13 +6,11 @@ class UserInputCanvas {
         this.ctx = this.canvas.getContext('2d');
         this.isDrawing = false;
         this.setupCanvas();
-        // this.registerEvents();
 
         this.ctx.strokeStyle = 'rgba(255,255,255,0.90)';
         this.ctx.lineWidth = CANVAS_CONFIG.lineWidth;
         this.ctx.lineCap = CANVAS_CONFIG.lineCap;
         this.ctx.lineJoin = CANVAS_CONFIG.lineJoin;
-        console.log("✅ Canvas initialized.");
     }
 
     clear = () => {
@@ -29,16 +20,11 @@ class UserInputCanvas {
     setupCanvas() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight / 3;
-        // this.processingCanvas.setupCanvas({
-        //     width: this.canvas.width,
-        //     height: this.canvas.height,
-        // });
 
         this.ctx.fillStyle = 'rgba(40,40,40)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.drawGridDots();
-        console.log("canvas setup!");
     }
 
     drawGridDots() {
@@ -68,11 +54,6 @@ class UserInputCanvas {
 
     endPath() {
         this.ctx.closePath();
-    }
-
-
-    getCanvasSize() {
-        return {width: this.canvas.width, height: this.canvas.height};
     }
 }
 
