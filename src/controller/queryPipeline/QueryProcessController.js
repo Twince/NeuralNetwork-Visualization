@@ -7,7 +7,7 @@ import {throttle} from "../queryPipeline/throttle.js";
 
 class QueryProcessController {
     constructor({ userInputCanvas, trackingCanvas, alignCanvas, resizeCanvas, $NN }) {
-        const drawingEventHandler = new DrawingEventHandler(); // QueryProcessController와 1:1 관계를 위해 강한결합(strong coupling)
+        const drawingEventHandler = new DrawingEventHandler(); // QueryProcessController와 1:1 관계를 위해 강결합(strong coupling) 추구
         this.userInputCanvas = userInputCanvas;
         this.trackingCanvas = trackingCanvas;
         this.alignCanvas = alignCanvas;
