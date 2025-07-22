@@ -21,20 +21,20 @@ export const tester = () => {
 
     const inputs = normalizeInputs(mnistTrainData);
     const targets = oneHotEncodeLabels(mnistTrainData, networkConfig);
-    //
-    // inputs.map((array, idx) => {
-    //     $NN.train(array, targets[idx]);
-    //     if (idx % 5000 === 0) console.log(`Training progress: ${idx}/60000`);
-    //     console.log("✅ training complete!");
-    // });
+
+    inputs.map((array, idx) => {
+        $NN.train(array, targets[idx]);
+        if (idx % 5000 === 0) console.log(`Training progress: ${idx}/60000`);
+        console.log("✅ training complete!");
+    });
 
     for (let i = 0; i<9; i++){
         console.log('Query', mnistTestData[i][0]);
         console.log($NN.query(normalizeInputs(mnistTestData)[i]));
     }
 
-    // saveWeightsAsJson($NN.W_inputToHidden, $NN.W_hiddenToOutput);
-    // console.log("✅ Weight Downloaded!");
+    saveWeightsAsJson($NN.W_inputToHidden, $NN.W_hiddenToOutput);
+    console.log("✅ Weight Downloaded!");
 }
 
 export default tester;
