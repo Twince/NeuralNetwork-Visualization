@@ -4,7 +4,6 @@ import DrawingEventHandler from "./DrawingEventHandler.js";
 import {pixelExtractor} from "../queryPipeline/pixelExtractor.js";
 import {throttle} from "../queryPipeline/throttle.js";
 
-
 class QueryProcessController {
     constructor({ userInputCanvas, trackingCanvas, alignCanvas, resizeCanvas, $NN }) {
         const drawingEventHandler = new DrawingEventHandler();
@@ -13,6 +12,7 @@ class QueryProcessController {
         this.alignCanvas = alignCanvas;
         this.resizeCanvas = resizeCanvas;
 
+        this.queryFrequencyMs = 100;
         this.$NN = $NN;
         this.drawingEvent();
     }
@@ -24,7 +24,7 @@ class QueryProcessController {
                 eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
                 // Array 중 가장 값이 큰 값의 index number가 추론 결과
             }
-        },100);
+        }, this.queryFrequencyMs);
 
         eventBus.on(DRAWING_EVENTS.START_DRAW, ({x, y}) => {
             this.userInputCanvas.startPath(x, y);
