@@ -1,4 +1,4 @@
-import { NeuralNetworkBase } from "../../src/core/NeuralNetworkBase.js";
+import { NeuralNetworkBase } from "../../src/core/NeuralNetworkBase.ts";
 
 // matrix operations
 import {matrixMultiply, transposeMatrix} from "../../src/core/ops/matrixOps.js";
