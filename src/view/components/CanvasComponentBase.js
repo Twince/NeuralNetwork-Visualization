@@ -30,7 +30,6 @@ class CanvasComponentBase {
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-
 }
 
 export default CanvasComponentBase;

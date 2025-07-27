@@ -15,6 +15,7 @@ class UserInputCanvas {
 
     clear = () => {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawGridDots();
     }
 
     setupCanvas() {

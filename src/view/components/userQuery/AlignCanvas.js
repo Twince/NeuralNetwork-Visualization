@@ -38,6 +38,11 @@ class AlignCanvas {
             BoundingBox.originalObject.width, BoundingBox.originalObject.height
             );
     }
+
+    clear() {
+        this.canvas.width = this.canvas.height = 1;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 }
 
 export default AlignCanvas;

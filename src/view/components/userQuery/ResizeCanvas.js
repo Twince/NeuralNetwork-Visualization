@@ -10,6 +10,10 @@ class ResizeCanvas {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.drawImage(path, 0, 0, path.width, path.height, 0, 0, this.canvas.width, this.canvas.height);
     }
+
+    clear() {
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 }
 
 export default ResizeCanvas;
