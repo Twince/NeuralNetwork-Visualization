@@ -1,16 +1,16 @@
-import { CANVAS_CONFIG } from "../../../controller/constants/canvasConfig.js";
+import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class PathTrackingCanvas {
     constructor() {
         // this.strokeCanvas = document.createElement('pathTrackingCanvas');
         this.canvas = document.getElementById('pathTrackingCanvas');
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
-        this.setupCanvas()
+        this.setupCanvas();
     }
 
     setupCanvas() {
         this.canvas.width = window.innerWidth;
-        this.canvas.height =  window.innerHeight / 3;
+        this.canvas.height = window.innerHeight / 3;
 
         this.ctx.fillStyle = 'rgba(0, 0, 0)';
         this.ctx.strokeStyle = 'rgba(255, 255, 255)';

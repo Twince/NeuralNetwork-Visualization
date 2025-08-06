@@ -1,6 +1,6 @@
-import { CONSTANT } from '../types/constant';
+import { networkConfig } from './types/networkConfig';
 
-export const NETWORK_CONFIG: CONSTANT = {
+export const NETWORK_CONFIG: networkConfig = {
     inputNodes: 784,
     hiddenNodes: 200,
     outputNodes: 10,

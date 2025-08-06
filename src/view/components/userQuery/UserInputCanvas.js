@@ -1,4 +1,4 @@
-import { CANVAS_CONFIG } from "../../../controller/constants/canvasConfig.js";
+import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class UserInputCanvas {
     constructor() {
@@ -16,7 +16,7 @@ class UserInputCanvas {
     clear = () => {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGridDots();
-    }
+    };
 
     setupCanvas() {
         this.canvas.width = window.innerWidth;
@@ -34,7 +34,7 @@ class UserInputCanvas {
             this.ctx.fillStyle = 'rgba(255,255,255,0.3)';
             this.ctx.arc(x, y, 1, 0, 2 * Math.PI);
             this.ctx.fill();
-        }
+        };
 
         for (let x = 5; x < this.canvas.width; x += 12) {
             for (let y = 5; y < this.canvas.height; y += 12) {

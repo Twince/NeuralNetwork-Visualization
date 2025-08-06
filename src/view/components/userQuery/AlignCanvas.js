@@ -1,4 +1,4 @@
-import BoundingBox from "../canvasUtils/BoundingBox.js";
+import BoundingBox from '../canvasUtils/BoundingBox.ts';
 
 class AlignCanvas {
     constructor() {
@@ -16,12 +16,12 @@ class AlignCanvas {
         this.updateCanvasScale();
     }
     updateCanvasScale() {
-        if(BoundingBox.originalObject.width > BoundingBox.originalObject.height){
-            this.canvas.width = BoundingBox.originalObject.width*1.3;
-            this.canvas.height = BoundingBox.originalObject.width*1.3;
+        if (BoundingBox.originalObject.width > BoundingBox.originalObject.height) {
+            this.canvas.width = BoundingBox.originalObject.width * 1.3;
+            this.canvas.height = BoundingBox.originalObject.width * 1.3;
         } else {
-            this.canvas.width = BoundingBox.originalObject.height*1.3;
-            this.canvas.height = BoundingBox.originalObject.height*1.3;
+            this.canvas.width = BoundingBox.originalObject.height * 1.3;
+            this.canvas.height = BoundingBox.originalObject.height * 1.3;
         }
     }
 
@@ -30,13 +30,18 @@ class AlignCanvas {
         const alignStartPosition = {
             x: (this.canvas.width - BoundingBox.originalObject.width) / 2,
             y: (this.canvas.height - BoundingBox.originalObject.height) / 2,
-        }
-        this.ctx.drawImage(path,
-            BoundingBox.originalObject.x, BoundingBox.originalObject.y,
-            BoundingBox.originalObject.width, BoundingBox.originalObject.height,
-            alignStartPosition.x, alignStartPosition.y,
-            BoundingBox.originalObject.width, BoundingBox.originalObject.height
-            );
+        };
+        this.ctx.drawImage(
+            path,
+            BoundingBox.originalObject.x,
+            BoundingBox.originalObject.y,
+            BoundingBox.originalObject.width,
+            BoundingBox.originalObject.height,
+            alignStartPosition.x,
+            alignStartPosition.y,
+            BoundingBox.originalObject.width,
+            BoundingBox.originalObject.height,
+        );
     }
 
     clear() {

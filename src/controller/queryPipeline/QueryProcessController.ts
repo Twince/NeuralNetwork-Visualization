@@ -3,7 +3,6 @@ import { DATA_EVENTS, DRAWING_EVENTS } from '../constants/events.js';
 import DrawingEventHandler from './DrawingEventHandler.js';
 import { pixelExtractor } from './pixelExtractor.js';
 import { throttle } from './throttle';
-
 import { IQueryProcessControllerProps } from './types/QueryProcessController.js';
 import {
     ICanvasBase,
@@ -13,6 +12,7 @@ import {
     IResizeCanvas,
 } from '../../view/components/userQuery/types/canvas';
 import { INeuralNetworkBase } from '../../core/types/NeuralNetworkBase';
+import { IDataStore } from '../types/DataStore';
 
 class QueryProcessController {
     private readonly userInputCanvas: ICanvasBase & IUserInputCanvas;
@@ -20,6 +20,7 @@ class QueryProcessController {
     private readonly alignCanvas: ICanvasBase & IAlignCanvas;
     private readonly resizeCanvas: ICanvasBase & IResizeCanvas;
     private readonly $NN: INeuralNetworkBase;
+    private readonly $DS: IDataStore;
 
     constructor({
         userInputCanvas,
@@ -27,6 +28,7 @@ class QueryProcessController {
         alignCanvas,
         resizeCanvas,
         $NN,
+        $DS,
     }: IQueryProcessControllerProps) {
         new DrawingEventHandler();
         this.userInputCanvas = userInputCanvas;
@@ -35,17 +37,12 @@ class QueryProcessController {
         this.resizeCanvas = resizeCanvas;
 
         this.$NN = $NN;
+        this.$DS = $DS;
         this.drawingEvent();
+        this.query();
     }
 
     drawingEvent(): void {
-        const throttleQuery = throttle((inputs) => {
-            const result: number[] = this.$NN.query(inputs);
-            if (result) {
-                eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
-            }
-        }, 100);
-
         eventBus.on(DRAWING_EVENTS.START_DRAW, ({ x, y }) => {
             this.userInputCanvas.startPath(x, y);
             this.trackingCanvas.startPath(x, y);
@@ -56,12 +53,22 @@ class QueryProcessController {
             this.alignCanvas.updateCanvasScale();
             this.alignCanvas.centralize(this.trackingCanvas.canvas);
             this.resizeCanvas.downScale(this.alignCanvas.canvas);
-            throttleQuery(pixelExtractor(this.resizeCanvas));
+            this.$DS.setQueryInfo(pixelExtractor(this.resizeCanvas));
         });
         eventBus.on(DRAWING_EVENTS.END_DRAW, () => {
             this.userInputCanvas.endPath();
             this.trackingCanvas.endPath();
         });
+    }
+
+    query() {
+        const throttleQuery = throttle((inputs) => {
+            const result: number[] = this.$NN.query(inputs);
+            if (result) eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
+        }, 100);
+
+        eventBus.on(DATA_EVENTS.QUERY_CHANGED, (inputs: number[]) => throttleQuery(inputs));
+        // TODO: type interface 추가하기, 이벤트버스 구조와 쿼리 구조 다시 생각해보기, TS 마이그레이션
     }
 }
 

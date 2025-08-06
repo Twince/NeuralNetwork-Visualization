@@ -1,6 +1,5 @@
 import AppController from './controller/AppContoller.js';
-import { DataStore } from "./controller/DataStore.js";
 
-const App = new AppController({DataStore});
+const App = new AppController();
 await App.initialize();
-console.log("App initialized!");
+console.log('App initialized!');
