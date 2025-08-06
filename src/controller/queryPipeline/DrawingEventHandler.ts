@@ -5,7 +5,6 @@ import { DRAWING_EVENTS } from '../constants/events.ts';
 class DrawingEventHandler {
     private inputCanvas: HTMLCanvasElement | null;
     private isDrawing: boolean;
-    // TODO: 이벤트 핸들러 리팩토링
 
     constructor() {
         this.inputCanvas = document.getElementById('userInputCanvas') as HTMLCanvasElement;
@@ -14,16 +13,25 @@ class DrawingEventHandler {
     }
 
     registerEvents(): void {
-        this.inputCanvas.addEventListener('mousedown', this.handleStartDraw);
-        this.inputCanvas.addEventListener('touchstart', this.handleStartDraw);
-        this.inputCanvas.addEventListener('mousemove', this.handleDraw);
-        this.inputCanvas.addEventListener('touchmove', this.handleDraw);
-        this.inputCanvas.addEventListener('mouseup', this.endDraw);
-        this.inputCanvas.addEventListener('mouseout', this.endDraw);
-        this.inputCanvas.addEventListener('touchend', (e: TouchEvent): void => {
-            e.preventDefault();
-            this.endDraw();
-        });
+        const bindings: [string, EventListener][] = [
+            ['mousedown', this.handleStartDraw],
+            ['touchstart', this.handleStartDraw],
+            ['mousemove', this.handleDraw],
+            ['touchmove', this.handleDraw],
+            ['mouseup', this.endDraw],
+            ['mouseout', this.endDraw],
+            [
+                'touchend',
+                (e: TouchEvent): void => {
+                    e.preventDefault();
+                    this.endDraw();
+                },
+            ],
+        ];
+
+        bindings.forEach(([event, handler]: [string, EventListener]): void =>
+            this.inputCanvas.addEventListener(event, handler),
+        );
     }
 
     // eventBus로 입력 event 전송
