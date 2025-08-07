@@ -1,14 +1,16 @@
 import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class PathTrackingCanvas {
+    private readonly canvas: HTMLCanvasElement | null;
+    private readonly ctx: CanvasRenderingContext2D;
+
     constructor() {
-        // this.strokeCanvas = document.createElement('pathTrackingCanvas');
-        this.canvas = document.getElementById('pathTrackingCanvas');
+        this.canvas = document.createElement('canvas') as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         this.setupCanvas();
     }
 
-    setupCanvas() {
+    setupCanvas(): void {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight / 3;
 
@@ -22,17 +24,17 @@ class PathTrackingCanvas {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    startPath(x, y) {
+    startPath(x: number, y: number): void {
         this.ctx.beginPath();
         this.ctx.moveTo(x, y);
     }
 
-    drawPath(x, y) {
+    drawPath(x: number, y: number): void {
         this.ctx.lineTo(x, y);
         this.ctx.stroke();
     }
 
-    endPath() {
+    endPath(): void {
         this.ctx.closePath();
     }
 }

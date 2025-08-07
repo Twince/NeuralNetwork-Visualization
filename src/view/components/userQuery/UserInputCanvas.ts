@@ -1,8 +1,12 @@
 import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class UserInputCanvas {
+    private readonly canvas: HTMLCanvasElement | null;
+    private readonly ctx: CanvasRenderingContext2D;
+    private isDrawing: boolean;
+
     constructor() {
-        this.canvas = document.getElementById('userInputCanvas');
+        this.canvas = document.getElementById('userInputCanvas') as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d');
         this.isDrawing = false;
         this.setupCanvas();
@@ -13,12 +17,12 @@ class UserInputCanvas {
         this.ctx.lineJoin = CANVAS_CONFIG.lineJoin;
     }
 
-    clear = () => {
+    clear = (): void => {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGridDots();
     };
 
-    setupCanvas() {
+    setupCanvas(): void {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight / 3;
 
@@ -43,17 +47,17 @@ class UserInputCanvas {
         }
     }
 
-    startPath(x, y) {
+    startPath(x: number, y: number): void {
         this.ctx.beginPath();
         this.ctx.moveTo(x, y);
     }
 
-    drawPath(x, y) {
+    drawPath(x: number, y: number): void {
         this.ctx.lineTo(x, y);
         this.ctx.stroke();
     }
 
-    endPath() {
+    endPath(): void {
         this.ctx.closePath();
     }
 }
