@@ -3,7 +3,7 @@ import { IinitialCoords, originalObject } from './types';
 class BoundingBox {
     private readonly initialCoords: IinitialCoords;
     private coordinate: IinitialCoords;
-    private readonly originalObject: originalObject | object;
+    readonly originalObject: originalObject;
 
     constructor() {
         this.initialCoords = {
@@ -13,7 +13,12 @@ class BoundingBox {
             maxY: -Infinity,
         };
         this.coordinate = { ...this.initialCoords };
-        this.originalObject = {};
+        this.originalObject = {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+        };
     }
 
     update(currentX: number, currentY: number): void {
