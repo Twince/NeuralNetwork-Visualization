@@ -1,10 +1,10 @@
 import WeightManager from '../core/WeightManager.ts';
 import NeuralNetworkBase from '../core/NeuralNetworkBase.ts';
 import QueryProcessController from './queryPipeline/QueryProcessController.ts';
-import UserInputCanvas from '../view/components/userQuery/UserInputCanvas.js';
-import PathTrackingCanvas from '../view/components/userQuery/PathTrackingCanvas.js';
-import AlignCanvas from '../view/components/userQuery/AlignCanvas.js';
-import ResizeCanvas from '../view/components/userQuery/ResizeCanvas.js';
+import UserInputCanvas from '../view/components/userQuery/UserInputCanvas.ts';
+import PathTrackingCanvas from '../view/components/userQuery/PathTrackingCanvas.ts';
+import AlignCanvas from '../view/components/userQuery/AlignCanvas.ts';
+import ResizeCanvas from '../view/components/userQuery/ResizeCanvas.ts';
 import DataStore from './DataStore.ts';
 
 import eventBus from './EventBus.ts';
