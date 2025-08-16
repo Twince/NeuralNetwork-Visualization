@@ -12,6 +12,8 @@ import {
 } from '../../view/components/userQuery/types/canvas';
 import { INeuralNetworkBase } from '../../core/types/NeuralNetworkBase';
 import { IDataStore } from '../types/DataStore';
+import { Matrix2D } from '../../core/ops/types/OpsType.ts';
+import BoundingBox from '../../view/components/canvasUtils/BoundingBox.ts';
 
 class QueryProcessController {
     private readonly userInputCanvas: ICanvasBase & IUserInputCanvas;
@@ -20,6 +22,8 @@ class QueryProcessController {
     private readonly resizeCanvas: ICanvasBase & IResizeCanvas;
     private readonly $NN: INeuralNetworkBase;
     private readonly $DS: IDataStore;
+    private readonly queryFrequencyMs: number;
+    //TODO: Canvas clear시 Skeleton 에니메이션 적용하기
 
     constructor({
         userInputCanvas,
@@ -38,6 +42,7 @@ class QueryProcessController {
         this.$DS = $DS;
         this.registerDrawingEvent();
         this.query();
+        this.queryFrequencyMs = 200;
     }
 
     registerDrawingEvent(): void {
@@ -57,13 +62,20 @@ class QueryProcessController {
             this.userInputCanvas.endPath();
             this.trackingCanvas.endPath();
         });
+        eventBus.on(DRAWING_EVENTS.CLEAR_DRAW, () => {
+            this.userInputCanvas.clear();
+            this.trackingCanvas.clear();
+            this.alignCanvas.clear();
+            this.resizeCanvas.clear();
+            BoundingBox.reset();
+        });
     }
 
     query() {
         const throttleQuery = throttle((inputs) => {
-            const result: number[] = this.$NN.query(inputs);
+            const result: Matrix2D = this.$NN.query(inputs);
             if (result) eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
-        }, 100);
+        }, this.queryFrequencyMs);
 
         eventBus.on(DATA_EVENTS.QUERY_CHANGED, (inputs: number[]) => throttleQuery(inputs));
         // TODO: type interface 추가하기, 이벤트버스 구조와 쿼리 구조 다시 생각해보기, TS 마이그레이션

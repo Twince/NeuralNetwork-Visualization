@@ -17,6 +17,7 @@ export const DRAWING_EVENTS = Object.freeze({
     START_DRAW: 'draw:start',
     DRAW: 'draw:drawing',
     END_DRAW: 'draw:end',
+    CLEAR_DRAW: 'draw:clear',
     BOUNDINGBOX_UPDATE: 'boundingbox:update',
 } as const);
 
