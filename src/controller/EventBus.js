@@ -2,7 +2,7 @@ const EventBus = {
     _events: {},
 
     on(eventName, subscriber) {
-        if(!this._events[eventName]) return this._events[eventName] = [];
+        if(!this._events[eventName]) this._events[eventName] = [];
         this._events[eventName].push(subscriber);
     },
 

@@ -9,7 +9,6 @@ export class DataStore {
 
         eventBus.on(DATA_EVENTS.NODE_UPDATE, this.setQueryInfo.bind(this));
         eventBus.on(DATA_EVENTS.RESULT_UPDATE, this.setQueryResult.bind(this));
-        console.log("dataStore: 이벤트 등록 완료");
     }
 
     setQueryInfo(queryInfo) {

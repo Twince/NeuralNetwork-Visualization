@@ -1,2 +1,3 @@
 dev/train/trainData/mnist/mnistTraindata_large.js
 dev/train/trainData/mnist/mnist_train.csv
+node_modules

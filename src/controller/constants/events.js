@@ -8,7 +8,14 @@ export const DATA_EVENTS = Object.freeze({
 });
 
 export const HANDLER_EVENTS = Object.freeze({
-    APP_READY: 'app: ready',
-    NN_INITIALIZE: 'nn: initialize',
-    ICH_INITIALIZE: 'ich: initialize',
+    APP_READY: 'app:ready',
+    NN_INITIALIZE: 'nn:initialize',
+    ICH_INITIALIZE: 'ich:initialize',
+})
+
+export const DRAWING_EVENTS = Object.freeze({
+    START_DRAW: 'draw: start',
+    DRAW: 'draw: drawing',
+    END_DRAW: 'draw: end',
+    BOUNDINGBOX_UPDATE: 'boundingbox:update',
 })
