@@ -16,31 +16,31 @@ class AlignCanvas {
         this.updateCanvasScale();
     }
     updateCanvasScale(): void {
-        if (BoundingBox.originalObject.width > BoundingBox.originalObject.height) {
-            this.canvas.width = BoundingBox.originalObject.width * 1.3;
-            this.canvas.height = BoundingBox.originalObject.width * 1.3;
+        if (BoundingBox.getOriginalObject().width > BoundingBox.getOriginalObject().height) {
+            this.canvas.width = BoundingBox.getOriginalObject().width * 1.3;
+            this.canvas.height = BoundingBox.getOriginalObject().width * 1.3;
         } else {
-            this.canvas.width = BoundingBox.originalObject.height * 1.3;
-            this.canvas.height = BoundingBox.originalObject.height * 1.3;
+            this.canvas.width = BoundingBox.getOriginalObject().height * 1.3;
+            this.canvas.height = BoundingBox.getOriginalObject().height * 1.3;
         }
     }
 
     centralize(path: HTMLImageElement): void {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         const alignStartPosition = {
-            x: (this.canvas.width - BoundingBox.originalObject.width) / 2,
-            y: (this.canvas.height - BoundingBox.originalObject.height) / 2,
+            x: (this.canvas.width - BoundingBox.getOriginalObject().width) / 2,
+            y: (this.canvas.height - BoundingBox.getOriginalObject().height) / 2,
         };
         this.ctx.drawImage(
             path,
-            BoundingBox.originalObject.x,
-            BoundingBox.originalObject.y,
-            BoundingBox.originalObject.width,
-            BoundingBox.originalObject.height,
+            BoundingBox.getOriginalObject().x,
+            BoundingBox.getOriginalObject().y,
+            BoundingBox.getOriginalObject().width,
+            BoundingBox.getOriginalObject().height,
             alignStartPosition.x,
             alignStartPosition.y,
-            BoundingBox.originalObject.width,
-            BoundingBox.originalObject.height,
+            BoundingBox.getOriginalObject().width,
+            BoundingBox.getOriginalObject().height,
         );
     }
 
