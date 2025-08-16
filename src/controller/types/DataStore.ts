@@ -1,3 +1,5 @@
+import { Matrix2D } from '../../core/ops/types/OpsType.ts';
+
 export interface IDataStore {
     setQueryInfo(queryInfo: number[]): void;
     getQueryInfo(): number[];
@@ -5,8 +7,8 @@ export interface IDataStore {
     setNodeState(nodeState: nodeState): void;
     getNodeState(): nodeState;
 
-    setQueryResult(queryResult: number[]): void;
-    getQueryResult(): number[];
+    setQueryResult(queryResult: Matrix2D): void;
+    getQueryResult(): Matrix2D;
 }
 
 export interface nodeState {
