@@ -10,12 +10,14 @@ import DataStore from './DataStore.ts';
 import eventBus from './EventBus.ts';
 import { DATA_EVENTS, HANDLER_EVENTS } from './constants/events.ts';
 import { NETWORK_CONFIG } from './constants/networkConfig.ts';
+import DrawingEventHandler from './queryPipeline/DrawingEventHandler.js';
 
 class AppController {
     async initialize() {
         const $WM = new WeightManager(NETWORK_CONFIG);
         const $NN = new NeuralNetworkBase(await $WM.getWeights());
         const $DS = new DataStore();
+        new DrawingEventHandler();
         const $QC = new QueryProcessController({
             userInputCanvas: new UserInputCanvas(),
             trackingCanvas: new PathTrackingCanvas(),

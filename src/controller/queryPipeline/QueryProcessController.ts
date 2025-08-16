@@ -1,6 +1,5 @@
 import eventBus from '../EventBus.js';
 import { DATA_EVENTS, DRAWING_EVENTS } from '../constants/events.js';
-import DrawingEventHandler from './DrawingEventHandler.js';
 import { pixelExtractor } from './pixelExtractor.js';
 import { throttle } from './throttle';
 import { IQueryProcessControllerProps } from './types/QueryProcessController.js';
@@ -30,7 +29,6 @@ class QueryProcessController {
         $NN,
         $DS,
     }: IQueryProcessControllerProps) {
-        new DrawingEventHandler();
         this.userInputCanvas = userInputCanvas;
         this.trackingCanvas = trackingCanvas;
         this.alignCanvas = alignCanvas;
