@@ -1,5 +1,5 @@
-import { weights } from '../../controller/types/weights.ts';
-import { networkConfig } from '../../controller/constants/types/networkConfig.ts';
+import { weights } from '@/controller/types/weights.ts';
+import { networkConfig } from '@/controller/constants/types/networkConfig.ts';
 
 export interface IWeightManager {
     _cache: null | weights;

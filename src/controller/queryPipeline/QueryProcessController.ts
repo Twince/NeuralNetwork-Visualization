@@ -9,11 +9,11 @@ import {
     IPathTrackingCanvas,
     IAlignCanvas,
     IResizeCanvas,
-} from '../../view/components/userQuery/types/canvas';
-import { INeuralNetworkBase } from '../../core/types/NeuralNetworkBase';
+} from '@/view/components/userQuery/types/canvas';
+import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase';
 import { IDataStore } from '../types/DataStore';
-import { Matrix2D } from '../../core/ops/types/OpsType.ts';
-import BoundingBox from '../../view/components/canvasUtils/BoundingBox.ts';
+import { Matrix2D } from '@/core/ops/types/OpsType.ts';
+import BoundingBox from '@/view/components/canvasUtils/BoundingBox.ts';
 
 class QueryProcessController {
     private readonly userInputCanvas: ICanvasBase & IUserInputCanvas;

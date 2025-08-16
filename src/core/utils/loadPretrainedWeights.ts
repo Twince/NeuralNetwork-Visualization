@@ -1,4 +1,4 @@
-import { weights } from '../../controller/types/weights';
+import { weights } from '@/controller/types/weights';
 
 export async function loadPretrainedWeights(path: string): Promise<weights> {
     const response: Response = await fetch(path);

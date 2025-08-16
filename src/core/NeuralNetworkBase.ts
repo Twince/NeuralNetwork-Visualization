@@ -1,9 +1,9 @@
 import activationFunction from './ops/activationOps.js';
 import { matrixMultiply } from './ops/matrixOps.js';
-import eventBus from '../controller/EventBus.js';
-import { DATA_EVENTS } from '../controller/constants/events.js';
+import eventBus from '@/controller/EventBus.js';
+import { DATA_EVENTS } from '@/controller/constants/events.js';
 
-import { weights } from '../controller/types/weights';
+import { weights } from '@/controller/types/weights';
 import { Matrix2D } from './ops/types/OpsType';
 
 class NeuralNetworkBase {

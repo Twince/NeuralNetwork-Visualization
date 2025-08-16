@@ -1,4 +1,4 @@
-import { IResizeCanvas, ICanvasBase } from '../../view/components/userQuery/types/canvas';
+import { IResizeCanvas, ICanvasBase } from '@/view/components/userQuery/types/canvas';
 
 export const pixelExtractor = (path: IResizeCanvas & ICanvasBase) => {
     const pathToMatrix = (width: number, height: number, data: Uint8ClampedArray): object[] => {

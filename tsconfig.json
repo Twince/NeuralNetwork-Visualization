@@ -10,7 +10,11 @@
     "strict": false,
     "allowJs": true,
     "checkJs": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src/**/*"]
 }

@@ -4,9 +4,9 @@ import {
     IPathTrackingCanvas,
     IAlignCanvas,
     IResizeCanvas,
-} from '../../../view/components/userQuery/types/canvas';
-import { INeuralNetworkBase } from '../../../core/types/NeuralNetworkBase';
-import { IDataStore } from '../../types/DataStore';
+} from '@/view/components/userQuery/types/canvas';
+import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase';
+import { IDataStore } from '@/controller/types/DataStore';
 
 export interface IQueryProcessControllerProps {
     userInputCanvas: ICanvasBase & IUserInputCanvas;

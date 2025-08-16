@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    root: '.',  // 기본값, 생략 가능
+    root: './src',
+    resolve: {
+        alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
+    },
     publicDir: 'public',
     build: {
         outDir: 'dist',

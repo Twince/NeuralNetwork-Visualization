@@ -2,7 +2,7 @@ import eventBus from './EventBus.js';
 import { DATA_EVENTS } from './constants/events.js';
 
 import { nodeState } from './types/DataStore';
-import { Matrix2D } from '../core/ops/types/OpsType.ts';
+import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 
 class DataStore {
     private queryInfo: number[] | null = null;

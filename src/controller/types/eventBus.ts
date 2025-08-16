@@ -1,4 +1,4 @@
-import { Matrix2D } from '../../core/ops/types/OpsType';
+import { Matrix2D } from '@/core/ops/types/OpsType';
 
 export interface eventPayloads {
     // Data handling event

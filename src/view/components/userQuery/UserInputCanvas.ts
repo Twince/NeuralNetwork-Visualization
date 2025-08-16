@@ -1,4 +1,4 @@
-import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
+import { CANVAS_CONFIG } from '@/controller/constants/canvasConfig.ts';
 
 class UserInputCanvas {
     public readonly canvas: HTMLCanvasElement | null;

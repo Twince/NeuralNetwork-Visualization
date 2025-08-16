@@ -1,8 +1,8 @@
 import { createRandomWeight } from './utils/createRandomWeights.js';
 import { loadPretrainedWeights } from './utils/loadPretrainedWeights.js';
-import { networkConfig } from '../controller/constants/types/networkConfig';
+import { networkConfig } from '@/controller/constants/types/networkConfig';
 
-import { weights } from '../controller/types/weights';
+import { weights } from '@/controller/types/weights';
 
 class WeightManager {
     private _cache: null | weights = null;

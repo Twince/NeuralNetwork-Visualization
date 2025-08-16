@@ -1,4 +1,4 @@
-import BoundingBox from '../../view/components/canvasUtils/BoundingBox.ts';
+import BoundingBox from '@/view/components/canvasUtils/BoundingBox.ts';
 import eventBus from '../EventBus.ts';
 import { DRAWING_EVENTS } from '../constants/events.ts';
 
