@@ -1,8 +1,8 @@
 import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class PathTrackingCanvas {
-    private readonly canvas: HTMLCanvasElement | null;
-    private readonly ctx: CanvasRenderingContext2D;
+    public readonly canvas: HTMLCanvasElement | null;
+    public readonly ctx: CanvasRenderingContext2D;
 
     constructor() {
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
@@ -36,6 +36,10 @@ class PathTrackingCanvas {
 
     endPath(): void {
         this.ctx.closePath();
+    }
+
+    clear(): void {
+        this.setupCanvas();
     }
 }
 

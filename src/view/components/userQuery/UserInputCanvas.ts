@@ -1,8 +1,8 @@
 import { CANVAS_CONFIG } from '../../../controller/constants/canvasConfig.ts';
 
 class UserInputCanvas {
-    private readonly canvas: HTMLCanvasElement | null;
-    private readonly ctx: CanvasRenderingContext2D;
+    public readonly canvas: HTMLCanvasElement | null;
+    public readonly ctx: CanvasRenderingContext2D;
     private isDrawing: boolean;
 
     constructor() {
@@ -18,6 +18,7 @@ class UserInputCanvas {
     }
 
     clear = (): void => {
+        this.ctx.fillStyle = 'rgba(40,40,40)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGridDots();
     };

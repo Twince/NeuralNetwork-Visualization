@@ -5,7 +5,7 @@ import { networkConfig } from '../controller/constants/types/networkConfig';
 import { weights } from '../controller/types/weights';
 
 class WeightManager {
-    _cache: null | weights = null;
+    private _cache: null | weights = null;
     private config: networkConfig;
     private readonly path: string;
 

@@ -1,8 +1,8 @@
 import BoundingBox from '../canvasUtils/BoundingBox.ts';
 
 class AlignCanvas {
-    private readonly canvas: HTMLCanvasElement | null;
-    private readonly ctx: CanvasRenderingContext2D;
+    public readonly canvas: HTMLCanvasElement | null;
+    public readonly ctx: CanvasRenderingContext2D;
 
     constructor() {
         this.canvas = document.createElement('canvas') as HTMLCanvasElement;
@@ -25,7 +25,7 @@ class AlignCanvas {
         }
     }
 
-    centralize(path: HTMLImageElement): void {
+    centralize(path: HTMLCanvasElement): void {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         const alignStartPosition = {
             x: (this.canvas.width - BoundingBox.getOriginalObject().width) / 2,
@@ -46,7 +46,7 @@ class AlignCanvas {
 
     clear(): void {
         this.canvas.width = this.canvas.height = 1;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.setupCanvas();
     }
 }
 

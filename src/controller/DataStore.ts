@@ -2,11 +2,12 @@ import eventBus from './EventBus.js';
 import { DATA_EVENTS } from './constants/events.js';
 
 import { nodeState } from './types/DataStore';
+import { Matrix2D } from '../core/ops/types/OpsType.ts';
 
 class DataStore {
     private queryInfo: number[] | null = null;
     private nodeState: nodeState | null = null;
-    private queryResult: number[] | null = null;
+    private queryResult: Matrix2D | null = null;
 
     constructor() {
         this.queryInfo = null;
@@ -31,7 +32,7 @@ class DataStore {
         return this.nodeState;
     }
 
-    setQueryResult(queryResult: number[]): void {
+    setQueryResult(queryResult: Matrix2D): void {
         if (queryResult === null) throw new Error('No query result found');
         this.queryResult = queryResult;
         eventBus.emit(DATA_EVENTS.RESULT_CHANGED, queryResult);
