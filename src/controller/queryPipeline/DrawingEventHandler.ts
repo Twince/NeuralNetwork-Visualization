@@ -4,10 +4,12 @@ import { DRAWING_EVENTS } from '../constants/events.ts';
 
 class DrawingEventHandler {
     private inputCanvas: HTMLCanvasElement | null;
+    private clearButton: HTMLButtonElement | null;
     private isDrawing: boolean;
 
     constructor() {
         this.inputCanvas = document.getElementById('userInputCanvas') as HTMLCanvasElement;
+        this.clearButton = document.getElementById('clear') as HTMLButtonElement;
         this.isDrawing = false;
         this.registerEvents();
     }
@@ -32,6 +34,10 @@ class DrawingEventHandler {
         bindings.forEach(([event, handler]: [string, EventListener]): void =>
             this.inputCanvas.addEventListener(event, handler),
         );
+
+        this.clearButton.addEventListener('click', () => {
+            eventBus.emit(DRAWING_EVENTS.CLEAR_DRAW, null);
+        });
     }
 
     // eventBus로 입력 event 전송
