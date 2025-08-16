@@ -38,11 +38,11 @@ class QueryProcessController {
 
         this.$NN = $NN;
         this.$DS = $DS;
-        this.drawingEvent();
+        this.registerDrawingEvent();
         this.query();
     }
 
-    drawingEvent(): void {
+    registerDrawingEvent(): void {
         eventBus.on(DRAWING_EVENTS.START_DRAW, ({ x, y }) => {
             this.userInputCanvas.startPath(x, y);
             this.trackingCanvas.startPath(x, y);
