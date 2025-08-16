@@ -11,8 +11,16 @@ import eventBus from './EventBus.ts';
 import { DATA_EVENTS, HANDLER_EVENTS } from './constants/events.ts';
 import { NETWORK_CONFIG } from './constants/networkConfig.ts';
 import DrawingEventHandler from './queryPipeline/DrawingEventHandler.js';
+import { IWeightManager } from '../core/types/WeightManager.ts';
+import { INeuralNetworkBase } from '../core/types/NeuralNetworkBase.ts';
+import { IDataStore } from './types/DataStore.ts';
+import { Matrix2D } from '../core/ops/types/OpsType.ts';
 
 class AppController {
+    private $WM: IWeightManager;
+    private $NN: INeuralNetworkBase;
+    private $DS: IDataStore;
+
     async initialize() {
         const $WM = new WeightManager(NETWORK_CONFIG);
         const $NN = new NeuralNetworkBase(await $WM.getWeights());
@@ -26,8 +34,7 @@ class AppController {
             $NN: $NN,
             $DS: $DS,
         });
-        eventBus.emit(HANDLER_EVENTS.APP_READY, this.dataStore);
-        eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data) => {
+        eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data: Matrix2D): void => {
             console.log('RESULT CHANGED', data);
         });
     }
