@@ -14,7 +14,8 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
-    }
+    },
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }
