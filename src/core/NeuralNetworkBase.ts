@@ -18,7 +18,6 @@ class NeuralNetworkBase {
 
     // CNN operations
     feedForward(inputs: number[]): {
-        hiddenInputs: Matrix2D;
         hiddenOutputs: Matrix2D;
         finalOutputs: Matrix2D;
     } {
@@ -29,12 +28,12 @@ class NeuralNetworkBase {
         const hiddenOutputs: Matrix2D = activationFunction(hiddenInputs);
         const finalInputs: Matrix2D = matrixMultiply(this.W_hiddenToOutput, hiddenOutputs);
         const finalOutputs: Matrix2D = activationFunction(finalInputs);
-        return { hiddenInputs, hiddenOutputs, finalOutputs };
+        return { hiddenOutputs, finalOutputs };
     }
 
     query(inputs: number[]): Matrix2D {
-        const { hiddenInputs, hiddenOutputs, finalOutputs } = this.feedForward(inputs);
-        eventBus.emit(DATA_EVENTS.NODE_UPDATE, { hiddenInputs, hiddenOutputs, finalOutputs });
+        const { hiddenOutputs, finalOutputs } = this.feedForward(inputs);
+        eventBus.emit(DATA_EVENTS.NODE_CHANGED, { inputs, hiddenOutputs, finalOutputs });
         return finalOutputs;
     }
 }
