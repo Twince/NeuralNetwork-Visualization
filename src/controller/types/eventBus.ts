@@ -3,7 +3,7 @@ import { Matrix2D } from '@/core/ops/types/OpsType';
 export interface eventPayloads {
     // Data handling event
     'query:changed': number[];
-    'node:changed': { inputNodes: number[]; hiddenNodes: number[]; outputNodes: number[] };
+    'node:changed': { inputs: number[]; hiddenOutputs: Matrix2D; finalOutputs: Matrix2D };
     'result:changed': Matrix2D;
 
     // Canvas handling event
@@ -13,7 +13,7 @@ export interface eventPayloads {
     'draw:clear': void;
     'bondingbox:update': { X: number; y: number };
 
-    'node:update': { hiddenInputs: Matrix2D; hiddenOutputs: Matrix2D; finalOutputs: Matrix2D };
+    // 'node:update': { hiddenInputs: Matrix2D; hiddenOutputs: Matrix2D; finalOutputs: Matrix2D };
 }
 
 export interface IEventBus {
