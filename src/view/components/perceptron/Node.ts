@@ -1,8 +1,14 @@
-import { layer, index, Position, edgePosition } from '@/view/components/perceptron/types/Node.ts';
+import { value } from '@/view/components/perceptron/types/Node.ts';
 
 export class Node {
-    private layer: layer;
-    private index: index;
-    private Position: Position;
-    private edgePosition: edgePosition;
+    private value: value;
+    constructor(value: value) {
+        this.value = value;
+    }
+    setValue(value: value) {
+        this.value = value;
+    }
+    getValue(value: value) {
+        this.value = value;
+    }
 }
