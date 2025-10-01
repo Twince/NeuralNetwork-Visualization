@@ -2,7 +2,6 @@ import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 
 export interface INeuralNetworkBase {
     feedForward(inputs: number[]): {
-        hiddenInputs: Matrix2D;
         hiddenOutputs: Matrix2D;
         finalOutputs: Matrix2D;
     };
