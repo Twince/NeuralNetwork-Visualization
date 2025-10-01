@@ -8,7 +8,7 @@ class DrawingEventHandler {
     private isDrawing: boolean;
 
     constructor() {
-        this.inputCanvas = document.getElementById('userInputCanvas') as HTMLCanvasElement;
+        this.inputCanvas = document.getElementById('user-input-canvas') as HTMLCanvasElement;
         this.clearButton = document.getElementById('clear') as HTMLButtonElement;
         this.isDrawing = false;
         this.registerEvents();

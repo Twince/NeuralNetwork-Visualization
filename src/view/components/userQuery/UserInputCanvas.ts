@@ -6,7 +6,7 @@ class UserInputCanvas {
     private isDrawing: boolean;
 
     constructor() {
-        this.canvas = document.getElementById('userInputCanvas') as HTMLCanvasElement;
+        this.canvas = document.getElementById('user-input-canvas') as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d');
         this.isDrawing = false;
         this.setupCanvas();
@@ -25,7 +25,7 @@ class UserInputCanvas {
 
     setupCanvas(): void {
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight / 3;
+        this.canvas.height = window.innerHeight * (7 / 20);
 
         this.ctx.fillStyle = 'rgba(40,40,40)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
