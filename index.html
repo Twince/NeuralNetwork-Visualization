@@ -9,20 +9,23 @@
     <script type="module" src="src/main.ts"></script>
     <script src="modernizr-custom.js"></script>
     <link rel="stylesheet" href="/src/view/styles/settings.css">
+    <link rel="stylesheet" href="/src/view/styles/main.css">
 </head>
 <body>
     <div id="app">
         <header></header>
-        <section id="queryResult">
+        <section id="query-result">
             <div></div>
         </section>
-        <section id="perceptronSection">
-            <canvas id="perceptron"></canvas>
-        </section>
-        <section id="userInputSection">
-            <button id="clear">clear canvas</button>
-            <canvas class="userInputCanvas" id="userInputCanvas"></canvas>
-        </section>
+        <div id="canvas-unit">
+            <div id="perceptron-section">
+                <canvas id="perceptron"></canvas>
+            </div>
+            <div id="user-input-section">
+                <button id="clear">clear canvas</button>
+                <canvas class="user-input-canvas" id="user-input-canvas"></canvas>
+            </div>
+        </div>
     </div>
 </body>
 </html>
