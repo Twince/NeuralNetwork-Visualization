@@ -5,10 +5,10 @@ export class Node {
     constructor(value: value) {
         this.value = value;
     }
-    setValue(value: value) {
+    setValue(value: value): void {
         this.value = value;
     }
-    getValue(value: value) {
+    getValue(value: value): number {
         this.value = value;
     }
 }

@@ -1,4 +1,5 @@
 import { rendererConfig } from '@/controller/constants/types/rendererConfig.ts';
+import { nodePath } from '@/view/components/perceptron/shapeVector/nodePath.ts';
 
 class nodeRenderer {
     private canvasCenter!: { x: number; y: number };
@@ -22,13 +23,13 @@ class nodeRenderer {
         this.rotationDelta = RENDERER_CONFIG.rotationDelta; // scrollHandler
         this.degree = RENDERER_CONFIG.degree; // scrollHandler
         this.displayNodes = RENDERER_CONFIG.displayNodes; // nodeHandler
-        this.scrollSpeed = RENDERER_CONFIG.scrollSpeed; // scrollHandler
-        this.mouseScroll = 0; // scrollHandler
-        this.touchMove = 0; // scrollHandler
-        this.touchDirection = 0; // scrollHandler
+        this.scrollSpeed = RENDERER_CONFIG.scrollDivider; // scrollHandler
     }
 
-    renderNodes() {}
+    drawNode = (p: number): void => {
+        console.log('그려짐.');
+        nodePath(this.renderCtx, { x: 200, y: 0, width: 10, height: 10, percent: p });
+    };
 }
 
 export default nodeRenderer;
