@@ -13,6 +13,9 @@ export interface eventPayloads {
     'draw:clear': void;
     'bondingbox:update': { X: number; y: number };
 
+    'scroll:changed': number;
+    'touch:changed': number;
+
     // 'node:update': { hiddenInputs: Matrix2D; hiddenOutputs: Matrix2D; finalOutputs: Matrix2D };
 }
 
