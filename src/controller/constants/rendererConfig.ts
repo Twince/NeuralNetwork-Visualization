@@ -5,5 +5,5 @@ export const RENDERER_CONFIG: rendererConfig = {
     degree: Math.PI / 180,
     mouseScroll: 1,
     displayNodes: 30,
-    scrollSpeed: 4,
+    scrollDivider: 4,
 };

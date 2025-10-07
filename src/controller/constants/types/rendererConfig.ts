@@ -3,5 +3,5 @@ export interface rendererConfig {
     degree: number;
     mouseScroll: number;
     displayNodes: number;
-    scrollSpeed: number;
+    scrollDivider: number;
 }

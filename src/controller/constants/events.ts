@@ -13,6 +13,11 @@ export const HANDLER_EVENTS = Object.freeze({
     ICH_INITIALIZE: 'ich:initialize',
 } as const);
 
+export const SCROLL_EVENTS = Object.freeze({
+    SCROLL_CHANGED: 'scroll:changed',
+    TOUCH_CHANGED: 'touch:changed',
+});
+
 export const DRAWING_EVENTS = Object.freeze({
     START_DRAW: 'draw:start',
     DRAW: 'draw:drawing',
