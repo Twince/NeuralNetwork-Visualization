@@ -1,6 +1,5 @@
 import eventBus from '@/controller/EventBus.ts';
 import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
-import { rendererConfig } from '@/controller/constants/types/rendererConfig.ts';
 import { nodePath } from '@/view/components/perceptron/shapeVector/nodePath.ts';
 
 class BaseCanvas {
@@ -12,10 +11,16 @@ class BaseCanvas {
         this.canvas = document.getElementById('perceptron') as HTMLCanvasElement | null;
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
 
-        this.setupCanvas(); // canvas element setu
-        this.setupRenderTransform(this.ctx, this.nodes, this.degree, this.rotationDelta); // apply state for rendering context(transform/rotate..)
+        this.setupCanvas(); // canvas element setup
+        this.setupRenderTransform(
+            this.ctx,
+            this.nodes,
+            RENDERER_CONFIG.degree,
+            RENDERER_CONFIG.rotationDelta,
+        ); // apply state for rendering context(transform/rotate..)
     }
 
+    getCanvas = (): HTMLCanvasElement => this.canvas;
     getCtx = (): CanvasRenderingContext2D => this.ctx;
 
     setupCanvas() {
@@ -34,9 +39,14 @@ class BaseCanvas {
         rotationDelta: number,
     ): void {
         ctx.translate(this.canvasCenter.x, this.canvasCenter.y);
-        ctx.rotate(degree * 180);
-        ctx.rotate((degree * 180 - degree * rotationDelta * nodes) / 2);
+        this.rotateCanvas(true, degree * 180);
+        this.rotateCanvas(true, (degree * 180 - degree * rotationDelta * nodes) / 2);
     }
+
+    rotateCanvas = (clockWise: boolean, value: number) => {
+        const rotationVector = clockWise ? 1 : -1;
+        this.ctx.rotate(rotationVector * value);
+    };
 
     clearCanvas() {
         this.ctx.translate(-this.canvasCenter.x, -this.canvasCenter.y);

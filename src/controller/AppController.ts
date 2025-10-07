@@ -9,19 +9,19 @@ import AlignCanvas from '@/view/components/userQuery/AlignCanvas.ts';
 import ResizeCanvas from '@/view/components/userQuery/ResizeCanvas.ts';
 import DataStore from './DataStore.ts';
 
+import DrawingEventHandler from './queryPipeline/DrawingEventHandler.js';
 import NodeRenderer from '@/view/components/perceptron/NodeRenderer.ts';
 
 import eventBus from './EventBus.ts';
 import { DATA_EVENTS, HANDLER_EVENTS } from './constants/events.ts';
 import { NETWORK_CONFIG } from './constants/networkConfig.ts';
-import DrawingEventHandler from './queryPipeline/DrawingEventHandler.js';
 import { IWeightManager } from '@/core/types/WeightManager.ts';
 import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase.ts';
 import { IDataStore } from './types/DataStore.ts';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
 import { EdgePositionHandler } from '@/controller/perceptron/EdgeHandler.ts';
-import { ScrollEventHandler } from '@/controller/perceptron/ScrollEventHandler.ts';
+import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
 
 class AppController {
     private $WM: IWeightManager;
@@ -47,12 +47,13 @@ class AppController {
         const nodeHandler = new NodeHandler({
             networkConfig: NETWORK_CONFIG,
             nodeRenderer,
+            perceptronBaseCanvas,
         });
         const $PC = new PerceptronController({
             nodeRenderer: nodeRenderer,
             nodePositionHandler: nodeHandler,
             edgePositionHandler: new EdgePositionHandler(),
-            scrollEventHandler: new ScrollEventHandler(),
+            scrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });
         eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data: Matrix2D): void => {
             console.log('RESULT CHANGED', data);
