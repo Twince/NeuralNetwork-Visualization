@@ -57,6 +57,7 @@ class ScrollEventHandler {
             this.touchDirection = moveX - touchStartX;
 
             if (this.touchDirection < 0) {
+                // console.log('캔버스 돌아감');
                 this.BaseCanvas.rotateCanvas(false, degree * (rotationDelta / scrollDivider));
                 this.touchMove += 1;
                 this.rotationStack += 1;
@@ -65,7 +66,7 @@ class ScrollEventHandler {
                 this.BaseCanvas.rotateCanvas(true, degree * (rotationDelta / scrollDivider));
                 this.touchMove -= 1;
                 this.rotationStack -= 1;
-                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.touchMove0);
+                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.touchMove);
             }
         });
     }
