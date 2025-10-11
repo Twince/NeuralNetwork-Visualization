@@ -1,14 +1,14 @@
 import { value } from '@/view/components/perceptron/types/Node.ts';
 
 export class Node {
-    private value: value;
-    constructor(value: value) {
+    private value: Number;
+    constructor(value: number) {
         this.value = value;
     }
-    setValue(value: value): void {
+    setValue(value: number): void {
         this.value = value;
     }
-    getValue(value: value): number {
-        this.value = value;
+    getValue(value: number): number {
+        return this.value;
     }
 }

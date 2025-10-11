@@ -20,7 +20,7 @@ import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase.ts';
 import { IDataStore } from './types/DataStore.ts';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
-import { EdgePositionHandler } from '@/controller/perceptron/EdgeHandler.ts';
+import EdgePositionHandler from '@/controller/perceptron/EdgeHandler.ts';
 import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
 
 class AppController {

@@ -2,21 +2,20 @@ import { INodePath } from '@/view/components/perceptron/shape/types/nodePath.ts'
 
 export const nodePath = (
     ctx: CanvasRenderingContext2D,
-    { x, y, width, height, radius = 8, percent }: INodePath,
+    { x, y, width, height, radius = 6, percent }: INodePath,
 ) => {
     const node: Path2D = roundedRect(x, y, width, height, radius);
 
     ctx.fillStyle = '#fff';
-    ctx.strokeStyle = '#000';
+    // ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.fill(node);
     ctx.stroke(node);
 
     if (percent > 0) {
         const filledHeight = (height * percent) / 100;
-        const fillY = y + height - filledHeight;
 
-        const fillPath = roundedRect(x, fillY, width, filledHeight, radius);
+        const fillPath = roundedRect(x, y, filledHeight, height, radius);
         ctx.save();
         ctx.clip(node);
         ctx.fillStyle = '#000';

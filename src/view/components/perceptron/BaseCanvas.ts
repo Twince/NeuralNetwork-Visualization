@@ -19,9 +19,9 @@ class BaseCanvas {
     getCtx = (): CanvasRenderingContext2D => this.ctx;
 
     setupCanvas() {
-        this.canvas.width = window.innerWidth;
+        this.canvas.width = 1000;
         // this.canvas.height = window.innerHeight * (5 / 20);
-        this.canvas.height = window.innerHeight;
+        this.canvas.height = 1000;
 
         this.ctx.fillStyle = 'rgb(186,186,186)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);

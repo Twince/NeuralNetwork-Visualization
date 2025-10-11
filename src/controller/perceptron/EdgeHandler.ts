@@ -1,1 +1,3 @@
-export class EdgePositionHandler {}
+class EdgePositionHandler {}
+
+export default EdgePositionHandler;

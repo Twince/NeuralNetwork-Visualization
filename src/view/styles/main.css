@@ -23,7 +23,8 @@
 #user-input-canvas {
     position: relative;
     z-index: 1;
-    clip-path: ellipse(140% 100% at 50% 100%);
+    /*clip-path: ellipse(140% 100% at 50% 100%);*/
+    clip-path: ellipse(100% 100% at 50% 100%);
 }
 #user-input-section > #clear {
     position: absolute;
@@ -39,9 +40,9 @@
     bottom: -45px;
     left: 0;
 
-    width: 100%;
-    #perceptron {
-        width: 100%;
-        height: 100%;
-    }
+    /*width: 100%;*/
+    /*#perceptron {*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*}*/
 }

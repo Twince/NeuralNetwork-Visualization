@@ -26,9 +26,9 @@ class nodeRenderer {
         this.scrollSpeed = RENDERER_CONFIG.scrollDivider; // scrollHandler
     }
 
-    drawNode = (p: number): void => {
+    drawNode = (layer: number, p: number): void => {
         console.log('그려짐.');
-        nodePath(this.renderCtx, { x: 200, y: 0, width: 10, height: 10, percent: p });
+        nodePath(this.renderCtx, { x: layer, y: 0, width: 15, height: 15, percent: p });
     };
 }
 
