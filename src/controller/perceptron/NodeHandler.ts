@@ -1,6 +1,7 @@
 import { networkConfig } from '@/controller/constants/types/networkConfig.ts';
 import { Node } from '@/view/components/perceptron/Node.ts';
 import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
+const { rotationDelta, degree, displayNodes, scrollDivider } = RENDERER_CONFIG;
 
 import eventBus from '@/controller/eventBus.ts';
 import { SCROLL_EVENTS } from '@/controller/constants/events.ts';
@@ -32,18 +33,26 @@ export class NodeHandler {
         this.nodeRenderer = nodeRenderer;
         this.BaseCanvas = perceptronBaseCanvas;
 
+        this.initialize(networkConfig);
         this.registerScrollEvent();
 
         console.log(this.nodeObjectSet);
     }
 
-    initializeNode(networkInfo: any): void {
+    initialize(networkConfig: networkConfig): void {
+        const { inputNodes, ...rest } = networkConfig;
+        const normalizedNetworkConfig = { inputNodes: inputNodes / 8, ...rest }; // 원활한 시각화를 위해 입력 레이어의 크기를 compress
         Object.keys(this.nodeObjectSet).forEach((key: string) => {
-            this.nodeObjectSet[key] = Array.from({ length: networkInfo[key] }, () => {
-                return new Node(0);
+            this.nodeObjectSet[key] = Array.from({ length: normalizedNetworkConfig[key] }, () => {
+                return new Node(15);
             });
         });
         this.render(0, 0);
+    }
+
+    registerScrollEvent() {
+        eventBus.on(SCROLL_EVENTS.SCROLL_CHANGED, (mouseScroll) => this.render(mouseScroll, 0));
+        eventBus.on(SCROLL_EVENTS.TOUCH_CHANGED, (touchScroll) => this.render(0, touchScroll));
     }
 
     render(mouseScroll: number, touchScroll: number): void {
@@ -103,7 +112,6 @@ export class NodeHandler {
         // TODO: 코드 리팩토링
         // TODO: 반응형 설계 및 레이아웃 구현
         // TODO: perceptron Canvas 위치 잡기
-        // TODO: 데이터 종속성과 SSoT와 관련한 모듈 아키텍쳐 고민 작성해보기
 
         // Array.from({ length: Object.keys(this.nodeObjectSet).length }, (key: string) => {});
     }

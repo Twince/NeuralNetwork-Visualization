@@ -20,7 +20,7 @@ import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase.ts';
 import { IDataStore } from './types/DataStore.ts';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
-import EdgeHandler from '@/controller/perceptron/EdgeHandler.ts';
+import EdgePositionHandler from '@/controller/perceptron/EdgeHandler.ts';
 import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
 
 class AppController {
@@ -51,9 +51,8 @@ class AppController {
         });
         const $PC = new PerceptronController({
             nodeRenderer: nodeRenderer,
-            nodeHandler: nodeHandler,
-            edgeHandler: new EdgeHandler(),
-            baseCanvas: perceptronBaseCanvas
+            nodePositionHandler: nodeHandler,
+            edgePositionHandler: new EdgePositionHandler(),
             scrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });
         eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data: Matrix2D): void => {
