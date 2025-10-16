@@ -1,3 +1,3 @@
-class EdgePositionHandler {}
+class EdgeHandler {}
 
 export default EdgePositionHandler;
