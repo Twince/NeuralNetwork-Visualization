@@ -50,11 +50,11 @@ class AppController {
             perceptronBaseCanvas,
         });
         const $PC = new PerceptronController({
-            nodeRenderer: nodeRenderer,
-            nodeHandler: nodeHandler,
-            edgeHandler: new EdgeHandler(),
-            baseCanvas: perceptronBaseCanvas
-            scrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
+            NodeRenderer: nodeRenderer,
+            NodeHandler: nodeHandler,
+            EdgeHandler: new EdgeHandler(),
+            BaseCanvas: perceptronBaseCanvas,
+            ScrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });
         eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data: Matrix2D): void => {
             console.log('RESULT CHANGED', data);

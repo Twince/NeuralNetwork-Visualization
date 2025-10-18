@@ -4,13 +4,10 @@ import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
 
 import eventBus from '@/controller/eventBus.ts';
 import { SCROLL_EVENTS } from '@/controller/constants/events.ts';
+import { nodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
 
 export class NodeHandler {
-    private readonly nodeObjectSet: {
-        inputNodes: Array<Node>;
-        hiddenNodes: Array<Node>;
-        outputNodes: Array<Node>;
-    };
+    private readonly nodeObjectSet: nodeObjectSet
     private displayNodes: number;
     private nodeRenderer: INodeRenderer;
     private BaseCanvas: IBaseCanvas;
@@ -32,18 +29,18 @@ export class NodeHandler {
         this.nodeRenderer = nodeRenderer;
         this.BaseCanvas = perceptronBaseCanvas;
 
-        this.registerScrollEvent();
+        // this.registerScrollEvent();
 
         console.log(this.nodeObjectSet);
     }
 
-    initializeNode(networkInfo: any): void {
+    initializeNode(networkInfo: any): any {
         Object.keys(this.nodeObjectSet).forEach((key: string) => {
             this.nodeObjectSet[key] = Array.from({ length: networkInfo[key] }, () => {
                 return new Node(0);
             });
         });
-        this.render(0, 0);
+        return this.nodeObjectSet;
     }
 
     render(mouseScroll: number, touchScroll: number): void {

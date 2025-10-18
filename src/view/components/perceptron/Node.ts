@@ -8,7 +8,7 @@ export class Node {
     setValue(value: number): void {
         this.value = value;
     }
-    getValue(value: number): number {
+    getValue(): number {
         return this.value;
     }
 }

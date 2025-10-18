@@ -27,7 +27,6 @@ class nodeRenderer {
     }
 
     drawNode = (layer: number, p: number): void => {
-        console.log('그려짐.');
         nodePath(this.renderCtx, { x: layer, y: 0, width: 15, height: 15, percent: p });
     };
 }

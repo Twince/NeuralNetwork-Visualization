@@ -7,20 +7,23 @@ import eventBus from '@/controller/EventBus.ts';
 import { eventPayloads } from '@/controller/types/eventBus.ts';
 import { compressArr } from '@/controller/perceptron/utils/compressArr.ts';
 
-import { networkConfig } from '@/controller/constants/networkConfig.ts';
+import {NETWORK_CONFIG} from "@/controller/constants/networkConfig";
 import { normalizeNetworkConfig } from '@/controller/perceptron/utils/normalizeNetworkInfo.ts';
 
 import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
 const { rotationDelta, degree, displayNodes, scrollDivider } = RENDERER_CONFIG;
 import BaseCanvas from '@/view/components/perceptron/BaseCanvas.ts';
 
+import { nodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
 class PerceptronController {
+    private NodeRenderer: INodeRenderer;
     private NodeHandler: INodeHandler;
     private EdgeHandler: IEdgePositionHandler;
     private BaseCanvas: IBaseCanvas;
     private ScrollEventHandler: IScrollEventHandler;
 
     private normalizedNetworkInfo: any;
+    private nodeObjectSet: nodeObjectSet;
 
     constructor({
         NodeRenderer,
@@ -29,6 +32,7 @@ class PerceptronController {
         BaseCanvas,
         ScrollEventHandler,
     }: IPerceptronControllerProps) {
+        this.NodeRenderer = NodeRenderer
         this.NodeHandler = NodeHandler;
         this.EdgeHandler = EdgeHandler;
         this.BaseCanvas = BaseCanvas;
@@ -42,8 +46,10 @@ class PerceptronController {
     }
 
     initializeNodeValue() {
-        this.normalizedNetworkInfo = normalizeNetworkConfig(networkConfig); // 원활한 시각화를 위해 입력 레이어의 크기를 compress
-        this.NodeHandler.initializeNode(this.normalizedNetworkInfo);
+        this.normalizedNetworkInfo = normalizeNetworkConfig(NETWORK_CONFIG); // 원활한 시각화를 위해 입력 레이어의 크기를 compress
+        this.nodeObjectSet =  this.NodeHandler.initializeNode(this.normalizedNetworkInfo);
+        this.NodeHandler.render(0, 0);
+
     }
 
     registerScrollEvent() {
@@ -64,16 +70,15 @@ class PerceptronController {
             this.BaseCanvas.saveState();
             const layerSize = this.normalizedNetworkInfo[key];
 
-            const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
-            const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
-            const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
-
-            const displayCondition = i >= displayStart && i < displayEnd;
-
             Array.from({ length: layerSize }, (_: unknown, i: number) => i).map((i) => {
+                const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
+                const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
+                const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
+
+                const displayCondition = i >= displayStart && i < displayEnd;
+
                 if (displayCondition) {
-                    this.nodeRenderer.drawNode(size[index], this.nodeObjectSet[key][i].getValue());
-                    this.drawText(i);
+                    this.NodeRenderer.drawNode(size[index], this.nodeObjectSet[key][i].getValue());
                     this.BaseCanvas.rotateCanvas(true, degree * rotationDelta);
                 } else {
                     this.BaseCanvas.rotateCanvas(true, degree * rotationDelta);
