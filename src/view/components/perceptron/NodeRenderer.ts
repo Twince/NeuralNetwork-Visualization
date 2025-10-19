@@ -1,7 +1,7 @@
 import { rendererConfig } from '@/controller/constants/types/rendererConfig.ts';
 import { nodePath } from '@/view/components/perceptron/shapeVector/nodePath.ts';
 
-class nodeRenderer {
+class NodeRenderer {
     private canvasCenter!: { x: number; y: number };
     private rotationDelta!: number;
     private degree!: number;
@@ -26,9 +26,9 @@ class nodeRenderer {
         this.scrollSpeed = RENDERER_CONFIG.scrollDivider; // scrollHandler
     }
 
-    drawNode = (layer: number, p: number): void => {
-        nodePath(this.renderCtx, { x: layer, y: 0, width: 15, height: 15, percent: p });
+    drawNode = (x: number, y: number, p: number): void => {
+        nodePath(this.renderCtx, { x: x, y: y, width: 15, height: 15, percent: p });
     };
 }
 
-export default nodeRenderer;
+export default NodeRenderer;

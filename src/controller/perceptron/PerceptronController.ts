@@ -7,14 +7,14 @@ import eventBus from '@/controller/EventBus.ts';
 import { eventPayloads } from '@/controller/types/eventBus.ts';
 import { compressArr } from '@/controller/perceptron/utils/compressArr.ts';
 
-import {NETWORK_CONFIG} from "@/controller/constants/networkConfig";
+import { NETWORK_CONFIG } from '@/controller/constants/networkConfig';
 import { normalizeNetworkConfig } from '@/controller/perceptron/utils/normalizeNetworkInfo.ts';
 
 import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
 const { rotationDelta, degree, displayNodes, scrollDivider } = RENDERER_CONFIG;
 import BaseCanvas from '@/view/components/perceptron/BaseCanvas.ts';
 
-import { nodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
+import { NodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
 class PerceptronController {
     private NodeRenderer: INodeRenderer;
     private NodeHandler: INodeHandler;
@@ -23,7 +23,10 @@ class PerceptronController {
     private ScrollEventHandler: IScrollEventHandler;
 
     private normalizedNetworkInfo: any;
-    private nodeObjectSet: nodeObjectSet;
+    private nodeObjectSet: NodeObjectSet;
+    private readonly distanceFromCenter: number[];
+    private anchorPosition: { inputLayer: number[]; hiddenLayer: number[]; outputLayer: number[] };
+    private anchorPosKeys: string[] = ['inputLayer', 'hiddenLayer', 'outputLayer'];
 
     constructor({
         NodeRenderer,
@@ -32,13 +35,18 @@ class PerceptronController {
         BaseCanvas,
         ScrollEventHandler,
     }: IPerceptronControllerProps) {
-        this.NodeRenderer = NodeRenderer
+        this.NodeRenderer = NodeRenderer;
         this.NodeHandler = NodeHandler;
         this.EdgeHandler = EdgeHandler;
         this.BaseCanvas = BaseCanvas;
         this.ScrollEventHandler = ScrollEventHandler;
 
+        this.distanceFromCenter = [350, 380, 410];
+        this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
+
         this.initializeNodeValue();
+        this.registerScrollEvent();
+        this.calculateNodePosition(0, 0);
 
         eventBus.on(DATA_EVENTS.NODE_CHANGED, ({ inputs, hiddenOutputs, finalOutputs }) => {
             console.log('nodes 출력:', inputs, compressArr(inputs), hiddenOutputs, finalOutputs);
@@ -47,9 +55,8 @@ class PerceptronController {
 
     initializeNodeValue() {
         this.normalizedNetworkInfo = normalizeNetworkConfig(NETWORK_CONFIG); // 원활한 시각화를 위해 입력 레이어의 크기를 compress
-        this.nodeObjectSet =  this.NodeHandler.initializeNode(this.normalizedNetworkInfo);
+        this.nodeObjectSet = this.NodeHandler.initializeNode(this.normalizedNetworkInfo);
         this.NodeHandler.render(0, 0);
-
     }
 
     registerScrollEvent() {
@@ -62,30 +69,61 @@ class PerceptronController {
     }
 
     calculateNodePosition(mouseScroll: number, touchScroll: number) {
-        Object.keys(this.normalizedNetworkInfo).map((key: string, index: number) => {
+        this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
+        Object.keys(this.normalizedNetworkInfo).map((key: string, layerIndex: number) => {
+            this.BaseCanvas.saveState();
             this.BaseCanvas.rotateCanvas(
                 true,
                 degree * 90 - (degree * rotationDelta * this.normalizedNetworkInfo[key]) / 2,
             );
-            this.BaseCanvas.saveState();
+
             const layerSize = this.normalizedNetworkInfo[key];
 
-            Array.from({ length: layerSize }, (_: unknown, i: number) => i).map((i) => {
-                const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
-                const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
-                const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
+            Array.from({ length: layerSize }, (_: unknown, nodeIndex: number) => nodeIndex).map(
+                (nodeIndex) => {
+                    const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
+                    const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
+                    const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
 
-                const displayCondition = i >= displayStart && i < displayEnd;
+                    const displayCondition = nodeIndex >= displayStart && nodeIndex < displayEnd;
+                    this.BaseCanvas.grid(200);
 
-                if (displayCondition) {
-                    this.NodeRenderer.drawNode(size[index], this.nodeObjectSet[key][i].getValue());
-                    this.BaseCanvas.rotateCanvas(true, degree * rotationDelta);
-                } else {
-                    this.BaseCanvas.rotateCanvas(true, degree * rotationDelta);
-                }
-            });
+                    this.BaseCanvas.saveState();
+
+                    if (displayCondition) {
+                        // this.NodeRenderer.drawNode(
+                        //     this.distanceFromCenter[layerIndex],
+                        //     this.nodeObjectSet[key][nodeIndex].getValue(),
+                        // );
+                        this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
+                        console.log('포지션 저장됨');
+                    } else {
+                        this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
+                    }
+                    const currentMatrix = this.BaseCanvas.getCtx().getTransform();
+                    const globalMatrix = this.BaseCanvas.setupMatrix.multiply(currentMatrix);
+
+                    const global = globalMatrix.transformPoint(
+                        new DOMPoint(this.distanceFromCenter[layerIndex], 0),
+                    );
+                    const angle = Math.atan2(globalMatrix.b, globalMatrix.a);
+                    const rotation = angle * (180 / Math.PI);
+
+                    const percent = this.nodeObjectSet[key][nodeIndex].getValue();
+
+                    this.anchorPosition[this.anchorPosKeys[layerIndex]].push({
+                        posX: global.x,
+                        posY: global.y,
+                        rotation: rotation,
+                        percent: percent,
+                    });
+                    this.BaseCanvas.grid(50);
+                    this.BaseCanvas.restoreState();
+                },
+            );
+            this.BaseCanvas.restoreState();
         });
-
+        this.NodeHandler.render(this.anchorPosition);
         // Position, Rotation 값 Object로 넘기기
     }
 

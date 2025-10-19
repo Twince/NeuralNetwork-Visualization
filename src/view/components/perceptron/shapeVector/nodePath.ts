@@ -7,7 +7,7 @@ export const nodePath = (
     const node: Path2D = roundedRect(x, y, width, height, radius);
 
     ctx.fillStyle = '#fff';
-    // ctx.strokeStyle = '#000';
+    ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.fill(node);
     ctx.stroke(node);

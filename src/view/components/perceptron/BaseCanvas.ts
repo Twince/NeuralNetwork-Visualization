@@ -7,12 +7,15 @@ class BaseCanvas {
     private readonly ctx: CanvasRenderingContext2D;
     private canvasCenter: { x: number; y: number };
 
+    private setupMatrix: any;
+
     constructor() {
         this.canvas = document.getElementById('perceptron') as HTMLCanvasElement | null;
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
 
         this.setupCanvas(); // canvas element setup
-        this.setupRenderTransform(this.ctx, RENDERER_CONFIG.degree); // apply state for rendering context(transform/rotate..)
+        this.setupRenderTransform();
+        // this.setupRenderTransform(this.ctx, RENDERER_CONFIG.degree); // apply state for rendering context(transform/rotate..)
     }
 
     getCanvas = (): HTMLCanvasElement => this.canvas;
@@ -28,9 +31,12 @@ class BaseCanvas {
         this.canvasCenter = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     }
 
-    setupRenderTransform(ctx: CanvasRenderingContext2D, degree: number): void {
-        ctx.translate(this.canvasCenter.x, this.canvasCenter.y);
-        this.rotateCanvas(true, degree * 180);
+    setupRenderTransform(): void {
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.ctx.translate(this.canvasCenter.x, this.canvasCenter.y);
+        this.rotateCanvas(true, RENDERER_CONFIG.degree * 180);
+        this.setupMatrix = this.ctx.getTransform();
+        console.log('셋업 렌더 셋팅을 실행함.');
     }
 
     rotateCanvas = (clockWise: boolean, value: number) => {
@@ -43,18 +49,16 @@ class BaseCanvas {
 
     clearCanvas() {
         this.ctx.translate(-this.canvasCenter.x, -this.canvasCenter.y);
-        this.ctx.fillStyle = 'rgb(255,255,255)';
+        this.ctx.fillStyle = 'rgb(255,137,137)';
         this.ctx.fillRect(0, 0, this.canvasCenter.x * 2, this.canvasCenter.y * 2);
         this.ctx.translate(this.canvasCenter.x, this.canvasCenter.y);
     }
 
     saveState() {
-        console.log('canvas saved');
         this.ctx.save();
     }
 
     restoreState() {
-        console.log('restoring state');
         this.ctx.restore();
     }
 
