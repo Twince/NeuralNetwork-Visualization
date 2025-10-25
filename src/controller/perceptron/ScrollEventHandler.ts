@@ -7,7 +7,6 @@ import { normalizeNetworkConfig } from '@/controller/perceptron/utils/normalizeN
 import { findWidestLayer } from '@/controller/perceptron/utils/findWidestLayer.ts';
 
 const { degree, rotationDelta, displayNodes, scrollDivider } = RENDERER_CONFIG;
-const { inputNodes, hiddenNodes, outputNodes } = NETWORK_CONFIG;
 
 class ScrollEventHandler {
     private BaseCanvas: IBaseCanvas;

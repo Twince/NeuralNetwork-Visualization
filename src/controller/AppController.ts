@@ -22,6 +22,7 @@ import { Matrix2D } from '@/core/ops/types/OpsType.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
 import EdgeHandler from '@/controller/perceptron/EdgeHandler.ts';
 import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
+import EdgeRenderer from '@/view/components/perceptron/EdgeRenderer.ts';
 
 class AppController {
     private $WM: IWeightManager;
@@ -49,10 +50,13 @@ class AppController {
             nodeRenderer,
             perceptronBaseCanvas,
         });
+        const edgeRenderer = new EdgeRenderer(perceptronBaseCanvas.getCtx());
+        const edgeHandler = new EdgeHandler({ edgeRenderer, perceptronBaseCanvas });
         const $PC = new PerceptronController({
             NodeRenderer: nodeRenderer,
+            EdgeRenderer: edgeRenderer,
             NodeHandler: nodeHandler,
-            EdgeHandler: new EdgeHandler(),
+            EdgeHandler: edgeHandler,
             BaseCanvas: perceptronBaseCanvas,
             ScrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });

@@ -22,13 +22,13 @@ class BaseCanvas {
     getCtx = (): CanvasRenderingContext2D => this.ctx;
 
     setupCanvas() {
-        this.canvas.width = 1000;
+        this.canvas.width = 2000;
         // this.canvas.height = window.innerHeight * (5 / 20);
         this.canvas.height = 1000;
 
-        this.ctx.fillStyle = 'rgb(186,186,186)';
+        this.ctx.fillStyle = 'rgb(255,255,255)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.canvasCenter = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+        this.canvasCenter = { x: this.canvas.width / 2, y: this.canvas.height };
     }
 
     setupRenderTransform(): void {
@@ -48,10 +48,11 @@ class BaseCanvas {
     };
 
     clearCanvas() {
+        this.saveState();
         this.ctx.translate(-this.canvasCenter.x, -this.canvasCenter.y);
-        this.ctx.fillStyle = 'rgb(255,137,137)';
+        this.ctx.fillStyle = 'rgb(255,255,255)';
         this.ctx.fillRect(0, 0, this.canvasCenter.x * 2, this.canvasCenter.y * 2);
-        this.ctx.translate(this.canvasCenter.x, this.canvasCenter.y);
+        this.restoreState();
     }
 
     saveState() {

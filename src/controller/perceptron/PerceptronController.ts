@@ -41,7 +41,7 @@ class PerceptronController {
         this.BaseCanvas = BaseCanvas;
         this.ScrollEventHandler = ScrollEventHandler;
 
-        this.distanceFromCenter = [350, 380, 410];
+        this.distanceFromCenter = [600, 630, 660];
         this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
 
         this.initializeNodeValue();
@@ -81,10 +81,6 @@ class PerceptronController {
 
             Array.from({ length: layerSize }, (_: unknown, nodeIndex: number) => nodeIndex).map(
                 (nodeIndex) => {
-                    console.log(touchScroll, mouseScroll);
-                    console.log(
-                        `mouseScroll:${mouseScroll}, divied: ${mouseScroll / scrollDivider}`,
-                    );
                     const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
                     const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
                     const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
@@ -95,10 +91,6 @@ class PerceptronController {
                     this.BaseCanvas.saveState();
 
                     if (displayCondition) {
-                        // this.NodeRenderer.drawNode(
-                        //     this.distanceFromCenter[layerIndex],
-                        //     this.nodeObjectSet[key][nodeIndex].getValue(),
-                        // );
                         this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
                         const currentMatrix = this.BaseCanvas.getCtx().getTransform();
                         const globalMatrix = this.BaseCanvas.setupMatrix.multiply(currentMatrix);
@@ -110,7 +102,6 @@ class PerceptronController {
                         const angleOffset = angle * (180 / Math.PI);
 
                         const percent = this.nodeObjectSet[key][nodeIndex].getValue();
-
                         this.anchorPosition[this.anchorPosKeys[layerIndex]].push({
                             posX: global.x,
                             posY: global.y,
@@ -126,12 +117,10 @@ class PerceptronController {
             );
             this.BaseCanvas.restoreState();
         });
+        console.log('anchorPosition:', this.anchorPosition);
+        this.BaseCanvas.clearCanvas();
+        this.EdgeHandler.render(this.anchorPosition);
         this.NodeHandler.render(this.anchorPosition);
-        // Position, Rotation 값 Object로 넘기기
-    }
-
-    calculateEdgePosition() {
-        // Position 값 Object로 넘기기
     }
 
     renderPerceptron() {}
