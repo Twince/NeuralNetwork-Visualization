@@ -1,7 +1,6 @@
 import { IPerceptronControllerProps } from '@/controller/perceptron/types/PerceptronController.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
 import { EdgePositionHandler } from '@/controller/perceptron/EdgeHandler.ts';
-import { ScrollEventHandler } from '@/controller/perceptron/ScrollEventHandler.ts';
 import { DATA_EVENTS, DataEvent, SCROLL_EVENTS } from '@/controller/constants/events.ts';
 import eventBus from '@/controller/EventBus.ts';
 import { eventPayloads } from '@/controller/types/eventBus.ts';
@@ -15,6 +14,7 @@ const { rotationDelta, degree, displayNodes, scrollDivider } = RENDERER_CONFIG;
 import BaseCanvas from '@/view/components/perceptron/BaseCanvas.ts';
 
 import { NodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
+import { findWidestLayer } from '@/controller/perceptron/utils/findWidestLayer.ts';
 class PerceptronController {
     private NodeRenderer: INodeRenderer;
     private NodeHandler: INodeHandler;
@@ -55,7 +55,7 @@ class PerceptronController {
 
     initializeNodeValue() {
         this.normalizedNetworkInfo = normalizeNetworkConfig(NETWORK_CONFIG); // 원활한 시각화를 위해 입력 레이어의 크기를 compress
-        this.nodeObjectSet = this.NodeHandler.initializeNode(this.normalizedNetworkInfo);
+        this.nodeObjectSet = this.NodeHandler.initializeNode(this.normalizedNetworkInfo); // 시각화된 노드들의 기본값 할당
         this.NodeHandler.render(0, 0);
     }
 
@@ -81,6 +81,10 @@ class PerceptronController {
 
             Array.from({ length: layerSize }, (_: unknown, nodeIndex: number) => nodeIndex).map(
                 (nodeIndex) => {
+                    console.log(touchScroll, mouseScroll);
+                    console.log(
+                        `mouseScroll:${mouseScroll}, divied: ${mouseScroll / scrollDivider}`,
+                    );
                     const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
                     const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
                     const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
@@ -96,27 +100,26 @@ class PerceptronController {
                         //     this.nodeObjectSet[key][nodeIndex].getValue(),
                         // );
                         this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
-                        console.log('포지션 저장됨');
+                        const currentMatrix = this.BaseCanvas.getCtx().getTransform();
+                        const globalMatrix = this.BaseCanvas.setupMatrix.multiply(currentMatrix);
+
+                        const global = globalMatrix.transformPoint(
+                            new DOMPoint(this.distanceFromCenter[layerIndex], 0),
+                        );
+                        const angle = Math.atan2(globalMatrix.b, globalMatrix.a);
+                        const angleOffset = angle * (180 / Math.PI);
+
+                        const percent = this.nodeObjectSet[key][nodeIndex].getValue();
+
+                        this.anchorPosition[this.anchorPosKeys[layerIndex]].push({
+                            posX: global.x,
+                            posY: global.y,
+                            angleOffset: angleOffset,
+                            percent: percent,
+                        });
                     } else {
                         this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
                     }
-                    const currentMatrix = this.BaseCanvas.getCtx().getTransform();
-                    const globalMatrix = this.BaseCanvas.setupMatrix.multiply(currentMatrix);
-
-                    const global = globalMatrix.transformPoint(
-                        new DOMPoint(this.distanceFromCenter[layerIndex], 0),
-                    );
-                    const angle = Math.atan2(globalMatrix.b, globalMatrix.a);
-                    const rotation = angle * (180 / Math.PI);
-
-                    const percent = this.nodeObjectSet[key][nodeIndex].getValue();
-
-                    this.anchorPosition[this.anchorPosKeys[layerIndex]].push({
-                        posX: global.x,
-                        posY: global.y,
-                        rotation: rotation,
-                        percent: percent,
-                    });
                     this.BaseCanvas.grid(50);
                     this.BaseCanvas.restoreState();
                 },

@@ -32,13 +32,14 @@ export class NodeHandler {
 
         // this.registerScrollEvent();
 
-        console.log(this.nodeObjectSet);
+        // console.log(this.nodeObjectSet);
     }
 
     initializeNode(networkInfo: any): any {
         Object.keys(this.nodeObjectSet).forEach((key: string) => {
-            this.nodeObjectSet[key] = Array.from({ length: networkInfo[key] }, () => {
-                return new Node(0);
+            this.nodeObjectSet[key] = Array.from({ length: networkInfo[key] }, (v, i) => {
+                console.log(i / 0.5);
+                return new Node(i / 0.5);
             });
         });
         return this.nodeObjectSet;
@@ -53,23 +54,25 @@ export class NodeHandler {
         // console.log(scroll, touch);
 
         this.BaseCanvas.clearCanvas();
-        console.log(this.NodeRenderer);
-        this.drawText('렌더 시작');
+        // console.log(this.NodeRenderer);
+        // this.drawText('렌더 시작');
 
         Object.keys(anchorPosition).forEach((key: string) => {
             const layerSize = anchorPosition[key].length;
             Array.from({ length: layerSize }, (_, i) => {
-                console.log('anchoer Pos:', anchorPosition['inputLayer'][i]);
+                // console.log('anchoer Pos:', anchorPosition['inputLayer'][i]);
+                this.drawText(anchorPosition[key][i].posX, anchorPosition[key][i].posY, i);
                 this.NodeRenderer.drawNode(
                     anchorPosition[key][i].posX,
                     anchorPosition[key][i].posY,
+                    anchorPosition[key][i].angleOffset,
                     anchorPosition[key][i].percent,
                 );
             });
             console.log('그림을 그려요!');
         });
 
-        this.drawText('렌더 완전 끝남');
+        // this.drawText('렌더 완전 끝남');
         this.BaseCanvas.grid(50);
 
         // Object.keys(this.nodeObjectSet).forEach((key: string, index: number) => {
@@ -121,10 +124,9 @@ export class NodeHandler {
 
         // Array.from({ length: Object.keys(this.nodeObjectSet).length }, (key: string) => {});
     }
-
-    drawText(text: number): void {
+    drawText(x, y, text: number): void {
         this.BaseCanvas.getCtx().fillStyle = 'rgb(0, 0, 0)';
-        this.BaseCanvas.getCtx().fillText(`${text}`, 180, 0);
+        this.BaseCanvas.getCtx().fillText(`${text}`, x + 10, y);
         this.BaseCanvas.getCtx().fillStyle = 'rgb(255, 255, 255)';
     }
 }

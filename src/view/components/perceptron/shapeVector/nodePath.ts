@@ -2,9 +2,13 @@ import { INodePath } from '@/view/components/perceptron/shape/types/nodePath.ts'
 
 export const nodePath = (
     ctx: CanvasRenderingContext2D,
-    { x, y, width, height, radius = 6, percent }: INodePath,
+    { x, y, width, height, radius = 6, angleOffset, percent }: INodePath,
 ) => {
-    const node: Path2D = roundedRect(x, y, width, height, radius);
+    const node: Path2D = roundedRect(-width / 2, -height / 2, width, height, radius);
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate((angleOffset * Math.PI) / 180); // atan값이 반환하는 라디안 값을 degree로 변환
 
     ctx.fillStyle = '#fff';
     ctx.strokeStyle = '#000';
@@ -15,13 +19,15 @@ export const nodePath = (
     if (percent > 0) {
         const filledHeight = (height * percent) / 100;
 
-        const fillPath = roundedRect(x, y, filledHeight, height, radius);
+        const fillPath = roundedRect(-width / 2, -height / 2, filledHeight, height, radius);
         ctx.save();
         ctx.clip(node);
         ctx.fillStyle = '#000';
         ctx.fill(fillPath);
         ctx.restore();
     }
+
+    ctx.restore();
 };
 
 const roundedRect = (
