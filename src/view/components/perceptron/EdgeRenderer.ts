@@ -7,7 +7,7 @@ class EdgeRenderer {
 
     drawEdge = (aX: number, aY: number, bX: number, bY: number): void => {
         this.renderCtx.strokeStyle = '#000000';
-        this.renderCtx.lineWidth = 1;
+        this.renderCtx.lineWidth = 0.3;
 
         this.renderCtx.beginPath();
         this.renderCtx.moveTo(aX, aY);

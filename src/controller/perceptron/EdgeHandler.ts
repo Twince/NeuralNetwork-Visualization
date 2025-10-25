@@ -15,11 +15,25 @@ class EdgeHandler {
 
     render(anchorPosition: any): void {
         const layerKeysList = Object.keys(anchorPosition);
-        layerKeysList.flatMap((layerKey, index, key) => {
+
+        const subsetByRatio = (arr: any[], ratio: number, size: number) => {
+            if (!Array.isArray(arr) || arr.length === 0) return [];
+            const maxStart = Math.max(arr.length - size, 0);
+            const start = Math.floor(ratio * maxStart);
+            return arr.slice(start, start + size);
+        };
+
+        layerKeysList.slice(0, -1).flatMap((layerKey, index) => {
             const current = anchorPosition[layerKey] ?? [];
-            const next = anchorPosition[key[index + 1]] ?? [];
+            const next = anchorPosition[layerKeysList[index + 1]] ?? [];
+
             return current
-                .flatMap((a) => next.map((b) => [a, b]))
+                .flatMap((a, aIndex) => {
+                    const ratio = current.length <= 1 ? 0 : aIndex / (current.length - 1);
+                    const subset = subsetByRatio(next, ratio, 15);
+
+                    return subset.map((b) => [a, b]);
+                })
                 .forEach(([a, b]) => {
                     this.EdgeRenderer.drawEdge(a.posX, a.posY, b.posX, b.posY);
                 });
