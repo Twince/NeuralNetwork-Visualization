@@ -21,6 +21,7 @@
 }
 
 #user-input-canvas {
+    display: none;
     position: relative;
     z-index: 1;
     /*clip-path: ellipse(140% 100% at 50% 100%);*/
