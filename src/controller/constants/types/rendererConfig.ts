@@ -4,4 +4,6 @@ export interface rendererConfig {
     mouseScroll: number;
     displayNodes: number;
     scrollDivider: number;
+    gridWidth: number;
+    layerHeight: number[];
 }

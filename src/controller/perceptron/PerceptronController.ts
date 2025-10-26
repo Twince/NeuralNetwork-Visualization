@@ -10,7 +10,8 @@ import { NETWORK_CONFIG } from '@/controller/constants/networkConfig';
 import { normalizeNetworkConfig } from '@/controller/perceptron/utils/normalizeNetworkInfo.ts';
 
 import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
-const { rotationDelta, degree, displayNodes, scrollDivider } = RENDERER_CONFIG;
+const { rotationDelta, degree, displayNodes, scrollDivider, gridWidth, layerHeight } =
+    RENDERER_CONFIG;
 import BaseCanvas from '@/view/components/perceptron/BaseCanvas.ts';
 
 import { NodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
@@ -18,35 +19,38 @@ import { findWidestLayer } from '@/controller/perceptron/utils/findWidestLayer.t
 class PerceptronController {
     private NodeRenderer: INodeRenderer;
     private NodeHandler: INodeHandler;
-    private EdgeHandler: IEdgePositionHandler;
+    private EdgeHandler: IEdgeHandler;
+    private GridHandler: IGridHandler;
     private BaseCanvas: IBaseCanvas;
     private ScrollEventHandler: IScrollEventHandler;
 
     private normalizedNetworkInfo: any;
     private nodeObjectSet: NodeObjectSet;
-    private readonly distanceFromCenter: number[];
     private anchorPosition: { inputLayer: number[]; hiddenLayer: number[]; outputLayer: number[] };
     private anchorPosKeys: string[] = ['inputLayer', 'hiddenLayer', 'outputLayer'];
+    private widestLayerSize?: number;
 
     constructor({
         NodeRenderer,
         NodeHandler,
         EdgeHandler,
+        GridHandler,
         BaseCanvas,
         ScrollEventHandler,
     }: IPerceptronControllerProps) {
         this.NodeRenderer = NodeRenderer;
         this.NodeHandler = NodeHandler;
         this.EdgeHandler = EdgeHandler;
+        this.GridHandler = GridHandler;
         this.BaseCanvas = BaseCanvas;
         this.ScrollEventHandler = ScrollEventHandler;
 
-        this.distanceFromCenter = [600, 630, 660];
         this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
 
         this.initializeNodeValue();
         this.registerScrollEvent();
         this.calculateNodePosition(0, 0);
+        this.calculateGridPosition();
 
         eventBus.on(DATA_EVENTS.NODE_CHANGED, ({ inputs, hiddenOutputs, finalOutputs }) => {
             console.log('nodes 출력:', inputs, compressArr(inputs), hiddenOutputs, finalOutputs);
@@ -56,26 +60,30 @@ class PerceptronController {
     initializeNodeValue() {
         this.normalizedNetworkInfo = normalizeNetworkConfig(NETWORK_CONFIG); // 원활한 시각화를 위해 입력 레이어의 크기를 compress
         this.nodeObjectSet = this.NodeHandler.initializeNode(this.normalizedNetworkInfo); // 시각화된 노드들의 기본값 할당
-        this.NodeHandler.render(0, 0);
+        const { value: widestLayer } = findWidestLayer(this.normalizedNetworkInfo); // 현재 perceptron에 가장 큰 layer 크기 가져오기
+        this.widestLayerSize = widestLayer; // 그리드 렌더링에 layer 크기 활용
     }
 
     registerScrollEvent() {
-        eventBus.on(SCROLL_EVENTS.SCROLL_CHANGED, (mouseScroll) =>
-            this.calculateNodePosition(mouseScroll, 0),
-        );
-        eventBus.on(SCROLL_EVENTS.TOUCH_CHANGED, (touchScroll) =>
-            this.calculateNodePosition(0, touchScroll),
-        );
+        eventBus.on(SCROLL_EVENTS.SCROLL_CHANGED, (mouseScroll) => {
+            this.calculateNodePosition(mouseScroll, 0);
+            this.calculateGridPosition();
+        });
+        eventBus.on(SCROLL_EVENTS.TOUCH_CHANGED, (touchScroll) => {
+            this.calculateNodePosition(0, touchScroll);
+            this.calculateGridPosition();
+        });
     }
 
     calculateNodePosition(mouseScroll: number, touchScroll: number) {
         this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
         Object.keys(this.normalizedNetworkInfo).map((key: string, layerIndex: number) => {
             this.BaseCanvas.saveState();
-            this.BaseCanvas.rotateCanvas(
-                true,
-                degree * 90 - (degree * rotationDelta * this.normalizedNetworkInfo[key]) / 2,
-            );
+
+            const rotateCenterPosition =
+                degree * 90 - (degree * rotationDelta * this.normalizedNetworkInfo[key]) / 2;
+            const scrollDividerInterpolation = degree * rotationDelta;
+            this.BaseCanvas.rotateCanvas(true, rotateCenterPosition + scrollDividerInterpolation);
 
             const layerSize = this.normalizedNetworkInfo[key];
 
@@ -86,7 +94,6 @@ class PerceptronController {
                     const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
 
                     const displayCondition = nodeIndex >= displayStart && nodeIndex < displayEnd;
-                    this.BaseCanvas.grid(200);
 
                     this.BaseCanvas.saveState();
 
@@ -96,7 +103,7 @@ class PerceptronController {
                         const globalMatrix = this.BaseCanvas.setupMatrix.multiply(currentMatrix);
 
                         const global = globalMatrix.transformPoint(
-                            new DOMPoint(this.distanceFromCenter[layerIndex], 0),
+                            new DOMPoint(layerHeight[layerIndex], 0),
                         );
                         const angle = Math.atan2(globalMatrix.b, globalMatrix.a);
                         const angleOffset = angle * (180 / Math.PI);
@@ -111,7 +118,6 @@ class PerceptronController {
                     } else {
                         this.BaseCanvas.rotateCanvas(true, degree * rotationDelta * nodeIndex);
                     }
-                    this.BaseCanvas.grid(50);
                     this.BaseCanvas.restoreState();
                 },
             );
@@ -123,7 +129,22 @@ class PerceptronController {
         this.NodeHandler.render(this.anchorPosition);
     }
 
-    renderPerceptron() {}
+    calculateGridPosition() {
+        const displayGird = this.widestLayerSize;
+        this.BaseCanvas.saveState();
+        this.BaseCanvas.rotateCanvas(true, degree - (degree * gridWidth * displayGird) / 2);
+        Array.from({ length: displayGird }, (_: unknown, gridIndex: number) => {
+            this.BaseCanvas.rotateCanvas(true, degree * gridWidth);
+            this.GridHandler.render(gridIndex);
+        });
+        this.BaseCanvas.restoreState();
+    }
+
+    drawText(x: number, y: number, text: string): void {
+        this.BaseCanvas.getCtx().fillStyle = 'rgb(0, 0, 0)';
+        this.BaseCanvas.getCtx().fillText(`${text}`, x + 10, y);
+        this.BaseCanvas.getCtx().fillStyle = 'rgb(255, 255, 255)';
+    }
 }
 
 export default PerceptronController;

@@ -23,6 +23,8 @@ import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
 import EdgeHandler from '@/controller/perceptron/EdgeHandler.ts';
 import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
 import EdgeRenderer from '@/view/components/perceptron/EdgeRenderer.ts';
+import GridRenderer from '@/view/components/perceptron/GridRenderer.ts';
+import GridHandler from '@/controller/perceptron/GridHandler.ts';
 
 class AppController {
     private $WM: IWeightManager;
@@ -52,11 +54,15 @@ class AppController {
         });
         const edgeRenderer = new EdgeRenderer(perceptronBaseCanvas.getCtx());
         const edgeHandler = new EdgeHandler({ edgeRenderer, perceptronBaseCanvas });
+        const gridRenderer = new GridRenderer(perceptronBaseCanvas.getCtx());
+        const gridHandler = new GridHandler({ gridRenderer, perceptronBaseCanvas });
         const $PC = new PerceptronController({
             NodeRenderer: nodeRenderer,
             EdgeRenderer: edgeRenderer,
+            GridRenderer: gridRenderer,
             NodeHandler: nodeHandler,
             EdgeHandler: edgeHandler,
+            GridHandler: gridHandler,
             BaseCanvas: perceptronBaseCanvas,
             ScrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });

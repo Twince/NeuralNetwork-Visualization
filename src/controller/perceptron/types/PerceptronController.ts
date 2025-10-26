@@ -1,8 +1,10 @@
 export interface IPerceptronControllerProps {
-    NodeHandler: INodePositionHandler;
-    EdgeHandler: INdgePositionHandler;
     NodeRenderer: INodeRenderer;
     EdgeRenderer: IEdgeRenderer;
+    GridRenderer: IGridRenderer;
+    NodeHandler: INodeHandler;
+    EdgeHandler: INdgeHandler;
+    GridHandler: IGridHandler;
     BaseCanvas: IBasecanvas;
     ScrollEventHandler: IScrollEventHandler;
 }
