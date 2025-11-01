@@ -47,7 +47,7 @@ class ScrollEventHandler {
     calculateScrollLimit(): void {
         const normalizedNetworkInfo = normalizeNetworkConfig(NETWORK_CONFIG);
         const { value: widestLayer } = findWidestLayer(normalizedNetworkInfo); // 스크롤 최대치 계산을 위한 가장 큰 노드의 폭을 계산
-        this.rightLimit = (widestLayer / 2 - displayNodes) * scrollDivider;
+        this.rightLimit = (widestLayer / 2 - displayNodes) * scrollDivider * 1.25;
         this.leftLimit = -this.rightLimit;
     }
 
