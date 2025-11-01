@@ -51,11 +51,5 @@ export class NodeHandler {
                 );
             });
         });
-
-        this.BaseCanvas.grid(50);
-
-        // TODO: 반응형 설계 및 레이아웃 구현
-        // TODO: perceptron Canvas 위치 잡기
-        // TODO: 데이터 종속성과 SSoT와 관련한 모듈 아키텍쳐 고민 작성해보기
     }
 }

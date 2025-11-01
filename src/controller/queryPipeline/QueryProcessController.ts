@@ -13,7 +13,7 @@ import {
 import { INeuralNetworkBase } from '@/core/types/NeuralNetworkBase';
 import { IDataStore } from '../types/DataStore';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
-import BoundingBox from '@/view/components/canvasUtils/BoundingBox.ts';
+import BoundingBox from '@/view/components/userQuery/canvasUtils/BoundingBox.ts';
 
 class QueryProcessController {
     private readonly userInputCanvas: ICanvasBase & IUserInputCanvas;

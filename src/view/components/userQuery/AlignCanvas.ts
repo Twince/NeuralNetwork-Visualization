@@ -1,4 +1,4 @@
-import BoundingBox from '../canvasUtils/BoundingBox.ts';
+import BoundingBox from '@/view/components/userQuery/canvasUtils/BoundingBox.ts';
 
 class AlignCanvas {
     public readonly canvas: HTMLCanvasElement | null;
