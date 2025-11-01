@@ -1,4 +1,4 @@
-import { IinitialCoords, originalObject } from './types';
+import { IinitialCoords, originalObject } from '../types/types.ts';
 
 class BoundingBox {
     private readonly initialCoords: IinitialCoords;
