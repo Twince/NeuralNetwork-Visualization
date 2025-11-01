@@ -30,7 +30,7 @@ class EdgeHandler {
             return current
                 .flatMap((a, aIndex) => {
                     const ratio = current.length <= 1 ? 0 : aIndex / (current.length - 1);
-                    const subset = subsetByRatio(next, ratio, 15);
+                    const subset = subsetByRatio(next, ratio, 13);
 
                     return subset.map((b) => [a, b]);
                 })
