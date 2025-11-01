@@ -17,6 +17,12 @@ class GridRenderer {
         this.renderCtx.stroke();
         this.renderCtx.restore();
     }
+
+    drawArc(radius: number): void {
+        this.renderCtx.beginPath();
+        this.renderCtx.arc(0, 0, radius, 0, Math.PI * 2);
+        this.renderCtx.stroke();
+    }
 }
 
 export default GridRenderer;

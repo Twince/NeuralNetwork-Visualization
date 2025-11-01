@@ -62,14 +62,6 @@ class BaseCanvas {
     restoreState() {
         this.ctx.restore();
     }
-
-    grid(distance: number): void {
-        this.ctx.beginPath();
-        this.ctx.moveTo(0, 0);
-        this.ctx.lineTo(distance, 0);
-        this.ctx.stroke();
-        this.ctx.moveTo(0, 0);
-    }
 }
 
 export default BaseCanvas;

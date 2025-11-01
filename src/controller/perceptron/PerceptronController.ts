@@ -135,15 +135,10 @@ class PerceptronController {
         this.BaseCanvas.rotateCanvas(true, degree - (degree * gridWidth * displayGird) / 2);
         Array.from({ length: displayGird }, (_: unknown, gridIndex: number) => {
             this.BaseCanvas.rotateCanvas(true, degree * gridWidth);
-            this.GridHandler.render(gridIndex);
+            this.GridHandler.renderGrid(gridIndex);
         });
         this.BaseCanvas.restoreState();
-    }
-
-    drawText(x: number, y: number, text: string): void {
-        this.BaseCanvas.getCtx().fillStyle = 'rgb(0, 0, 0)';
-        this.BaseCanvas.getCtx().fillText(`${text}`, x + 10, y);
-        this.BaseCanvas.getCtx().fillStyle = 'rgb(255, 255, 255)';
+        this.GridHandler.renderLayout(this.anchorPosition);
     }
 }
 
