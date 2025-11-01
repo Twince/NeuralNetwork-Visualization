@@ -13,19 +13,42 @@
 </head>
 <body>
     <div id="app">
-        <header></header>
-        <section id="query-result">
-            <div></div>
-        </section>
-        <div id="canvas-unit">
-            <div id="perceptron-section">
-                <canvas id="perceptron"></canvas>
+        <header>NEURAL NETWORK</header>
+        <main id="wrapper">
+            <section id="query-result">
+                <div></div>
+            </section>
+            <div id="canvas-unit">
+                <div id="position-aligner">
+                    <div id="left-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="left-arrow" src="assets/left_arrow.png" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="right-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="right-arrow" src="assets/right_arrow.png" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="perceptron-section">
+                        <canvas id="perceptron"></canvas>
+                    </div>
+                    <button id="clear">
+                        <img src="assets/eraser.png" alt="eraser_icon">
+                    </button>
+                    <div id="user-input-section">
+                        <svg width="0" height="0">
+                            <defs>
+                                <clipPath id="arc-clip" clipPathUnits="userSpaceOnUse">
+                                    <path id="arc-path"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <canvas class="user-input-canvas" id="user-input-canvas"></canvas>
+                    </div>
+                </div>
             </div>
-            <div id="user-input-section">
-                <button id="clear">clear canvas</button>
-                <canvas class="user-input-canvas" id="user-input-canvas"></canvas>
-            </div>
-        </div>
+        </main>
     </div>
 </body>
 </html>
