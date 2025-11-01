@@ -26,12 +26,12 @@ class NodeRenderer {
         this.scrollSpeed = RENDERER_CONFIG.scrollDivider; // scrollHandler
     }
 
-    drawNode = (x: number, y: number, angle, p: number): void => {
+    drawNode = (x: number, y: number, angle: number, p: number): void => {
         nodePath(this.renderCtx, {
             x: x,
             y: y,
-            width: 15,
-            height: 15,
+            width: 13,
+            height: 13,
             angleOffset: angle,
             percent: p,
         });

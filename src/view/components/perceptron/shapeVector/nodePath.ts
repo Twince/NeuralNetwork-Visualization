@@ -2,7 +2,7 @@ import { INodePath } from '@/view/components/perceptron/shape/types/nodePath.ts'
 
 export const nodePath = (
     ctx: CanvasRenderingContext2D,
-    { x, y, width, height, radius = 6, angleOffset, percent }: INodePath,
+    { x, y, width, height, radius = 5, angleOffset, percent }: INodePath,
 ) => {
     const node: Path2D = roundedRect(-width / 2, -height / 2, width, height, radius);
 

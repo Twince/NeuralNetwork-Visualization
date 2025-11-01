@@ -1,4 +1,5 @@
 import { CANVAS_CONFIG } from '@/controller/constants/canvasConfig.ts';
+import { userInputClipPath } from '@/view/components/userQuery/uiUtils/userInputClipPath.ts';
 
 class UserInputCanvas {
     public readonly canvas: HTMLCanvasElement | null;
@@ -8,6 +9,13 @@ class UserInputCanvas {
     constructor() {
         this.canvas = document.getElementById('user-input-canvas') as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d');
+
+        const pathElem = document.getElementById('arc-path');
+        pathElem.setAttribute(
+            'd',
+            userInputClipPath({ radius: 560, canvasWidth: 1120, canvasHeight: 560 }),
+        );
+
         this.isDrawing = false;
         this.setupCanvas();
 
@@ -24,8 +32,9 @@ class UserInputCanvas {
     };
 
     setupCanvas(): void {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight * (7 / 20);
+        // this.canvas.width = window.innerWidth;
+        this.canvas.width = 1120;
+        this.canvas.height = 560;
 
         this.ctx.fillStyle = 'rgba(40,40,40)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);

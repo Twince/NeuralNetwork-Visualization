@@ -11,8 +11,10 @@ class PathTrackingCanvas {
     }
 
     setupCanvas(): void {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight * (7 / 20);
+        // this.canvas.width = window.innerWidth;
+        // this.canvas.height = window.innerHeight * (7 / 20);
+        this.canvas.width = 1120;
+        this.canvas.height = 560;
 
         this.ctx.fillStyle = 'rgba(0, 0, 0)';
         this.ctx.strokeStyle = 'rgba(255, 255, 255)';
