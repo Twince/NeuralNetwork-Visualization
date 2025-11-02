@@ -1,4 +1,5 @@
 import eventBus from '../EventBus.js';
+import DataStore from '../DataStore.js';
 import { DATA_EVENTS, DRAWING_EVENTS } from '../constants/events.js';
 import { pixelExtractor } from './pixelExtractor.js';
 import { throttle } from './throttle';
@@ -20,8 +21,8 @@ class QueryProcessController {
     private readonly trackingCanvas: ICanvasBase & IPathTrackingCanvas;
     private readonly alignCanvas: ICanvasBase & IAlignCanvas;
     private readonly resizeCanvas: ICanvasBase & IResizeCanvas;
-    private readonly $NN: INeuralNetworkBase;
     private readonly $DS: IDataStore;
+    private readonly $NN: INeuralNetworkBase;
     private readonly queryFrequencyMs: number;
     //TODO: Canvas clear시 Skeleton 에니메이션 적용하기
 
@@ -31,7 +32,6 @@ class QueryProcessController {
         alignCanvas,
         resizeCanvas,
         $NN,
-        $DS,
     }: IQueryProcessControllerProps) {
         this.userInputCanvas = userInputCanvas;
         this.trackingCanvas = trackingCanvas;
@@ -39,7 +39,7 @@ class QueryProcessController {
         this.resizeCanvas = resizeCanvas;
 
         this.$NN = $NN;
-        this.$DS = $DS;
+        this.$DS = DataStore;
         this.registerDrawingEvent();
         this.query();
         this.queryFrequencyMs = 200;
@@ -74,7 +74,10 @@ class QueryProcessController {
     query() {
         const throttleQuery = throttle((inputs) => {
             const result: Matrix2D = this.$NN.query(inputs);
-            if (result) eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
+            if (result) {
+                // eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
+                DataStore.setQueryResult(result);
+            }
         }, this.queryFrequencyMs);
 
         eventBus.on(DATA_EVENTS.QUERY_CHANGED, (inputs: number[]) => throttleQuery(inputs));

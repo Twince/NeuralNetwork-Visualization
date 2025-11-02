@@ -5,6 +5,7 @@ import { DATA_EVENTS } from '@/controller/constants/events.js';
 
 import { weights } from '@/controller/types/weights';
 import { Matrix2D } from './ops/types/OpsType';
+import DataStore from '@/controller/DataStore.ts';
 
 class NeuralNetworkBase {
     private readonly W_inputToHidden: number[][] | null;
@@ -33,7 +34,12 @@ class NeuralNetworkBase {
 
     query(inputs: number[]): Matrix2D {
         const { hiddenOutputs, finalOutputs } = this.feedForward(inputs);
-        eventBus.emit(DATA_EVENTS.NODE_CHANGED, { inputs, hiddenOutputs, finalOutputs });
+        DataStore.setNodeState({
+            inputs: inputs,
+            hiddenOutputs: hiddenOutputs,
+            finalOutputs: finalOutputs,
+        });
+        // eventBus.emit(DATA_EVENTS.NODE_CHANGED, { inputs, hiddenOutputs, finalOutputs });
         return finalOutputs;
     }
 }

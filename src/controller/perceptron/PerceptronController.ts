@@ -16,7 +16,10 @@ import BaseCanvas from '@/view/components/perceptron/BaseCanvas.ts';
 
 import { NodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
 import { findWidestLayer } from '@/controller/perceptron/utils/findWidestLayer.ts';
+import { IDataStore, nodeState } from '@/controller/types/DataStore.ts';
+import DataStore from '@/controller/DataStore.ts';
 class PerceptronController {
+    private $DS: IDataStore;
     private NodeRenderer: INodeRenderer;
     private NodeHandler: INodeHandler;
     private EdgeHandler: IEdgeHandler;
@@ -38,6 +41,7 @@ class PerceptronController {
         BaseCanvas,
         ScrollEventHandler,
     }: IPerceptronControllerProps) {
+        this.$DS = DataStore;
         this.NodeRenderer = NodeRenderer;
         this.NodeHandler = NodeHandler;
         this.EdgeHandler = EdgeHandler;
@@ -51,10 +55,7 @@ class PerceptronController {
         this.registerScrollEvent();
         this.calculateNodePosition(0, 0);
         this.calculateGridPosition();
-
-        eventBus.on(DATA_EVENTS.NODE_CHANGED, ({ inputs, hiddenOutputs, finalOutputs }) => {
-            console.log('nodes 출력:', inputs, compressArr(inputs), hiddenOutputs, finalOutputs);
-        });
+        this.updatePerceptron();
     }
 
     initializeNodeValue() {
@@ -123,7 +124,6 @@ class PerceptronController {
             );
             this.BaseCanvas.restoreState();
         });
-        console.log('anchorPosition:', this.anchorPosition);
         this.BaseCanvas.clearCanvas();
         this.EdgeHandler.render(this.anchorPosition);
         this.NodeHandler.render(this.anchorPosition);
@@ -139,6 +139,17 @@ class PerceptronController {
         });
         this.BaseCanvas.restoreState();
         this.GridHandler.renderLayout(this.anchorPosition);
+    }
+
+    updatePerceptron() {
+        eventBus.on(DATA_EVENTS.NODE_CHANGED, (changedNodeState: nodeState) => {
+            this.nodeObjectSet = this.NodeHandler.updateNode(changedNodeState);
+            this.calculateNodePosition(
+                this.ScrollEventHandler.mouseScroll,
+                this.ScrollEventHandler.touchMove,
+            );
+            this.calculateGridPosition();
+        });
     }
 }
 

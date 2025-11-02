@@ -5,6 +5,8 @@ import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
 import eventBus from '@/controller/eventBus.ts';
 import { SCROLL_EVENTS } from '@/controller/constants/events.ts';
 import { nodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
+import { nodeState } from '@/controller/types/DataStore.ts';
+import { compressArr } from '@/controller/perceptron/utils/compressArr.ts';
 
 export class NodeHandler {
     private readonly nodeObjectSet: nodeObjectSet;
@@ -37,6 +39,26 @@ export class NodeHandler {
             });
         });
         return this.nodeObjectSet;
+    }
+
+    updateNode(changedNodeState: nodeState): nodeObjectSet {
+        const { inputs, ...rest } = changedNodeState;
+        const compressedChangedNodeState = { inputs: compressArr(inputs), ...rest };
+
+        const keys: string[] = Object.keys(compressedChangedNodeState);
+        keys.forEach((key: string) => {
+            compressedChangedNodeState[key].flatMap((e: number, i: number) => {
+                if (key === 'inputs') this.nodeObjectSet.inputNodes[i].setValue(e * 100);
+                if (key === 'hiddenOutputs') this.nodeObjectSet.hiddenNodes[i].setValue(e * 100);
+                if (key === 'finalOutputs') this.nodeObjectSet.outputNodes[i].setValue(e * 100);
+            });
+        });
+        return this.nodeObjectSet;
+        // TODO: perceptron 렌더링 리팩토링
+        // TODO: nodeObjectSet 이중 구조 바꾸기
+        // TODO: 인덱스 참조 문제 디버깅
+        // TODO: ScrollEventHandler 싱글톤으로 변경하기
+        // TODO: 터치 엣지 케이스 찾기
     }
 
     render(anchorPosition: any): void {
