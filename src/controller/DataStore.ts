@@ -3,6 +3,7 @@ import { DATA_EVENTS } from './constants/events.js';
 
 import { nodeState } from './types/DataStore';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
+import { NodeObjectSet } from '@/controller/perceptron/types/nodeObjectSet.ts';
 
 class DataStore {
     private queryInfo: number[] | null = null;
@@ -27,6 +28,11 @@ class DataStore {
     setNodeState(nodeState: nodeState): void {
         if (nodeState === null) throw new Error('No node state found');
         this.nodeState = nodeState;
+        eventBus.emit(DATA_EVENTS.NODE_CHANGED, {
+            inputs: nodeState.inputs,
+            hiddenOutputs: nodeState.hiddenOutputs,
+            finalOutputs: nodeState.finalOutputs,
+        });
     }
     getNodeState(): nodeState {
         return this.nodeState;
@@ -37,7 +43,7 @@ class DataStore {
         this.queryResult = queryResult;
         eventBus.emit(DATA_EVENTS.RESULT_CHANGED, queryResult);
     }
-    getQueryResult() {
+    getQueryResult(): Matrix2D | null {
         return this.queryResult;
     }
 
@@ -48,4 +54,4 @@ class DataStore {
     }
 }
 
-export default DataStore;
+export default new DataStore();

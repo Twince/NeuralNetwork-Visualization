@@ -34,7 +34,7 @@ class AppController {
     async initialize() {
         const $WM = new WeightManager(NETWORK_CONFIG);
         const $NN = new NeuralNetworkBase(await $WM.getWeights());
-        const $DS = new DataStore();
+        const $DS = DataStore;
         new DrawingEventHandler();
         const $QC = new QueryProcessController({
             userInputCanvas: new UserInputCanvas(),
@@ -42,7 +42,6 @@ class AppController {
             alignCanvas: new AlignCanvas(),
             resizeCanvas: new ResizeCanvas(),
             $NN: $NN,
-            $DS: $DS,
         });
 
         const perceptronBaseCanvas = new BaseCanvas();
