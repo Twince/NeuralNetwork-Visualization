@@ -39,7 +39,6 @@ class NeuralNetworkBase {
             hiddenOutputs: hiddenOutputs,
             finalOutputs: finalOutputs,
         });
-        // eventBus.emit(DATA_EVENTS.NODE_CHANGED, { inputs, hiddenOutputs, finalOutputs });
         return finalOutputs;
     }
 }

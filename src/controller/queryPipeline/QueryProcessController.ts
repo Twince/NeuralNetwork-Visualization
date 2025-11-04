@@ -75,7 +75,6 @@ class QueryProcessController {
         const throttleQuery = throttle((inputs) => {
             const result: Matrix2D = this.$NN.query(inputs);
             if (result) {
-                // eventBus.emit(DATA_EVENTS.RESULT_CHANGED, result);
                 DataStore.setQueryResult(result);
             }
         }, this.queryFrequencyMs);
