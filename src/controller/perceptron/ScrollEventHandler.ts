@@ -12,8 +12,7 @@ class ScrollEventHandler {
     private BaseCanvas: IBaseCanvas;
     private readonly canvasEl: HTMLCanvasElement;
 
-    private mouseScroll: number;
-    private touchMove: number;
+    private scroll: number;
     private touchDirection: number;
     private rotationStack: number;
 
@@ -27,8 +26,7 @@ class ScrollEventHandler {
         this.BaseCanvas = BaseCanvas;
         this.canvasEl = BaseCanvas.getCanvas(); // perceptron base canvas
 
-        this.mouseScroll = 0;
-        this.touchMove = 0;
+        this.scroll = 0;
         this.touchDirection = 0;
 
         this.widestLayer = 0;
@@ -53,19 +51,19 @@ class ScrollEventHandler {
 
     handleMouseScroll(): void {
         this.canvasEl.addEventListener('wheel', (e: WheelEvent) => {
-            this.rightScrollLimit = this.mouseScroll <= this.rightLimit;
-            this.leftScrollLimit = this.mouseScroll >= this.leftLimit;
+            this.rightScrollLimit = this.scroll <= this.rightLimit;
+            this.leftScrollLimit = this.scroll >= this.leftLimit;
 
             if (e.deltaY > 0 && this.rightScrollLimit) {
                 this.BaseCanvas.rotateCanvas(false, degree * (rotationDelta / (scrollDivider * 2)));
-                this.mouseScroll += 1;
+                this.scroll += 1;
                 this.rotationStack += 1;
-                eventBus.emit(SCROLL_EVENTS.SCROLL_CHANGED, this.mouseScroll);
+                eventBus.emit(SCROLL_EVENTS.SCROLL_CHANGED, this.scroll);
             } else if (e.deltaY < 0 && this.leftScrollLimit) {
                 this.BaseCanvas.rotateCanvas(true, degree * (rotationDelta / (scrollDivider * 2)));
-                this.mouseScroll -= 1;
+                this.scroll -= 1;
                 this.rotationStack -= 1;
-                eventBus.emit(SCROLL_EVENTS.SCROLL_CHANGED, this.mouseScroll);
+                eventBus.emit(SCROLL_EVENTS.SCROLL_CHANGED, this.scroll);
             }
         });
     }
@@ -80,24 +78,24 @@ class ScrollEventHandler {
             const moveX = Math.floor(touch.clientX);
             this.touchDirection = moveX - touchStartX;
 
-            this.rightScrollLimit = this.touchMove <= this.rightLimit;
-            this.leftScrollLimit = this.touchMove >= this.leftLimit;
+            this.rightScrollLimit = this.scroll <= this.rightLimit;
+            this.leftScrollLimit = this.scroll >= this.leftLimit;
 
             if (this.touchDirection < 0 && this.rightScrollLimit) {
                 this.BaseCanvas.rotateCanvas(false, degree * (rotationDelta / (scrollDivider * 2)));
-                this.touchMove += 1;
+                this.scroll += 1;
                 this.rotationStack += 1;
-                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.touchMove);
+                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.scroll);
             } else if (this.touchDirection > 0 && this.leftScrollLimit) {
                 this.BaseCanvas.rotateCanvas(true, degree * (rotationDelta / (scrollDivider * 2)));
-                this.touchMove -= 1;
+                this.scroll -= 1;
                 this.rotationStack -= 1;
-                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.touchMove);
+                eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.scroll);
             }
         });
     }
 
-    getMouseScroll = () => this.mouseScroll;
+    getScroll = () => this.scroll;
 }
 
 export default ScrollEventHandler;

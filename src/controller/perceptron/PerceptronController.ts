@@ -1,7 +1,12 @@
 import { IPerceptronControllerProps } from '@/controller/perceptron/types/PerceptronController.ts';
 import { NodeHandler } from '@/controller/perceptron/NodeHandler.ts';
 import { EdgePositionHandler } from '@/controller/perceptron/EdgeHandler.ts';
-import { DATA_EVENTS, DataEvent, SCROLL_EVENTS } from '@/controller/constants/events.ts';
+import {
+    DATA_EVENTS,
+    DataEvent,
+    DRAWING_EVENTS,
+    SCROLL_EVENTS,
+} from '@/controller/constants/events.ts';
 import eventBus from '@/controller/EventBus.ts';
 import { eventPayloads } from '@/controller/types/eventBus.ts';
 import { compressArr } from '@/controller/perceptron/utils/compressArr.ts';
@@ -53,9 +58,10 @@ class PerceptronController {
 
         this.initializeNodeValue();
         this.registerScrollEvent();
-        this.calculateNodePosition(0, 0);
+        this.calculateNodePosition(0);
         this.calculateGridPosition();
         this.updatePerceptron();
+        this.resetPerceptron();
     }
 
     initializeNodeValue() {
@@ -66,17 +72,17 @@ class PerceptronController {
     }
 
     registerScrollEvent() {
-        eventBus.on(SCROLL_EVENTS.SCROLL_CHANGED, (mouseScroll) => {
-            this.calculateNodePosition(mouseScroll, 0);
+        eventBus.on(SCROLL_EVENTS.SCROLL_CHANGED, (scroll: number) => {
+            this.calculateNodePosition(scroll);
             this.calculateGridPosition();
         });
-        eventBus.on(SCROLL_EVENTS.TOUCH_CHANGED, (touchScroll) => {
-            this.calculateNodePosition(0, touchScroll);
+        eventBus.on(SCROLL_EVENTS.TOUCH_CHANGED, (scroll: number) => {
+            this.calculateNodePosition(scroll);
             this.calculateGridPosition();
         });
     }
 
-    calculateNodePosition(mouseScroll: number, touchScroll: number) {
+    calculateNodePosition(scroll: number) {
         this.anchorPosition = { inputLayer: [], hiddenLayer: [], outputLayer: [] };
         Object.keys(this.normalizedNetworkInfo).map((key: string, layerIndex: number) => {
             this.BaseCanvas.saveState();
@@ -90,7 +96,7 @@ class PerceptronController {
 
             Array.from({ length: layerSize }, (_: unknown, nodeIndex: number) => nodeIndex).map(
                 (nodeIndex) => {
-                    const scrollOffset = (mouseScroll + touchScroll) / scrollDivider;
+                    const scrollOffset = scroll / scrollDivider;
                     const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
                     const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
 
@@ -144,10 +150,16 @@ class PerceptronController {
     updatePerceptron() {
         eventBus.on(DATA_EVENTS.NODE_CHANGED, (changedNodeState: nodeState) => {
             this.nodeObjectSet = this.NodeHandler.updateNode(changedNodeState);
-            this.calculateNodePosition(
-                this.ScrollEventHandler.mouseScroll,
-                this.ScrollEventHandler.touchMove,
-            );
+            this.calculateNodePosition(this.ScrollEventHandler.getScroll());
+            this.calculateGridPosition();
+        });
+    }
+
+    resetPerceptron() {
+        eventBus.on(DRAWING_EVENTS.CLEAR_DRAW, () => {
+            this.nodeObjectSet = this.NodeHandler.resetNode();
+            console.log(this.nodeObjectSet);
+            this.calculateNodePosition(0);
             this.calculateGridPosition();
         });
     }
