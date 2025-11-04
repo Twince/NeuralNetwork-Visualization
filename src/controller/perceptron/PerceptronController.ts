@@ -158,8 +158,7 @@ class PerceptronController {
     resetPerceptron() {
         eventBus.on(DRAWING_EVENTS.CLEAR_DRAW, () => {
             this.nodeObjectSet = this.NodeHandler.resetNode();
-            console.log(this.nodeObjectSet);
-            this.calculateNodePosition(0);
+            this.calculateNodePosition(this.ScrollEventHandler.getScroll());
             this.calculateGridPosition();
         });
     }
