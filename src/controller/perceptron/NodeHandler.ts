@@ -66,7 +66,6 @@ export class NodeHandler {
 
         keys.forEach((key: string) => {
             this.nodeObjectSet[key].forEach((_: unknown, i: number) => {
-                console.log('key:', key, 'i:', i);
                 this.nodeObjectSet[key][i].setValue(0);
             });
         });
