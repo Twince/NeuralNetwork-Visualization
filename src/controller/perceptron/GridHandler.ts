@@ -19,19 +19,25 @@ class GridHandler {
     renderLayout(anchorPosition: any): void {
         this.GridRenderer.drawArc(710);
 
-        const referenceIndex = 3;
-        this.drawText(
-            anchorPosition.outputLayer[referenceIndex].posX + 10,
-            anchorPosition.outputLayer[referenceIndex].posY - 90,
-            anchorPosition.outputLayer[referenceIndex].angleOffset,
-            'Input Nodes',
-        );
-        this.drawText(
-            anchorPosition.outputLayer[referenceIndex].posX + 10,
-            anchorPosition.outputLayer[referenceIndex].posY + 12,
-            anchorPosition.outputLayer[referenceIndex].angleOffset,
-            'Output Nodes',
-        );
+        const referenceIndex = 3; // 가운데 위치를 잡기 위한 index값
+        const textRenderCodition: boolean = anchorPosition.outputLayer[referenceIndex] != undefined;
+        if (textRenderCodition) {
+            // output layer가 화면에 렌더링될때만 텍스트 표기(렌더링 엔진의 특성상 현재 렌더링되고 있는 노드만 array로 들어옴.)
+            // ex. 현재의 경우 3번째 레이어가 화면에서 벗어나면 화면에 렌더링된 노드는 2개이므로 length가 2. 3번째 index 를 참조할 수 없음.
+            this.drawText(
+                anchorPosition.outputLayer[referenceIndex].posX + 10,
+                anchorPosition.outputLayer[referenceIndex].posY - 90,
+                anchorPosition.outputLayer[referenceIndex].angleOffset,
+                'Input Nodes',
+            );
+
+            this.drawText(
+                anchorPosition.outputLayer[referenceIndex].posX + 10,
+                anchorPosition.outputLayer[referenceIndex].posY + 12,
+                anchorPosition.outputLayer[referenceIndex].angleOffset,
+                'Output Nodes',
+            );
+        }
     }
     renderGrid(gridIndex: number): void {
         const gridLength: 10 | 8 = gridIndex % 2 === 0 ? 10 : 8;
