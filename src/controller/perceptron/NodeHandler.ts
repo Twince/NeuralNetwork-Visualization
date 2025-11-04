@@ -57,8 +57,21 @@ export class NodeHandler {
         // TODO: perceptron 렌더링 리팩토링
         // TODO: nodeObjectSet 이중 구조 바꾸기
         // TODO: 인덱스 참조 문제 디버깅
-        // TODO: ScrollEventHandler 싱글톤으로 변경하기
+        // TODO: ScrollEventHandler 싱글톤으로 변경하기 -> 보류
         // TODO: 터치 엣지 케이스 찾기
+    }
+
+    resetNode(): nodeObjectSet {
+        const keys = Object.keys(this.nodeObjectSet);
+
+        keys.forEach((key: string) => {
+            this.nodeObjectSet[key].forEach((_: unknown, i: number) => {
+                console.log('key:', key, 'i:', i);
+                this.nodeObjectSet[key][i].setValue(0);
+            });
+        });
+
+        return this.nodeObjectSet;
     }
 
     render(anchorPosition: any): void {
