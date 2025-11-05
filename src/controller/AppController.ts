@@ -25,6 +25,7 @@ import ScrollEventHandler from '@/controller/perceptron/ScrollEventHandler.ts';
 import EdgeRenderer from '@/view/components/perceptron/EdgeRenderer.ts';
 import GridRenderer from '@/view/components/perceptron/GridRenderer.ts';
 import GridHandler from '@/controller/perceptron/GridHandler.ts';
+import ViewPresenter from '@/view/ViewPresenter.ts';
 
 class AppController {
     private $WM: IWeightManager;
@@ -65,9 +66,7 @@ class AppController {
             BaseCanvas: perceptronBaseCanvas,
             ScrollEventHandler: new ScrollEventHandler(perceptronBaseCanvas),
         });
-        eventBus.on(DATA_EVENTS.RESULT_CHANGED, (data: Matrix2D): void => {
-            console.log('RESULT CHANGED', data);
-        });
+        new ViewPresenter();
     }
 }
 
