@@ -10,7 +10,7 @@ const branch = process.env.GITHUB_REF_NAME || '';
 let base = `/${repo}/`;
 
 if (branch.startsWith('feat/')) {
-    base = `/${repo}/${branch}/`;
+    base = './';
 }
 
 export default defineConfig({
