@@ -51,7 +51,6 @@ class GridHandler {
         this.BaseCanvas.rotateCanvas(true, ((angleOffset * Math.PI) / 180) * 1.01);
         this.BaseCanvas.rotateCanvas(true, degree * 90);
         this.BaseCanvas.getCtx().fillStyle = 'rgb(133,133,133)';
-        // this.BaseCanvas.getCtx().fillText(`${text}`, x + 10, y);
         this.BaseCanvas.getCtx().fillText(`${text}`, 0, 0);
         this.BaseCanvas.getCtx().fillStyle = 'rgb(255, 255, 255)';
         this.BaseCanvas.restoreState();
