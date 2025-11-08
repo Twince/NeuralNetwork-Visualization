@@ -97,8 +97,16 @@ class PerceptronController {
             Array.from({ length: layerSize }, (_: unknown, nodeIndex: number) => nodeIndex).map(
                 (nodeIndex) => {
                     const scrollOffset = scroll / scrollDivider;
-                    const displayStart = layerSize / 2 - displayNodes / 2 + scrollOffset;
-                    const displayEnd = layerSize / 2 + displayNodes / 2 + scrollOffset;
+                    const displayStart =
+                        layerSize / 2 -
+                        DataStore.getPerceptronConfig().displayNodes / 2 +
+                        scrollOffset;
+                    const displayEnd =
+                        layerSize / 2 +
+                        DataStore.getPerceptronConfig().displayNodes / 2 +
+                        scrollOffset;
+
+                    console.log();
 
                     const displayCondition = nodeIndex >= displayStart && nodeIndex < displayEnd;
 

@@ -1,3 +1,6 @@
+import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
+const { displayEdges } = RENDERER_CONFIG;
+
 class EdgeHandler {
     private EdgeRenderer: IEdgeRenderer;
     private BaseCanvas: IBaseCanvas;
@@ -30,7 +33,7 @@ class EdgeHandler {
             return current
                 .flatMap((a, aIndex) => {
                     const ratio = current.length <= 1 ? 0 : aIndex / (current.length - 1);
-                    const subset = subsetByRatio(next, ratio, 13);
+                    const subset = subsetByRatio(next, ratio, displayEdges);
 
                     return subset.map((b) => [a, b]);
                 })

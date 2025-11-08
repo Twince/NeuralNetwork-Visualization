@@ -26,6 +26,7 @@ import EdgeRenderer from '@/view/components/perceptron/EdgeRenderer.ts';
 import GridRenderer from '@/view/components/perceptron/GridRenderer.ts';
 import GridHandler from '@/controller/perceptron/GridHandler.ts';
 import ViewPresenter from '@/view/ViewPresenter.ts';
+import ViewportAdapter from '@/view/styles/ViewportAdapter.ts';
 
 class AppController {
     private $WM: IWeightManager;
@@ -45,6 +46,7 @@ class AppController {
             $NN: $NN,
         });
 
+        new ViewportAdapter();
         const perceptronBaseCanvas = new BaseCanvas();
         const nodeRenderer = new NodeRenderer(perceptronBaseCanvas.getCtx());
         const nodeHandler = new NodeHandler({

@@ -81,7 +81,8 @@ main {
     height: 110px;
     position: fixed;
 
-    bottom: 550px;
+    bottom: var(--indicator-height);
+    /*bottom: 550px;*/
     display: block;
     z-index: 15;
 
@@ -90,15 +91,17 @@ main {
 
 }
 #left-indicator{
-    left: -15px;
-    transform: rotate(-10deg);
+    /*left: -15px;*/
+    left: var(--indicator-margin);
+    transform: rotate(var(--left-indicator-angle));
 
     -webkit-mask-image: linear-gradient(to right, white 70%, transparent 100%);
     mask-image: linear-gradient(to right, white 70%, transparent 100%);
 }
 #right-indicator {
-    right: -15px;
-    transform: rotate(10deg);
+    right: var(--indicator-margin);
+    /*right: -15px;*/
+    transform: rotate(var(--right-indicator-angle));
 
     -webkit-mask-image: linear-gradient(to left, white 70%, transparent 100%);
     mask-image: linear-gradient(to left, white 70%, transparent 100%);

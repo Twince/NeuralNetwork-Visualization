@@ -1,5 +1,7 @@
 import eventBus from './EventBus.js';
 import { DATA_EVENTS } from './constants/events.js';
+import { RENDERER_CONFIG } from '@/controller/constants/rendererConfig.ts';
+const { displayNodes, displayEdges } = RENDERER_CONFIG;
 
 import { nodeState } from './types/DataStore';
 import { Matrix2D } from '@/core/ops/types/OpsType.ts';
@@ -10,10 +12,14 @@ class DataStore {
     private nodeState: nodeState | null = null;
     private queryResult: Matrix2D | null = null;
 
+    private PERCEPTRON_CONFIG: { displayNodes: number; displayEdges: number } = null;
+
     constructor() {
         this.queryInfo = null;
         this.nodeState = null;
         this.queryResult = null;
+
+        this.PERCEPTRON_CONFIG = { displayNodes: displayNodes, displayEdges: displayEdges };
     }
 
     setQueryInfo(queryInfo: number[]): void {
@@ -47,7 +53,14 @@ class DataStore {
         return this.queryResult;
     }
 
-    reset() {
+    setPerceptronConfig(perceptronConfig: { displayNodes: number; displayEdges: number }): void {
+        this.PERCEPTRON_CONFIG = perceptronConfig;
+    }
+    getPerceptronConfig(): { displayNodes: number; displayEdges: number } {
+        return this.PERCEPTRON_CONFIG;
+    }
+
+    resetPerceptronState(): void {
         this.queryInfo = null;
         this.nodeState = null;
         this.queryResult = null;

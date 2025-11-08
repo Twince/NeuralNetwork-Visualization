@@ -6,6 +6,11 @@ class EdgeRenderer {
     }
 
     drawEdge = (aX: number, aY: number, bX: number, bY: number): void => {
+        const dX: number = Math.abs(aX - bX);
+        const dY: number = Math.abs(aY - bY);
+        const distance = Math.sqrt(dX * dX + dX * dY);
+        if (distance > 490) return;
+
         this.renderCtx.strokeStyle = '#000000';
         this.renderCtx.lineWidth = 0.3;
 
