@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Neural Network Visualization</title>
+    <script src="modernizr-custom.js"></script>
+  <script type="module" crossorigin src="/NeuralNetwork-Visualization/feat/perceptron/assets/index-CCh4zOYm.js"></script>
+  <link rel="stylesheet" crossorigin href="/NeuralNetwork-Visualization/feat/perceptron/assets/index-BLHw_hNa.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 id="main-title">Neural Network</h1>
+            <h3 id="sub-title">visualization - Mobile Beta v1.0</h3>
+        </header>
+        <main id="wrapper">
+            <section id="query-result">
+                <div id="result"></div>
+            </section>
+            <div id="canvas-unit">
+                <div id="position-aligner">
+                    <div id="left-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="left-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAA4CAYAAACc//oCAAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGeSURBVHgBxZnNccIwEEYlxYccKSFnn0QJ6SAtpIRUkhLSgjuADuKTx0dKcAH+YdcDDAzY3pV2pW+GGfCA3sMgW7uyJkG89x993/9Za/00TTs4VBVF8VPX9cka5QDcD8NwuIDv04HE/s0oZgWOeR/H0audgQ34NZ2KABE+R1yAA4dUogJMeAczY++MULhw+AN+tm0rMw1D4E3T1PgiWiAGHi0QC48SkIAHC0jBgwQk4WwBaThLQANOFtCCkwQ04ZsC2vBVgRTwRYFU8JcCKeFPAqnhDwI54DeBXPBZAIsGgP/ngGMcwH9zwWcBgH8R3qcCnwVwcJMxKED5Vjvn3KEsS2+E42Bt/m1oZ0FFwuHaHH/fXBK3CxEOioMjhPA52QtRTomnm1FqiZe345QSiwuSVBKrS7IUEpuLUm0J0rJcU4JcmGhJsEozDQl2cSotEVSeS0oENyikJKJaNBIS0U2qWAmRNl2MhFinNFRCtFXLlcD9AvFmNVPiqNKuZ0jo7BdwJFT3jAgSlarAhoTsfsFScKohCJ5WVzA8jngMa5Iz9rdEsOGWTjwAAAAASUVORK5CYII=" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="right-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="right-arrow" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAA4CAYAAACc//oCAAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGgSURBVHgBxdnLbYNAEAbgnRXiTAk5c1qXkA7SQkpIJSkhLdCB3UE4IY4ugQJ4ZAbFkWPDPmeWkSxhwPyfeFgeDygsY8zLOI5fAGCWZalwVVMUxUfbtlclXEDh0zR9/wbf1zDP82vXda0SLI3hnxvhVJXW+lzXtVGCpTH8zbJdHKHxNTj2EUUQwOcaiyE03v3vyn0WxBC67/sr3e1HIeC2QAelg1OIx+fYHlG4f3MEAh5X5EbA1sqcCNjbkAsBto05EODaQRrhBEgjvACSCG+AFCIIIIEIBnAjogCciGgAFyIJwIFIBqQiWAApCDZADAKbnxMrIAJxYQcEIgatBKosS4V9ps+uFfsZwF7TYLt33mn3HqthBQSGD9iTnNguQWg4PYbUk7CcgZhwti+ilPBkQGp4EoAjPBrAFR4F4AwPBnCHBwEkwr0BUuFeAMlwJ0A63ArIEb4LyBW+CcgZ/gTIHf4PcET4H+Co8BVgmReIh1PZ5gXi4SvAMS8QDV8Byv0ntejoxjUvEJ8b2eYFeYZW9NucGgRcbm7B+LrQOulwqh/qGVIVITQLTgAAAABJRU5ErkJggg==" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="perceptron-section">
+                        <canvas id="perceptron"></canvas>
+                    </div>
+                    <button id="clear">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANTSURBVHgB7Z2LUdtAEIbXqcCpIC4BOkgqIB2QDkIqgE5SgunA6YB0IDqIO9icRndgC1n38L327v9mNGYM3O1+vyQL2UJEAAAAAAAAZGdDjcLMO/3l+Pi62WxeCaRDCd+q5bta9mr5x8sc1HJ/Eg6IgRL6sCL9Ek9jaATCGddkvVaHMmBrCESJu9ECr2Xccm4IuKPl++5yEEIMEshHCK4klI8QbATKH9Tywn4ghDkB8h95dojJfoeqCMHgKX9VXMyxuiCFMEYIbqQUxQhhnRyCGCEsk1MMI4RzSghhhDBRUgT3HkINAmqooQg1NV5TLVmoseEaa0pCzY3WXFsUJDQoocYgJDUmqVYnJDbUTAiSGxEfQgtrkdgeWpBvENdLS/INYnoSU2gAnr0NnPvDXy3LN3j2eKBc9CDf4NnrA6WmJ/kGj57Hn9lSKnqUb/Do/Y5S0LN8g3ZgY0+xgfx3ePpA2Gr/FBPIP4enq3RsfKEYQP4ybL9m4SyATxSAljke26Z7VZfL0fL9HV2D55rf3Vbg4CF8F3SF/C5C4OkT2KtQKBHkNx2Co5+wUxIcT36TIXj4uSdf2P9oB6ciLrPzGTvoUJM7Ojz17PXRd/BdqMgeQvDscWCfE3E8/UU3OA6+KLDlEAJ62/mMP07w5DF4V9dkJe+Jp11PtMG5oRCy9KJ+6UfswbmBELL1wPb/PhI0OAsOIWvtDhP8pEBYYAi55Vv3/3QlLCiE7LWqAb5aJnmhCLCAEIrUyPYtYKBIcMUhFKuN3Q5Bo70JwxWGULwmh8n9zmnY58NFerMi9g6TR524hsarkK8LuStRQEkB1cjXxWwdi2kiBK7wdcjpvc0WQuAa5Z8UdyhVWA4xXLN8XeB4SDqUKjClIK5dfi2FppifpcivpeCY87M0+YYWQmCp8g2SQ2Dp8g0SQyhdc3QEhtCOfIOwEIrUmJyGQpAn39BACHLlGwSHIF++QWAI1ciPdiM33RCuG1vmWS2/lm4mF/VOeghhlaNabuchBF0leQk1+F/18I3sVwr2yLhS/p4/meRektgSLnJUK+nn0yeS3cwTISyjAjhzHnUXNJsIu6OPPM+fSH47W2wJb6R/EV5Cbwm3tJB+J4zi/9CCfAAAAAAAAECf/Af6ZxKDm7jx8AAAAABJRU5ErkJggg==" alt="eraser_icon">
+                    </button>
+                    <div id="user-input-section">
+                        <svg width="0" height="0">
+                            <defs>
+                                <clipPath id="arc-clip" clipPathUnits="userSpaceOnUse">
+                                    <path id="arc-path"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <canvas class="user-input-canvas" id="user-input-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
