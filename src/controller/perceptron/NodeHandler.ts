@@ -54,11 +54,7 @@ export class NodeHandler {
             });
         });
         return this.nodeObjectSet;
-        // TODO: perceptron 렌더링 리팩토링
-        // TODO: nodeObjectSet 이중 구조 바꾸기
-        // TODO: 인덱스 참조 문제 디버깅
-        // TODO: ScrollEventHandler 싱글톤으로 변경하기 -> 보류
-        // TODO: 터치 엣지 케이스 찾기
+        // TODO: ScrollEventHandler 싱글톤으로 변경하기 -> 보류(결정 문서 참고)
     }
 
     resetNode(): nodeObjectSet {
