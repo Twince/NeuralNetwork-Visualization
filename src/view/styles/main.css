@@ -55,7 +55,7 @@ main {
         width: fit-content;
         height: fit-content;
 
-        font-size: 12rem;
+        font-size: 11rem;
         font-weight: 700;
         font-family: "Noto Sans Syriac Western", sans-serif;
         color: #171717;
@@ -164,10 +164,12 @@ main {
 
 #user-input-canvas {
     display: block;
-    z-index: 2;
-
     width: 100%;
     height: 100%;
+
+    z-index: 2;
+    transform: translateZ(0);
+
     clip-path: url(#arc-clip);
 }
 
