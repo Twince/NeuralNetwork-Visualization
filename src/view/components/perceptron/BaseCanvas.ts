@@ -23,8 +23,7 @@ class BaseCanvas {
 
     setupCanvas() {
         this.canvas.width = 2000;
-        // this.canvas.height = window.innerHeight * (5 / 20);
-        this.canvas.height = 1000;
+        this.canvas.height = 720;
 
         this.ctx.fillStyle = 'rgb(255,255,255)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
