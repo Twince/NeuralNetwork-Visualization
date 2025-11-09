@@ -168,7 +168,10 @@ main {
     height: 100%;
 
     z-index: 2;
+    /* safari client 대응 */
     transform: translateZ(0);
+    will-change: transform;
+    overflow: hidden;
 
     clip-path: url(#arc-clip);
 }
