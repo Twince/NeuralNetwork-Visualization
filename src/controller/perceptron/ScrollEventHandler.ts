@@ -13,7 +13,8 @@ class ScrollEventHandler {
     private readonly canvasEl: HTMLCanvasElement;
 
     private scroll: number;
-    private touchDirection: number;
+    private touchDirectionX: number;
+    private touchDirectionY: number;
     private rotationStack: number;
 
     private widestLayer: number;
@@ -68,25 +69,31 @@ class ScrollEventHandler {
         });
     }
     handleTouchMove(): void {
-        let touchStartX = 0;
+        let touchStartX: number = 0;
+        let touchStartY: number = 0;
         this.canvasEl.addEventListener('touchstart', (e: TouchEvent) => {
             const touch = e.touches[0];
             touchStartX = Math.floor(touch.clientX);
+            touchStartY = Math.floor(touch.clientY);
         });
         this.canvasEl.addEventListener('touchmove', (e: TouchEvent) => {
             const touch = e.touches[0];
             const moveX = Math.floor(touch.clientX);
-            this.touchDirection = moveX - touchStartX;
+            const moveY = Math.floor(touch.clientY);
+            this.touchDirectionX = moveX - touchStartX;
+            this.touchDirectionY = moveY - touchStartY;
+
+            if (Math.abs(this.touchDirectionX) < Math.abs(this.touchDirectionY)) return;
 
             this.rightScrollLimit = this.scroll <= this.rightLimit;
             this.leftScrollLimit = this.scroll >= this.leftLimit;
 
-            if (this.touchDirection < 0 && this.rightScrollLimit) {
+            if (this.touchDirectionX < 0 && this.rightScrollLimit) {
                 this.BaseCanvas.rotateCanvas(false, degree * (rotationDelta / (scrollDivider * 2)));
                 this.scroll += 1;
                 this.rotationStack += 1;
                 eventBus.emit(SCROLL_EVENTS.TOUCH_CHANGED, this.scroll);
-            } else if (this.touchDirection > 0 && this.leftScrollLimit) {
+            } else if (this.touchDirectionX > 0 && this.leftScrollLimit) {
                 this.BaseCanvas.rotateCanvas(true, degree * (rotationDelta / (scrollDivider * 2)));
                 this.scroll -= 1;
                 this.rotationStack -= 1;
