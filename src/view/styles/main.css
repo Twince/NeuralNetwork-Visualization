@@ -184,9 +184,9 @@ svg{
 
 #clear {
     position: absolute;
-    z-index: 10;
+    z-index: 20;
 
-    bottom: 480px;
+    top: 480px;
     right: 10px;
 
     width: 30px;
@@ -205,6 +205,23 @@ svg{
 
     }
 }
+
+@media (width > 900px ) {
+    #clear {
+        bottom: 280px;
+    }
+}
+@media (width <= 900px ) {
+    #clear {
+        top: calc(160px + var(--clear-button-y-margin));
+    }
+}
+@media (width >= 960px ) {
+    #clear {
+        right: calc((var(--viewport-width) - 960px + 10px) / 2);
+    }
+}
+
 
 @keyframes left-float {
     0% {

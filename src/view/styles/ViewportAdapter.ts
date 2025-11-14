@@ -21,7 +21,15 @@ class ViewportAdapter {
 
     setupRendererConfig() {
         const { width, height } = this.getViewportSize();
+        this.root.style.setProperty('--viewport-width', `${width}px`);
         this.root.style.setProperty('--indicator-margin', `-15px`);
+
+        const t = width / 4 / 560;
+        const y = (1 - Math.cos(t * Math.PI)) / 2;
+        const margin = y * 560;
+
+        this.root.style.setProperty('--clear-button-y-margin', `${margin}px`);
+
         if (width > 450) {
             const appendedDisplayNodes = width / 50 - 9; //50px을 단위로 하나씩 노드 추가
             DataStore.setPerceptronConfig({
