@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Neural Network Visualization</title>
+    <script type="module" src="src/main.ts"></script>
+    <script src="modernizr-custom.js"></script>
+    <link rel="stylesheet" href="/src/view/styles/settings.css">
+    <link rel="stylesheet" href="/src/view/styles/main.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 id="main-title">Neural Network</h1>
+            <h3 id="sub-title">visualization - Mobile Beta v1.0</h3>
+        </header>
+        <main id="wrapper">
+            <section id="query-result">
+                <div id="result"></div>
+            </section>
+            <div id="canvas-unit">
+                <div id="position-aligner">
+                    <div id="left-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="left-arrow" src="assets/left_arrow.png" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="right-indicator" class="indicator">
+                        <div class="indicator-blur">
+                            <img id="right-arrow" src="assets/right_arrow.png" alt="arrow_icon">
+                        </div>
+                    </div>
+                    <div id="perceptron-section">
+                        <canvas id="perceptron"></canvas>
+                    </div>
+                    <button id="clear">
+                        <img src="assets/eraser.png" alt="eraser_icon">
+                    </button>
+                    <div id="user-input-section">
+                        <svg width="0" height="0">
+                            <defs>
+                                <clipPath id="arc-clip" clipPathUnits="userSpaceOnUse">
+                                    <path id="arc-path"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <canvas class="user-input-canvas" id="user-input-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
